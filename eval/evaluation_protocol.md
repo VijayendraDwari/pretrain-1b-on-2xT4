@@ -1,22 +1,9 @@
-# Fixed evaluation protocol
+# Validation protocol
 
-The first evaluation layer is intentionally simple and stable:
+The current evaluation is a small, fixed next-token check during pretraining. It is useful for tracking the run; it is not a downstream benchmark.
 
-1. use the same frozen 15M-token D1 validation corpus;
-2. evaluate a fixed 131,072 validation tokens per reported checkpoint;
-3. report full-sequence causal cross-entropy / NLL;
-4. report perplexity as `exp(NLL)`;
-5. report next-token top-1 accuracy;
-6. never tune on the validation windows used for the milestone curve.
+At each validation event, the trainer evaluates 16 deterministic 4096-token windows on each of two ranks. That gives 131,072 validation tokens with the default settings. It reports mean causal cross-entropy (NLL), perplexity, and next-token top-1 accuracy. The perplexity code computes `exp(min(NLL, 30))` to cap the exponent; the NLL values reported so far are below that cap, so their perplexities equal `exp(NLL)`. The same validation shard and window IDs are used as the run progresses.
 
-Named analytical milestones:
+The number of validation steps can be changed with the `VAL_STEPS` environment variable. To compare numbers, keep that value, the validation data, and the code version fixed. The validation CSV records the measured token count and update for each row. These measurements come from the supplied run log; the corresponding checkpoint files and raw JSONL logs are not included in this repository.
 
-- 100M
-- 250M
-- 500M
-- 1B
-- 1.5B input tokens
-
-The active training session is not required to stop exactly at these milestones. If a physical checkpoint is not present at an exact milestone, the nearest explicit validation event is reported with its actual token count.
-
-A downstream benchmark suite can be added later, but it must be versioned and then held fixed across subsequent milestones.
+A downstream evaluation suite may be useful later, but it should be added as a separate, versioned evaluation rather than mixed into this pretraining curve. No downstream capability claim is made from the current metrics.

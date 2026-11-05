@@ -1,183 +1,93 @@
 # Pretrain a 1B-Parameter Language Model From Scratch on 2× T4 GPUs
 
-**1.018B parameters · 4K context · FineWeb · PyTorch FSDP · 2×16GB Tesla T4 · target 1.5B tokens**
+I wanted to see how far I could take a randomly initialized, billion-parameter decoder-only model on two modest GPUs, and to write down the parts that small tutorials usually skip: sharding, token accounting, validation, and surviving a notebook session ending halfway through a run.
 
-> **Status:** active pretraining project. The training lineage has passed 80.7M tokens and is continuing toward 1.5B. Final checkpoint and final benchmark table will be added when ready.
+This is a training experiment and an engineering tutorial. It is not a claim that the resulting model is competitive, or that two T4s are an efficient way to get a useful 1B model.
 
-This repository is an educational, end-to-end recipe for taking a randomly initialized billion-parameter decoder-only Transformer through real web-corpus pretraining on two modest GPUs.
+## Run status
 
-It is not a claim that two T4s are the fastest way to train a 1B model. They are not. The point is to make the systems mechanics visible.
+**Training is in progress.** The latest log snapshot I have added here is from 5 November 2026. It shows the continuation at update **820** (**107,479,040 input tokens**). The most recent validation in that snapshot is update **800** (**104,857,600 input tokens**): NLL **5.24585**, perplexity **189.78**, and token accuracy **22.05%**.
 
-## Why this project
+Update 820 is a training-log observation, not a saved checkpoint. The last complete parent checkpoint used for this continuation was update 616. The run writes a new checkpoint at a safe session boundary; I’ll update this page when that happens and when the next validation results are available.
 
-Small GPT tutorials make model architecture wonderfully understandable, but can hide the systems problems that appear at larger scales. Production LLM projects solve those problems on clusters that most individual researchers cannot reproduce.
+## What I am training
 
-At ~1B parameters on 2×16GB T4s, the important engineering becomes unavoidable:
+The model starts with random weights and uses a causal next-token objective on tokenized FineWeb data. The tokenizer is reused; it was not trained as part of this project.
 
-- parameter and optimizer-state sharding;
-- gradient accumulation;
-- exact token accounting;
-- mixed precision;
-- validation during pretraining;
-- multi-gigabyte distributed checkpoints;
-- crash-safe resume;
-- continuation across ephemeral Kaggle sessions.
-
-## Model
-
-| field | value |
+| Setting | Value |
 |---|---:|
-| exact trainable parameters | **1,018,126,848** |
-| layers | 29 |
-| width | 1536 |
-| attention heads | 24 |
-| head dimension | 64 |
-| FFN | 6144 |
-| vocabulary | 128,256 |
-| context | 4096 |
-| attention | dense causal SDPA |
-| objective | next-token causal LM |
-| initialization | random |
+| Trainable parameters | **1,018,126,848** |
+| Transformer blocks | 29 |
+| Width | 1536 |
+| Attention heads | 24 × 64 dimensions |
+| FFN width | 6144 |
+| Vocabulary | 128,256 |
+| Context | 4096 tokens |
+| Attention | Dense causal PyTorch SDPA |
+| Normalization / position | RMSNorm / half-split RoPE |
 
-## Hardware and distributed system
+The input and output embeddings share weights. The feed-forward block is a standard two-layer GELU MLP; it is not a gated SwiGLU block. See [the architecture notes](docs/01_architecture.md) and [parameter-count derivation](docs/02_parameter_count.md).
+
+![Diagram of the model architecture](docs/assets/architecture.png)
+
+## Hardware and batch size
+
+The run uses two 16 GB NVIDIA Tesla T4 GPUs with PyTorch FSDP `FULL_SHARD`. Each rank processes one 4096-token sequence per microbatch. With 16 accumulation steps, that is:
 
 ```text
-2 × NVIDIA Tesla T4
-16 GB VRAM / GPU
-PyTorch FSDP FULL_SHARD
-gradient accumulation = 16
-global tokens/update = 131,072
+2 GPUs × 4096 tokens × 16 microbatches = 131,072 input tokens per update
 ```
 
-Observed allocation during the documented run is about **11.4 GiB/GPU**, with steady training throughput around **2.1K input tokens/sec**.
+The captured training logs report about **11.41 GiB** peak allocated memory per GPU and roughly **2.1K input tokens/second** at the current setup. These are measurements from this run, not a hardware benchmark.
 
-## Current learning curve
+## Validation so far
 
-| tokens | validation NLL | perplexity | token accuracy |
-|---:|---:|---:|---:|
-| 262K | 10.7424 | 46,279 | 3.79% |
-| 13.1M | 6.8985 | 990.8 | 12.09% |
-| 80.7M | 5.4039 | 222.3 | 21.15% |
+Validation uses the same 131,072-token sample for each reported event. The table shows the update and actual number of model-input tokens processed at that point; it does not imply that every token in the training corpus has been seen exactly once.
 
-Target: **1.5B input tokens**.
+| Update | Input tokens | Validation NLL | Perplexity | Token accuracy |
+|---:|---:|---:|---:|---:|
+| 2 | 262,144 | 10.74244 | 46,279.01 | 3.79% |
+| 100 | 13,107,200 | 6.89855 | 990.83 | 12.09% |
+| 616 | 80,740,352 | 5.40386 | 222.26 | 21.15% |
+| 700 | 91,750,400 | 5.34038 | 208.59 | 21.51% |
+| 800 | 104,857,600 | 5.24585 | 189.78 | 22.05% |
 
-These numbers measure pretraining progress. They are not claims of competitive downstream performance.
+![Validation negative log-likelihood by training tokens](results/validation_nll.png)
 
-## Quick start on Kaggle
+The curve is moving in the expected direction, but these are next-token metrics on one validation sample. They do not establish downstream capability. I have not yet run a fixed benchmark suite or released model weights.
 
-1. Select **GPU T4 ×2**.
-2. Attach FineWeb-D1, or prepare a compatible corpus with `data/prepare_fineweb.py`.
-3. If continuing, attach the previous notebook output containing a COMPLETE checkpoint.
-4. Copy this repository into the notebook environment.
-5. Run:
+## How the run continues across Kaggle sessions
+
+Kaggle sessions are temporary, and a full FSDP checkpoint is large. The trainer resumes only from a two-rank checkpoint with a `complete.json` marker. It writes rank files to temporary names, renames them when serialization finishes, and creates the marker after both ranks synchronize. A mounted parent checkpoint remains untouched while the next session writes its output.
+
+The first long run failed during a checkpoint save after update 100. That was a storage failure, not a training-loss failure. The current continuation design came out of that experience. More detail is in [checkpointing](docs/06_checkpointing.md) and [failure notes](docs/08_failure_modes.md).
+
+## Try the recipe
+
+The intended environment is a Kaggle notebook with **GPU T4 ×2** and the FineWeb-D1 token dataset attached. The corpus is external to this repository, and the Meta tokenizer may require accepting its license and authenticating with Hugging Face.
+
+From a copy of the repository in `/kaggle/working`, run:
 
 ```bash
 python train/launch_kaggle.py
 ```
 
-The trainer auto-discovers the highest exact-lineage COMPLETE checkpoint under `/kaggle/input` unless `resume_from` is explicitly configured.
+The launcher reads `train/config_1b_t4.json`. For continuation, attach the output containing a complete checkpoint. With `resume_from` empty, the trainer searches mounted Kaggle inputs for a compatible checkpoint. The detailed setup and data contract are in [`data/prepare_fineweb.md`](data/prepare_fineweb.md) and [`docs/07_resume_across_sessions.md`](docs/07_resume_across_sessions.md).
 
-A correct resume looks like:
+A new stream rebuild follows the documented dataset contract; it is not guaranteed to reproduce the historical token files byte for byte. Exact continuation requires the original token shards and tokenizer files.
 
-```text
-[resume] .../checkpoints/update_00000616 update=616 tokens=80,740,352
-[continuation policy] immutable mounted COMPLETE parent; ...
-```
+## Token budget and sampling
 
-## Crash-safe checkpoints
-
-The first long run exposed a real failure mode: training was healthy at update 100, but a periodic multi-gigabyte FSDP save exhausted the persistence path.
-
-The fix became part of the public recipe:
-
-```text
-mounted immutable COMPLETE parent
-            ↓
-         exact resume
-            ↓
-       train session
-            ↓
- one full save near time guard
-            ↓
-  atomic COMPLETE marker
-```
-
-Partial rank files are never resumable.
-
-See [`docs/06_checkpointing.md`](docs/06_checkpointing.md) and [`docs/08_failure_modes.md`](docs/08_failure_modes.md).
-
-## Repository map
-
-```text
-train/     canonical trainer, launcher, configuration
-data/      FineWeb builder + dataset/tokenizer contracts
-eval/      fixed LM evaluation path and protocol
-docs/      architecture and systems explanations
-results/   milestone tables and raw curves
-notebooks/ Kaggle launch notebook
-releases/  checkpoint/release ledger
-research/  prior-art notes and references
-```
-
-## Reproduce the dataset contract
-
-Historical D1:
-
-```text
-HuggingFaceFW/fineweb @ v1.4.0
-CC-MAIN-2025-26
-1.485B train tokens
-15M validation tokens
-24 train shards
-uint32 token IDs
-vocab 128,256
-```
-
-See [`data/prepare_fineweb.md`](data/prepare_fineweb.md).
-
-## Milestones
-
-- [x] random initialization
-- [x] distributed qualification checkpoint
-- [x] crash-safe continuation design
-- [x] 80.7M-token COMPLETE checkpoint
-- [ ] 100M analytical milestone
-- [ ] 250M
-- [ ] 500M
-- [ ] 1B
-- [ ] **1.5B final target**
-- [ ] final checkpoint release
-- [ ] final fixed benchmark report
+The nominal target is **1.5 billion model-input tokens**. The trainer samples deterministic 4096-token windows from individual training shards. It samples with replacement, so “1.5B tokens” is an update ledger, not a promise of one exact pass over all 1.485B corpus tokens. With whole updates, the run’s configured target is 11,445 updates, or **1,500,119,040** input tokens.
 
 ## What “from scratch” means here
 
-No pretrained Transformer weights are loaded. The model starts from random parameters and is optimized using a causal next-token objective on tokenized FineWeb data.
+The Transformer parameters are randomly initialized. No pretrained Transformer weights are loaded. I reuse the Llama 3.2 1B tokenizer, and the training corpus is prepared in advance. The tokenizer’s provenance and historical hashes are documented separately.
 
-The tokenizer is reused rather than trained from scratch; its provenance and exact historical hashes are documented.
+## Related projects
 
-## What this project does **not** claim
-
-A 1B model trained on 1.5B tokens is undertrained relative to modern small-LLM production recipes.
-
-If your goal is simply to obtain a capable 1B model, downloading an existing pretrained model is much more sensible.
-
-If your goal is to understand how billion-parameter pretraining actually works—including the failures—this repository is for you.
-
-## Prior art
-
-This project is inspired by the openness and educational clarity of:
-
-- Andrej Karpathy — [nanoGPT](https://github.com/karpathy/nanoGPT) and [build-nanogpt](https://github.com/karpathy/build-nanogpt)
-- Peiyuan Zhang, Guangtao Zeng, Tianduo Wang, Wei Lu — [TinyLlama](https://github.com/jzhang38/TinyLlama)
-- Allen Institute for AI — [OLMo](https://allenai.org/olmo)
-- Lightning AI — [LitGPT](https://github.com/Lightning-AI/litgpt)
-
-See [`research/prior_art.md`](research/prior_art.md) for positioning notes.
-
-## Author
-
-**Vijayendra Dwari**
+This project borrows the step-by-step spirit of [build-nanogpt](https://github.com/karpathy/build-nanogpt), but tackles the systems issues that appear when the model no longer fits as a replicated job. It is not a performance comparison with [TinyLlama](https://github.com/jzhang38/TinyLlama), which trained at a much larger token and hardware scale. [LitGPT](https://github.com/Lightning-AI/litgpt) is a useful reference for runnable training instructions; [OLMo](https://allenai.org/olmo) is a much broader example of an open model lifecycle.
 
 ## License
 
-MIT for the original code and documentation in this repository. Upstream datasets and tokenizers retain their own licenses and terms.
+The MIT license in this repository covers the original code and documentation here. FineWeb and the tokenizer have their own terms; see [the source notes](research/SOURCES.md) before redistributing data or derived artifacts.

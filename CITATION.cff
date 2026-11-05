@@ -9,4 +9,4 @@ date-released: 2026-11-05
 version: "0.1.0"
 license: MIT
 repository-code: "https://github.com/VijayendraDwari/pretrain-1b-on-2xT4"
-abstract: "A reproducible 1.018B-parameter, 4K-context PyTorch FSDP pretraining recipe on FineWeb using two NVIDIA Tesla T4 GPUs."
+abstract: "An educational walkthrough of a 1.018B-parameter decoder-only language-model pretraining run using PyTorch FSDP and two NVIDIA Tesla T4 GPUs. The recipe depends on separately licensed external data and tokenizer files."

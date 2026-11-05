@@ -18,9 +18,23 @@
     "distributed": "PyTorch FSDP FULL_SHARD",
     "tokens_per_update": 131072,
     "target_input_tokens": 1500000000,
-    "documented_complete_checkpoint": {
+    "last_complete_parent_checkpoint": {
       "update": 616,
       "tokens": 80740352
+    },
+    "latest_shared_training_log": {
+      "date": "2026-11-05",
+      "update": 820,
+      "tokens": 107479040,
+      "checkpoint": false
+    },
+    "latest_shared_validation": {
+      "update": 800,
+      "tokens": 104857600,
+      "nll": 5.245849564671516,
+      "perplexity": 189.7769745752496,
+      "token_accuracy": 0.220489501953125,
+      "validation_tokens": 131072
     }
   },
   "dataset": {
@@ -33,6 +47,6 @@
   "integrity": {
     "python_syntax": "PASS",
     "notebook_json": "PASS",
-    "parameter_count_source": "documented run logs + canonical architecture"
+    "parameter_count_source": "current trainer dimensions; exact total is printed at startup"
   }
 }

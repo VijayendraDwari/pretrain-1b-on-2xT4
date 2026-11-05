@@ -1,107 +1,47 @@
-# Pretraining a 1B-Parameter Language Model on Two T4 GPUs: An End-to-End Engineering Guide
+# Pretraining a 1B-Parameter Language Model on Two T4 GPUs: An Engineering Walkthrough
 
-*Working draft — v0.1*
+*Working draft. The run is still in progress; this version reflects the log snapshot shared on 5 November 2026.*
 
-Modern language-model tutorials tend to live at one of two extremes. At one end are tiny GPT implementations small enough to understand in a notebook. At the other are production pretraining stacks designed for clusters of high-end accelerators.
+I wanted to understand what changes when a GPT-style model gets too large to treat as a small tutorial exercise. A pair of 16 GB T4s is not the hardware I would choose to train a competitive 1B model. It is, however, a useful constraint for learning about sharding, memory, token accounting, and checkpoint recovery.
 
-I wanted to explore the engineering space in between.
+The model has **1,018,126,848 trainable parameters** and a **4096-token context**. It starts from random weights and is trained with a causal next-token objective on pre-tokenized FineWeb data. I reuse the Llama 3.2 1B tokenizer; I did not train a tokenizer or load pretrained Transformer weights.
 
-The model in this project has **1,018,126,848 trainable parameters**, a **4096-token context**, and a standard decoder-only causal language-model objective. It is initialized from random weights and trained on tokenized FineWeb data. The unusual part is the hardware: **two NVIDIA Tesla T4 GPUs with 16GB of memory each**.
+## Model and training setup
 
-That is not an efficient way to compete with modern pretrained 1B models. It is a useful way to understand what billion-parameter pretraining actually requires.
+The network is a 29-layer decoder-only Transformer with width 1536, 24 attention heads, and a 6144-wide GELU feed-forward network. It uses dense causal PyTorch SDPA, RMSNorm, and the half-split RoPE implementation in the trainer. The input embedding weights are tied to the output projection.
 
-Once the model no longer fits comfortably as a replicated training process, concepts that look optional in smaller tutorials become unavoidable: parameter sharding, optimizer-state residency, gradient accumulation, exact token accounting, failure-safe checkpoints, and deterministic continuation.
-
-This article documents that path.
-
-## Why 1B?
-
-The point of the scale is educational rather than numerical.
-
-A 100M-parameter Transformer is already a real language model, but modern GPUs can make much of its systems behavior disappear. At roughly one billion parameters, a pair of 16GB T4s forces the training system to become part of the model experiment.
-
-Our configuration is:
-
-| Field | Value |
-|---|---:|
-| Parameters | 1,018,126,848 |
-| Layers | 29 |
-| Width | 1536 |
-| Attention heads | 24 |
-| Head dimension | 64 |
-| FFN | 6144 |
-| Vocabulary | 128,256 |
-| Context | 4096 |
-
-The model uses dense causal attention. This project is intentionally separate from my custom-attention research: the goal here is to make the standard pretraining recipe as transparent as possible.
-
-## The first systems constraint: memory
-
-A billion FP32 parameters alone require roughly four gigabytes. Training requires much more than the parameter tensor itself: gradients, optimizer moments, activations, temporary buffers, and framework overhead all compete for device memory.
-
-Replicating the entire training state on both 16GB T4s is therefore the wrong execution model.
-
-The run uses PyTorch FSDP with `FULL_SHARD`, which shards model state across the two GPUs and materializes parameter groups as needed. Combined with gradient accumulation, this lets the model train at a 4096-token context while keeping observed allocation around the practical T4 envelope.
-
-The important lesson is that “the model has 1B parameters” is not enough information to decide whether it fits. **The state ownership and lifetime model matters.**
-
-## Token arithmetic
-
-The training run is organized around model-input tokens rather than epochs.
-
-With context 4096, two GPUs, and 16 accumulation steps, each optimizer update represents:
+The trainer uses FSDP `FULL_SHARD` across two T4 GPUs, FP16 mixed precision, activation checkpointing, and gradient accumulation. Each update processes:
 
 ```text
-4096 × 2 × 16 = 131,072 tokens
+4096 tokens × 2 ranks × 16 microbatches = 131,072 model-input tokens
 ```
 
-That number becomes the ledger for the entire run.
+The sampler chooses a deterministic window from one training shard for each sample. It samples with replacement; the token counter is not a count of unique corpus tokens and does not prove a single sequential pass through the data.
 
-At update 616:
+## The checkpoint failure
 
-```text
-616 × 131,072 = 80,740,352 tokens
-```
+The first long run reached update 100 with normal training and validation behavior. It then failed while saving a large FSDP checkpoint because the persistence path ran out of room. The directory had partial rank files but no completion marker, so it was not safe to resume from.
 
-The project target is 1.5 billion input tokens. That is intentionally much smaller than the token budgets used to make modern 1B models competitive. The goal is an end-to-end pretraining demonstration, not a compute-optimal model release.
+The current continuation setup leaves the mounted parent checkpoint untouched. A new session writes rank files to temporary names and only marks the checkpoint complete after both ranks finish. That makes the resume decision explicit, though it does not by itself prove the identity of the dataset, tokenizer, or code that produced the checkpoint.
 
-## A checkpoint failure is part of the story
+## Where the live run stands
 
-The first long session reached update 100 normally. Validation NLL had fallen to about 6.90, and training remained stable. Then checkpoint serialization failed.
+The shared log snapshot shows the continuation restoring the complete checkpoint at update 616, then reaching update 820. The latest training row is update 820, or **107,479,040 input tokens**. The latest validation in that capture is update 800, or **104,857,600 tokens**:
 
-The failure was not numerical. It was operational: writing another multi-gigabyte distributed checkpoint exhausted the available persistence path.
+| Update | Input tokens | Validation NLL | Perplexity | Token accuracy |
+|---:|---:|---:|---:|---:|
+| 2 | 262,144 | 10.74244 | 46,279.01 | 3.79% |
+| 100 | 13,107,200 | 6.89855 | 990.83 | 12.09% |
+| 616 | 80,740,352 | 5.40386 | 222.26 | 21.15% |
+| 700 | 91,750,400 | 5.34038 | 208.59 | 21.51% |
+| 800 | 104,857,600 | 5.24585 | 189.78 | 22.05% |
 
-That distinction matters. A `.partial` checkpoint can look tantalizingly close to usable, but it is not a valid lineage parent.
+These are validation metrics on the fixed sample used by the trainer. They show that next-token loss is falling on that sample. They do not tell me how the model performs on downstream tasks, and I have not run a benchmark suite yet.
 
-The continuation design was changed around four rules:
+The training job is still underway. Update 820 is an observation from the supplied log, not a saved checkpoint; update 616 is the last complete parent checkpoint documented for this continuation. I will update the results after the next complete save and validation event.
 
-1. only directories with an explicit COMPLETE marker are resumable;
-2. partial rank files are ignored;
-3. the mounted parent checkpoint remains immutable;
-4. each notebook session writes one large continuation checkpoint near its time guard instead of accumulating many overlapping full checkpoints.
+## What I want this tutorial to explain
 
-The next run resumed from the last certified checkpoint, replayed the lost compute, and eventually produced a clean checkpoint at update 616.
+The useful outcome is a clear account of what worked, what failed, and what another person needs to check before attempting the same setup. That includes the exact token counter, the external data and tokenizer requirements, the PyTorch/Kaggle environment, and the fact that a new streamed dataset build is not guaranteed to match the historical token files byte for byte.
 
-Reproducibility is not just “can the code start?” It is also **can the training state survive interruption without ambiguity?**
-
-## What the model is learning
-
-The validation trajectory already gives a useful picture:
-
-| Training tokens | Validation NLL | Perplexity | Token accuracy |
-|---:|---:|---:|---:|
-| 262K | 10.7424 | 46,279 | 3.79% |
-| 13.1M | 6.8985 | 990.8 | 12.09% |
-| 80.7M | 5.4039 | 222.3 | 21.15% |
-
-This is still the early phase of the run. The model is far from a mature 1B language model, but it is clearly moving from random initialization toward a useful predictive distribution.
-
-The next analytical milestones are 100M, 250M, 500M, 1B and 1.5B tokens.
-
-## What comes next
-
-The repository will publish the canonical trainer, data contract, exact architecture, checkpoint/recovery protocol, milestone logs, and a fixed evaluation suite.
-
-The goal is that another researcher can read the project and understand not only how to launch the run, but why every major systems choice exists.
-
-That is the real purpose of this experiment.
+The target is 1.5B model-input tokens. That is enough to study the mechanics of the run, not enough to claim compute-optimal pretraining or a competitive base model. Once training finishes, I can add the final validation result, measured GPU hours, checkpoint details, and any separate downstream evaluations that are actually completed.

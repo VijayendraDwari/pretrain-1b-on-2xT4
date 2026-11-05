@@ -1,27 +1,17 @@
-# Failure modes and what they taught us
+# Problems encountered so far
 
-## 1. Periodic full-checkpoint storage failure
+## A checkpoint save ran out of room
 
-The initial long run reached update 100 with healthy training, then failed while serializing another multi-gigabyte FSDP checkpoint. The directory contained `.partial` rank files but no `complete.json`.
+The first long run reached update 100 with normal training and validation behavior, then failed while writing a large FSDP checkpoint. Rank files were left as partial files; there was no `complete.json` marker.
 
-**Lesson:** model stability and persistence stability are different problems.
+The run could not safely resume from that directory. The continuation setup now keeps the mounted parent read-only and writes one new checkpoint near the session time guard. A checkpoint is eligible for resume only after both rank files and the marker are present.
 
-**Fix:** immutable mounted parent + one full save near the session time guard + COMPLETE-only resume.
+## Kaggle output sometimes repeats console lines
 
-## 2. Partial checkpoints
+The captured notebook output contains duplicate copies of several rank-zero messages. The update numbers and token counts still move forward once per step in the supplied log. When checking a run, compare the update ledger and checkpoint state rather than counting repeated display lines.
 
-Never infer that “most of the bytes exist” means training state is valid.
+## The token ledger depends on a real optimizer update
 
-**Rule:** no COMPLETE marker, no resume.
+If GradScaler reports an overflow, the optimizer step may be skipped even though the microbatches have been read. The trainer stops on overflow instead of advancing the update and token counters as though an update had happened.
 
-## 3. Duplicate console lines
-
-In Kaggle, distributed subprocess output can appear duplicated even when only one two-worker training job is active.
-
-**Rule:** verify global update/token progression and launcher ownership instead of treating duplicated text alone as evidence of duplicated training.
-
-## 4. Exact token ledger
-
-A GradScaler overflow would mean the optimizer update did not happen even though data microbatches were consumed.
-
-**Rule:** the canonical trainer fails closed rather than silently advancing the token/update ledger after an overflow.
+These safeguards make interruption handling clearer. They do not replace external verification of checkpoint bytes, data identity, or the exact runtime environment; those checks are not yet part of the published lineage.

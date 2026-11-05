@@ -1,17 +1,9 @@
 # Memory and FSDP
 
-Two T4s provide 16GB VRAM each. A naïve replicated 1.018B-parameter AdamW training job is not a sensible fit because memory includes much more than the raw parameter tensor:
+A billion FP32 parameters would occupy about 4 GB before gradients, AdamW moments, activations, temporary tensors, and framework overhead are counted. Keeping a full training copy on each 16 GB T4 is not the plan used here.
 
-- model parameters;
-- gradients;
-- first and second Adam moments;
-- mixed-precision working copies;
-- activations;
-- attention/MLP temporaries;
-- CUDA/framework overhead.
+The trainer wraps each Transformer block with PyTorch FSDP `FULL_SHARD`. Model and optimizer state are sharded across two ranks. It also uses FP16 parameters and activations, FP32 gradient reduction, activation checkpointing, and a chunked vocabulary loss. Gradient accumulation gives the target token batch without requiring a larger per-rank microbatch.
 
-The canonical run uses PyTorch FSDP with `FULL_SHARD`, `limit_all_gathers=True`, mixed precision, and per-block wrapping.
+In the supplied live-run log, PyTorch reports a peak of **11.4088 GiB allocated per GPU**. This is `torch.cuda.max_memory_allocated()`, not total device usage or reserved memory. Treat it as an observation from this run and runtime, not a guaranteed memory requirement for another PyTorch build.
 
-Observed training allocation in the documented run was about **11.4 GiB/GPU** at 4096 context.
-
-The systems lesson is that model size alone does not determine fit. **Ownership and lifetime of training state do.**
+The useful question is not only how many parameters the model has. It is where the parameters, gradients, optimizer state, and activations live during each part of the step.

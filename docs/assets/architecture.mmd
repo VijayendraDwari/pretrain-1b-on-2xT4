@@ -1,0 +1,29 @@
+flowchart TB
+    IDs["Token IDs<br/>batch × 4096"] --> Emb["Token embedding<br/>128,256 × 1536"]
+    Emb --> Decoder
+
+    subgraph Decoder["One decoder block · repeated 29 times · width 1536"]
+      direction LR
+      X["Hidden states x"] --> N1["RMSNorm"]
+      N1 --> Attention["Attention<br/>QKV; half-split RoPE on Q,K<br/>causal SDPA; 24 heads × 64"]
+      Attention --> AttnOut["Output projection<br/>1536 → 1536"]
+      X -. residual .-> Add1((+))
+      AttnOut --> Add1
+      Add1 --> N2["RMSNorm"]
+      N2 --> MLP["Standard GELU MLP<br/>1536 → 6144 → 1536<br/>tanh approximation"]
+      Add1 -. residual .-> Add2((+))
+      MLP --> Add2
+    end
+
+    Decoder --> FinalNorm["Final RMSNorm"]
+    FinalNorm --> Out["Output projection<br/>tied to token embedding"]
+    Out --> Loss["Chunked next-token<br/>cross-entropy loss"]
+
+    classDef core fill:#eef6ff,stroke:#2463a6,color:#142437,stroke-width:1.5px;
+    classDef norm fill:#fff4dc,stroke:#bc7b00,color:#3d2a00;
+    classDef residual fill:#e9f7ed,stroke:#37814a,color:#16351e;
+    classDef output fill:#f4eafe,stroke:#7543a5,color:#2c1740;
+    class IDs,Emb,Attention,AttnOut,MLP core;
+    class N1,N2,FinalNorm norm;
+    class X,Add1,Add2 residual;
+    class Out,Loss output;
