@@ -1,6 +1,7 @@
 name: Bootstrap repository content
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
 
@@ -36,7 +37,6 @@ jobs:
                   "https://github.com/VijayendraDwari/pretrain-1b-on-2xT4",
               )
               cff.write_text(s)
-          # Temporary bootstrap artifacts are not part of the public project.
           for p in [root/"bootstrap/repo.zip", root/".github/workflows/bootstrap.yml"]:
               if p.exists():
                   p.unlink()
