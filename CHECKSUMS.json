@@ -16,8 +16,8 @@
     "sha256": "7e43aa249552196c343082cb7cf980c9405455bda1e3edefa7c11c3a83f233d1"
   },
   "README.md": {
-    "bytes": 6679,
-    "sha256": "219edc1412ebb9daed1a6e977968e2b8a58a5f23fd89645a1c46ee0861b904e4"
+    "bytes": 7790,
+    "sha256": "75abbeead40b3a7981946bd408db82ef7a3e814085eb55d5679607e3f4802990"
   },
   "data/dataset_contract.md": {
     "bytes": 1299,
@@ -44,8 +44,8 @@
     "sha256": "1f123503b6f07aaaeaaa50b7719e7cc2669013e2d677ad4ceb57c826c1f69ef1"
   },
   "docs/03_memory_and_fsdp.md": {
-    "bytes": 1072,
-    "sha256": "7be34726deed434843e5b54c76362d8b91e8c5d1e531478018b5834c5884e6c3"
+    "bytes": 7222,
+    "sha256": "7b575a3e71f64276158adc54b9327665b6c74cb7a11ac997722ef7ed9d1fe294"
   },
   "docs/04_batch_and_tokens.md": {
     "bytes": 1023,

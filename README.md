@@ -1,14 +1,25 @@
 # Pretrain a 1B-Parameter Language Model From Scratch on 2× T4 GPUs
 
-I wanted to see how far I could take a randomly initialized, billion-parameter decoder-only model on two modest GPUs, and to write down the parts that small tutorials usually skip: sharding, token accounting, validation, and surviving a notebook session ending halfway through a run.
+## What this project is—and isn’t
 
-This is a training experiment and an engineering tutorial. It is not a claim that the resulting model is competitive, or that two T4s are an efficient way to get a useful 1B model.
+This repository documents a real pretraining experiment: a 1,018,126,848-parameter dense decoder-only Transformer, randomly initialized and trained on FineWeb-derived tokens using two 16GB NVIDIA Tesla T4 GPUs. The focus is the engineering around running a model at this size in a constrained, temporary environment: FSDP sharding, memory and token accounting, validation, checkpointing, and continuation across Kaggle sessions.
 
-## Run status
+This is an educational case study, not a new training algorithm or architecture, a compute-optimal recipe, or a claim that the resulting model is competitive. The tokenizer is reused, not trained here. The 1.5B input-token target is a training-budget milestone; it does not mean every corpus token is seen once or establish downstream capability. The repository separates recorded measurements from assumptions and work still to be done.
 
-**Training is in progress.** The latest log snapshot I have added here is from 5 November 2026. It shows the continuation at update **820** (**107,479,040 input tokens**). The most recent validation in that snapshot is update **800** (**104,857,600 input tokens**): NLL **5.24585**, perplexity **189.78**, and token accuracy **22.05%**.
+## Live run status
 
-Update 820 is a training-log observation, not a saved checkpoint. The last complete parent checkpoint used for this continuation was update 616. The run writes a new checkpoint at a safe session boundary; I’ll update this page when that happens and when the next validation results are available.
+The latest run snapshot supplied for this repository update is from **5 November 2026**; it is not a real-time status feed.
+
+| Evidence | Latest recorded state |
+|---|---|
+| Training log | Update **820** · **107,479,040** model-input tokens · **2,113.94** input tokens/second at that update |
+| PyTorch memory metric | Rank-0 allocator high-water mark **11.4088 GiB** at update 820; see [memory and FSDP details](docs/03_memory_and_fsdp.md) |
+| Validation | Update **800** · **104,857,600** model-input tokens · NLL **5.24585** · perplexity **189.78** · token accuracy **22.05%** on **131,072** validation tokens |
+| Last complete parent checkpoint | Update **616** · **80,740,352** model-input tokens |
+
+Update 820 is a training-log observation, not a documented complete checkpoint. The latest captured validation is update 800. These records do not establish whether the job is still running now or whether a later checkpoint has been saved.
+
+The live trainer copy supplied with this run and the repository trainer `train/train_1b_dual_t4.py` match byte-for-byte (SHA-256: `55a57185b100a8f63f1e3b77c5fd80726b952c8abe49b0a06f9aa5af5a83f440`).
 
 ## What I am training
 
@@ -38,7 +49,7 @@ The run uses two 16 GB NVIDIA Tesla T4 GPUs with PyTorch FSDP `FULL_SHARD`. Each
 2 GPUs × 4096 tokens × 16 microbatches = 131,072 input tokens per update
 ```
 
-The captured training logs report about **11.41 GiB** peak allocated memory per GPU and roughly **2.1K input tokens/second** at the current setup. These are measurements from this run, not a hardware benchmark.
+The supplied log records a **rank-0 PyTorch allocator high-water mark of 11.4088 GiB** and about **2.1K input tokens/second** near update 820. The memory value is not total device usage or free memory, and it is not a measurement from both ranks. The exact FSDP settings and a derived state-memory estimate are in [memory and FSDP](docs/03_memory_and_fsdp.md).
 
 ## Validation so far
 
