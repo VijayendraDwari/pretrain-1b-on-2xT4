@@ -12,12 +12,12 @@ The latest run snapshot supplied for this repository update is from **5 November
 
 | Evidence | Latest recorded state |
 |---|---|
-| Training log | Update **820** · **107,479,040** model-input tokens · **2,113.94** input tokens/second at that update |
-| PyTorch memory metric | Rank-0 allocator high-water mark **11.4088 GiB** at update 820; see [memory and FSDP details](docs/03_memory_and_fsdp.md) |
-| Validation | Update **800** · **104,857,600** model-input tokens · NLL **5.24585** · perplexity **189.78** · token accuracy **22.05%** on **131,072** validation tokens |
+| Training log | Update **1070** · **140,247,040** model-input tokens · **2,133.15** input tokens/second at that update |
+| PyTorch memory metric | Rank-0 allocator high-water mark **11.4088 GiB** through the captured continuation; see [memory and FSDP details](docs/03_memory_and_fsdp.md) |
+| Validation | Update **1000** · **131,072,000** model-input tokens · NLL **5.12850** · perplexity **168.76** · token accuracy **22.94%** on **131,072** validation tokens |
 | Last complete parent checkpoint | Update **616** · **80,740,352** model-input tokens |
 
-Update 820 is a training-log observation, not a documented complete checkpoint. The latest captured validation is update 800. These records do not establish whether the job is still running now or whether a later checkpoint has been saved.
+Update 1070 is a training-log observation, not a documented complete checkpoint. The latest captured validation is update 1000. The run has crossed the 100M-token analytical milestone, but these records do not establish whether the job is still running now or whether a later checkpoint has been saved.
 
 The live trainer copy supplied with this run and the repository trainer `train/train_1b_dual_t4.py` match byte-for-byte (SHA-256: `55a57185b100a8f63f1e3b77c5fd80726b952c8abe49b0a06f9aa5af5a83f440`).
 
@@ -49,7 +49,7 @@ The run uses two 16 GB NVIDIA Tesla T4 GPUs with PyTorch FSDP `FULL_SHARD`. Each
 2 GPUs × 4096 tokens × 16 microbatches = 131,072 input tokens per update
 ```
 
-The supplied log records a **rank-0 PyTorch allocator high-water mark of 11.4088 GiB** and about **2.1K input tokens/second** near update 820. The memory value is not total device usage or free memory, and it is not a measurement from both ranks. The exact FSDP settings and a derived state-memory estimate are in [memory and FSDP](docs/03_memory_and_fsdp.md).
+The supplied log records a **rank-0 PyTorch allocator high-water mark of 11.4088 GiB** and about **2.1K input tokens/second** through the captured continuation. The memory value is not total device usage or free memory, and it is not a measurement from both ranks. The exact FSDP settings and a derived state-memory estimate are in [memory and FSDP](docs/03_memory_and_fsdp.md).
 
 ## Validation so far
 
@@ -62,6 +62,8 @@ Validation uses the same 131,072-token sample for each reported event. The table
 | 616 | 80,740,352 | 5.40386 | 222.26 | 21.15% |
 | 700 | 91,750,400 | 5.34038 | 208.59 | 21.51% |
 | 800 | 104,857,600 | 5.24585 | 189.78 | 22.05% |
+| 900 | 117,964,800 | 5.17369 | 176.57 | 22.52% |
+| 1000 | 131,072,000 | 5.12850 | 168.76 | 22.94% |
 
 ![Validation negative log-likelihood by training tokens](results/validation_nll.png)
 

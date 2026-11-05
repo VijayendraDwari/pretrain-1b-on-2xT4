@@ -24,16 +24,16 @@
     },
     "latest_shared_training_log": {
       "date": "2026-11-05",
-      "update": 820,
-      "tokens": 107479040,
+      "update": 1070,
+      "tokens": 140247040,
       "checkpoint": false
     },
     "latest_shared_validation": {
-      "update": 800,
-      "tokens": 104857600,
-      "nll": 5.245849564671516,
-      "perplexity": 189.7769745752496,
-      "token_accuracy": 0.220489501953125,
+      "update": 1000,
+      "tokens": 131072000,
+      "nll": 5.128498330712318,
+      "perplexity": 168.76350070197321,
+      "token_accuracy": 0.229400634765625,
       "validation_tokens": 131072
     }
   },

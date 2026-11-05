@@ -22,4 +22,4 @@ The article should read like a record of one real training run, not a claim that
 
 ## Current data for the draft
 
-The shared live log shows training at update 820 (107,479,040 input tokens). The latest validation in that snapshot is update 800 (104,857,600 tokens): NLL 5.24585, perplexity 189.78, and token accuracy 22.05%. The last complete parent checkpoint used for the continuation is update 616. Keep those two facts separate.
+The shared live log shows training at update 1070 (140,247,040 input tokens). The latest validation in that snapshot is update 1000 (131,072,000 tokens): NLL 5.12850, perplexity 168.76, and token accuracy 22.94%. The 100M analytical milestone has been crossed. The last complete parent checkpoint documented for the continuation is still update 616. Keep the training-log frontier, validation frontier, and resumable-checkpoint frontier separate.

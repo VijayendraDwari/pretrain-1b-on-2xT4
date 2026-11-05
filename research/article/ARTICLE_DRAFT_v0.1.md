@@ -26,7 +26,7 @@ The current continuation setup leaves the mounted parent checkpoint untouched. A
 
 ## Where the live run stands
 
-The shared log snapshot shows the continuation restoring the complete checkpoint at update 616, then reaching update 820. The latest training row is update 820, or **107,479,040 input tokens**. The latest validation in that capture is update 800, or **104,857,600 tokens**:
+The shared log snapshot shows the continuation restoring the complete checkpoint at update 616, then reaching update 1070. The latest training row is update 1070, or **140,247,040 input tokens**. The latest validation in that capture is update 1000, or **131,072,000 tokens**. The run has therefore crossed the 100M-token analytical milestone:
 
 | Update | Input tokens | Validation NLL | Perplexity | Token accuracy |
 |---:|---:|---:|---:|---:|
@@ -35,10 +35,12 @@ The shared log snapshot shows the continuation restoring the complete checkpoint
 | 616 | 80,740,352 | 5.40386 | 222.26 | 21.15% |
 | 700 | 91,750,400 | 5.34038 | 208.59 | 21.51% |
 | 800 | 104,857,600 | 5.24585 | 189.78 | 22.05% |
+| 900 | 117,964,800 | 5.17369 | 176.57 | 22.52% |
+| 1000 | 131,072,000 | 5.12850 | 168.76 | 22.94% |
 
 These are validation metrics on the fixed sample used by the trainer. They show that next-token loss is falling on that sample. They do not tell me how the model performs on downstream tasks, and I have not run a benchmark suite yet.
 
-The training job is still underway. Update 820 is an observation from the supplied log, not a saved checkpoint; update 616 is the last complete parent checkpoint documented for this continuation. I will update the results after the next complete save and validation event.
+The training job is still underway. Update 1070 is an observation from the supplied log, not a saved checkpoint; update 616 remains the last complete parent checkpoint documented for this continuation. I will update the results after the next complete save and validation event.
 
 ## What I want this tutorial to explain
 
