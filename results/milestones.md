@@ -1,14 +1,15 @@
 # Training milestones
 
-| update | input tokens | validation NLL | perplexity | token accuracy | status |
-|---:|---:|---:|---:|---:|---|
-| 2 | 262,144 | 10.74244 | 46,279.01 | 3.794% | certified initial checkpoint |
-| 100 | 13,107,200 | 6.89855 | 990.83 | 12.092% | replayed learning milestone |
-| 616 | 80,740,352 | 5.40386 | 222.26 | 21.155% | canonical continuation checkpoint |
-| 763 | 100,007,936 | pending | pending | pending | analytical milestone |
-| — | 250M | pending | pending | pending | planned |
-| — | 500M | pending | pending | pending | planned |
-| — | 1B | pending | pending | pending | planned |
-| — | 1.5B | pending | pending | pending | final target |
+The table records the update and token count used for each validation result. Training can pass an analytical milestone between validation events, so report the measured update rather than rounding it to the milestone label.
 
-The active job may pass milestone token counts without stopping. All published metrics must report the checkpoint/update and actual token count used.
+| Update | Model-input tokens | Validation NLL | Perplexity | Token accuracy | Note |
+|---:|---:|---:|---:|---:|---|
+| 2 | 262,144 | 10.74244 | 46,279.01 | 3.794% | Initial validation |
+| 100 | 13,107,200 | 6.89855 | 990.83 | 12.092% | Earlier run log |
+| 616 | 80,740,352 | 5.40386 | 222.26 | 21.155% | Complete parent checkpoint |
+| 700 | 91,750,400 | 5.34038 | 208.59 | 21.506% | Continuation validation |
+| 800 | 104,857,600 | 5.24585 | 189.78 | 22.049% | Nearest validation after passing 100M |
+
+The shared continuation log reaches update 820 (107,479,040 tokens). That is a training observation, not a completed checkpoint. The last complete parent checkpoint documented here is update 616.
+
+Next analytical milestones are 250M, 500M, 1B, and 1.5B input tokens. The target is reached at a whole-update boundary, so the final token count will be 1,500,119,040 rather than exactly 1.5B. The CSV contains the reported training and validation rows; it is not a complete raw run log.

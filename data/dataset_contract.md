@@ -1,6 +1,6 @@
-# Dataset contract
+# Dataset layout expected by the trainer
 
-The trainer expects:
+The trainer reads pre-tokenized IDs from a mounted directory:
 
 ```text
 <root>/
@@ -16,15 +16,8 @@ The trainer expects:
         └── validation_00000.bin
 ```
 
-Binary token files are contiguous little-endian `uint32` token IDs.
+Each `.bin` file is a contiguous stream of little-endian `uint32` token IDs. The canonical dataset has 1,485,000,000 training tokens in 24 shards and 15,000,000 validation tokens in one shard. The vocabulary has 128,256 entries; IDs must be in the range `[0, 128256)`.
 
-Canonical D1 counts:
+The current loader memory-maps each shard. For every sample it chooses one shard and one offset, then returns a 4096-token input window and its one-token-shifted labels. The choice is deterministic from the sample ID and seed. Samples do not cross shard boundaries, and the run does not walk the corpus sequentially.
 
-| split | tokens |
-|---|---:|
-| train | 1,485,000,000 |
-| validation | 15,000,000 |
-
-Vocabulary size is 128,256. Every token must satisfy `0 <= token_id < 128256`.
-
-The training loader chooses deterministic 4096-token windows from the concatenated training shards. Validation uses the fixed D1 validation corpus throughout the project.
+The trainer currently checks that the token directories exist and that `corpus_meta.json` reports the expected vocabulary size and `uint32` dtype. It does not verify the token-shard hashes or tokenizer hashes at startup. Keep the data manifest with the run if you need to identify the exact corpus used.

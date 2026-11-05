@@ -1,74 +1,29 @@
-# Project Positioning
+# How I describe this project
 
-## Working identity
+## Working title
 
-**Repository:** `pretrain-1b-on-2xT4`
+**Pretrain a 1B-Parameter Language Model From Scratch on 2× T4 GPUs**
 
-**README title:**  
-# Pretrain a 1B-Parameter Language Model From Scratch on 2× T4 GPUs
+For a longer article, I am using **Pretraining a 1B-Parameter Language Model on Two T4 GPUs: An Engineering Walkthrough**.
 
-**Subtitle:**  
-*A reproducible 1.018B-parameter, 4K-context PyTorch/FSDP pretraining recipe on FineWeb — from random initialization to 1.5B training tokens.*
+## The project in one paragraph
 
-**Article title:**  
-# Pretraining a 1B-Parameter Language Model on Two T4 GPUs: An End-to-End Engineering Guide
+I am training a 1,018,126,848-parameter decoder-only Transformer from random initialization on two 16 GB T4 GPUs. The point is to document a real run closely enough that someone can follow the choices: model sizing, pre-tokenized data, FSDP, gradient accumulation, validation, and checkpoint continuation across Kaggle sessions. The tokenizer is reused, and the training data is prepared before the run.
 
-## What the project is
+## What I am not claiming
 
-An educational, reproducible demonstration of the full pretraining path for a real billion-parameter decoder-only language model on modest hardware.
+This is not a compute-optimal recipe, a speed record, or a competitive 1B model. The target of 1.5B input tokens is intentionally small compared with serious production pretraining. I am not claiming that 1B-parameter pretraining itself is novel.
 
-The project explains:
+The project is useful if the reader wants to understand the system around a training loop: what state must fit in memory, how the token counter is defined, what happens when a large checkpoint save fails, and how a later session resumes.
 
-- architecture sizing and exact parameter counting;
-- tokenized web-data ingestion;
-- causal language-model training from random initialization;
-- PyTorch FSDP `FULL_SHARD` on 2×16GB Tesla T4 GPUs;
-- gradient accumulation and global token-batch arithmetic;
-- learning-rate scheduling;
-- validation during pretraining;
-- crash-safe sharded checkpointing;
-- exact continuation across notebook sessions;
-- training progress from initialization toward 1.5B input tokens.
+## The scale and the comparison
 
-## What the project is not
+The model is large enough that data, memory, and persistence choices show up in everyday training. It is still small enough that the full path fits in a single repository and a tutorial can explain it without assuming access to a large cluster.
 
-It is **not** a claim that 1.5B training tokens is compute-optimal for a 1B model.
+That makes this a different kind of project from TinyLlama, which trained a 1.1B model on a much larger token budget and a multi-GPU A100 setup. It is also narrower than OLMo's open model lifecycle. I use build-nanogpt as a reference for explaining code step by step, and LitGPT as a reference for clear runnable instructions. The links and notes are in [prior art](prior_art.md).
 
-It is **not** a claim that two T4 GPUs are the fastest or cheapest way to obtain a useful 1B model.
+## How I will keep the claims current
 
-It is **not** intended to compete with heavily pretrained production 1B models.
+The public status should track the latest log snapshot, not imply that a training-log update is a saved checkpoint. I will report the update number, model-input token count, validation event, and whether the state is actually resumable. If a metric or a claim cannot be traced to a run log or artifact, I will leave it out or label it as unverified.
 
-The purpose is to make billion-parameter pretraining mechanics understandable and reproducible.
-
-## Core educational thesis
-
-> Small GPT tutorials teach model architecture. Production foundation-model projects hide much of the training system behind large clusters. This project explores the middle ground: a model large enough that distributed systems engineering becomes unavoidable, but still small enough for an individual researcher to understand end to end.
-
-## Why “1B-parameter” is appropriate
-
-The exact model contains **1,018,126,848 trainable parameters**. In standard model naming practice, this is naturally described as a **1B-parameter model**. Use the exact count prominently in the subtitle/specification table.
-
-“Billion-parameter-class” is useful in prose when discussing the scale category, but is weaker as a searchable title.
-
-## Differentiator
-
-The novelty is not the existence of a 1B Transformer. The differentiating combination is:
-
-- 1.018B real decoder-only model;
-- random initialization;
-- 4096-token context;
-- real FineWeb pretraining data;
-- only 2× Tesla T4 16GB GPUs;
-- FSDP FULL_SHARD;
-- checkpoint/resume across constrained Kaggle sessions;
-- a complete educational explanation of the systems mechanics.
-
-## Recommended tone
-
-Engineering-focused, transparent, and non-hyped.
-
-Prefer:
-> “Here is the complete path I used to make billion-parameter pretraining work on modest hardware.”
-
-Avoid:
-> “I trained a competitive 1B LLM on two cheap GPUs.”
+The current validation curve measures next-token prediction on the fixed validation sample. It is not evidence of useful behavior on downstream tasks. I will only add such claims if a fixed benchmark or generation evaluation is added and documented.

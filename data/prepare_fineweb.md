@@ -1,32 +1,41 @@
-# FineWeb-D1 preparation
+# Preparing FineWeb-D1 token files
 
-The historical training corpus used by this repository is a certified token dataset with this contract:
+The training run uses token files prepared from the FineWeb `CC-MAIN-2025-26` configuration. The historical dataset contract is:
 
-- source: `HuggingFaceFW/fineweb`
-- revision: `v1.4.0`
-- config: `CC-MAIN-2025-26`
-- split: `train`
-- tokenizer family: `meta-llama/Llama-3.2-1B`
-- vocabulary: 128,256
-- EOS token: 128001
-- train: **1,485,000,000 tokens**
-- validation: **15,000,000 tokens**
-- 24 train shards
-- one validation shard
-- little-endian `uint32` token IDs
+- dataset: `HuggingFaceFW/fineweb`, revision `v1.4.0`;
+- split: `train`;
+- tokenizer family: `meta-llama/Llama-3.2-1B`;
+- vocabulary: 128,256; EOS token: 128001;
+- 1,485,000,000 training tokens and 15,000,000 validation tokens;
+- 24 training shards, plus one validation shard;
+- little-endian `uint32` token IDs.
 
-The historical Kaggle corpus is mounted in our training notebooks as:
+The Kaggle dataset used by the run is mounted at:
 
 ```text
 /kaggle/input/datasets/vijayendrad/fineweb-d1/
   sca_fineweb_2025_26_clean_llama32_1p5b/
 ```
 
-The legacy `sca_` directory prefix reflects the research project in which the corpus was originally prepared. The dense model itself uses ordinary dense causal attention.
+The `sca_` directory name comes from the earlier research project that prepared the corpus. This repository's model uses ordinary dense causal attention.
 
-## Exact historical tokenizer identity
+## Build a compatible corpus
 
-Historical certified hashes:
+The public builder streams the named FineWeb revision, tokenizes documents, appends EOS, writes the requested token counts, and records file hashes in `corpus_meta.json`:
+
+```bash
+python data/prepare_fineweb.py --output ./fineweb_d1_1p5b
+```
+
+Access to the Meta tokenizer may require accepting its license and logging in to Hugging Face. To use local tokenizer files instead:
+
+```bash
+python data/prepare_fineweb.py \
+  --tokenizer /path/to/tokenizer \
+  --output ./fineweb_d1_1p5b
+```
+
+The builder checks vocabulary size and EOS ID. Those checks do not prove that local tokenizer files are byte-identical to the historical ones. Their recorded historical SHA-256 values are:
 
 ```text
 tokenizer.json
@@ -36,22 +45,6 @@ tokenizer_config.json
 a42a345ade5eba1c27f3a9beca0635200f9e652db3a3b87cc4c459aa890d9c33
 ```
 
-For exact continuation of our published lineage, use the historical corpus/tokenizer and verify its checksums.
+## What a rebuild does and does not reproduce
 
-For an independent reproduction, run:
-
-```bash
-python data/prepare_fineweb.py --output ./fineweb_d1_1p5b
-```
-
-Access to the Meta Llama tokenizer repository may require accepting its license and authenticating with Hugging Face. You can instead pass a local tokenizer directory:
-
-```bash
-python data/prepare_fineweb.py   --tokenizer /path/to/the/tokenizer   --output ./fineweb_d1_1p5b
-```
-
-## Reproduction caveat
-
-The public builder reproduces the **documented corpus contract**. It does not claim that a future streamed rebuild will be byte-identical to the historical D1 dataset if the upstream data stream, library behavior, or tokenizer files change.
-
-For research lineage, dataset identity is a hash/checksum question—not merely a dataset-name question.
+A new streamed build follows the documented counts, file format, tokenizer family, and split procedure. It is not promised to recreate the historical token files byte for byte. Dataset streaming, library versions, source order, and tokenizer files can affect the resulting bytes. For exact continuation, use the historical token shards and tokenizer files, and retain their checksum manifest with the checkpoint.

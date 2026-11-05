@@ -1,22 +1,12 @@
 # Checkpoint releases
 
-The repository is being published before the final training target is complete.
+There is no public model checkpoint in this repository yet. The update-616 checkpoint was used as the parent for the current continuation, but it has not been packaged here for download. The shared run log now shows training through update 820; that log entry is not itself a resumable checkpoint.
 
-| milestone | status | artifact |
+| Stage | Current record | Public checkpoint |
 |---|---|---|
-| 80.7M | COMPLETE internally | not packaged as public release |
-| 100M | pending | — |
-| 250M | pending | — |
-| 500M | pending | — |
-| 1B | pending | — |
-| **1.5B final** | pending | final checkpoint will be linked here |
+| Update 616 / 80.74M tokens | Complete parent used for continuation | Not released |
+| Update 800 / 104.86M tokens | Validation recorded in the shared log | Not released |
+| Update 820 / 107.48M tokens | Training log snapshot | Not a checkpoint |
+| 250M, 500M, 1B, 1.5B | Planned milestones | Pending |
 
-Checkpoint publication will include:
-- exact update;
-- exact model-input token count;
-- validation metrics;
-- checkpoint byte size;
-- SHA-256/checksum manifest;
-- tokenizer identity;
-- model configuration;
-- license / usage notes.
+If I publish a checkpoint, I will include the update number and token count, validation metrics, file size and checksums, model configuration, tokenizer identity, and usage notes. A training log alone will not be labeled as a checkpoint release.

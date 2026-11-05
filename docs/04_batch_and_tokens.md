@@ -1,24 +1,13 @@
-# Batch and token accounting
+# Batch size and token accounting
 
-Canonical arithmetic:
-
-```text
-context length       4096
-world size           2
-gradient accumulation 16
-
-4096 × 2 × 16 = 131,072 input tokens / optimizer update
-```
-
-This repository treats model-input tokens as the primary training ledger.
-
-Examples:
+The trainer processes one 4096-token sequence on each of two ranks per microbatch. It accumulates gradients over 16 microbatches before taking an optimizer step:
 
 ```text
-update 2   =      262,144 tokens
-update 100 =   13,107,200 tokens
-update 616 =   80,740,352 tokens
-update 763 =  100,007,936 tokens
+4096 tokens × 2 ranks × 16 microbatches = 131,072 input tokens/update
 ```
 
-The final target is 1.5B input tokens. Because 1.5B is not divisible by 131,072, the trainer targets the corresponding whole-update boundary and reports exact realized tokens.
+The run counts model-input tokens. At update `u`, the ledger is `u × 131,072`. For example, update 800 corresponds to 104,857,600 input tokens.
+
+The target is 1.5 billion input tokens. Since the trainer completes whole optimizer updates, `ceil(1,500,000,000 / 131,072)` gives 11,445 updates, or 1,500,119,040 input tokens. The final run will therefore pass the nominal target by 119,040 tokens.
+
+This is not a sequential epoch counter. `Tokens.batch()` chooses a shard and offset deterministically from the update, microbatch, rank, and seed. Windows are sampled with replacement and do not cross shard boundaries. A token budget says how much input the model processed; it does not prove that every corpus token was visited exactly once.
