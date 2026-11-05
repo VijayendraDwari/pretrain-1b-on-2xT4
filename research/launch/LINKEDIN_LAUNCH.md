@@ -36,7 +36,7 @@ Training itself was healthy. Persistence was not.
 
 That failure became one of the most useful parts of the project: the continuation design now keeps the mounted parent immutable, writes rank files transactionally, and refuses to resume from incomplete state.
 
-The run has now passed 140M model-input tokens.
+The run has now reached a **clean COMPLETE checkpoint at 160.56M model-input tokens**.
 
 The validation trajectory so far:
 
@@ -45,8 +45,10 @@ The validation trajectory so far:
 - 104.86M → NLL 5.2458 / PPL 189.8
 - 117.96M → NLL 5.1737 / PPL 176.6
 - 131.07M → NLL 5.1285 / PPL 168.8
+- 144.18M → NLL 4.9181 / PPL 136.7
+- 157.29M → **NLL 4.7922 / PPL 120.6**
 
-The target is 1.5B model-input tokens.
+The latest session saved successfully at update 1225 (160,563,200 tokens) and ended at a safe boundary. The target remains 1.5B model-input tokens.
 
 This is not a claim that 1.5B tokens is compute-optimal for a 1B model. It is not a speed record, and it is not intended to compete with heavily pretrained production models.
 
