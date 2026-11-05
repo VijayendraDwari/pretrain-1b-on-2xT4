@@ -1,0 +1,67 @@
+name: Bootstrap repository content
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    if: ${{ hashFiles('bootstrap/repo.zip') != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Expand prepared repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/pretrain-repo
+          mkdir -p /tmp/pretrain-repo
+          unzip -q bootstrap/repo.zip -d /tmp/pretrain-repo
+          cp -a /tmp/pretrain-repo/pretrain-1b-on-2xT4/. ./
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, json
+          root = Path(".")
+          cff = root / "CITATION.cff"
+          if cff.exists():
+              s = cff.read_text()
+              s = s.replace(
+                  "https://github.com/OWNER/pretrain-1b-on-2xT4",
+                  "https://github.com/VijayendraDwari/pretrain-1b-on-2xT4",
+              )
+              cff.write_text(s)
+          # Temporary bootstrap artifacts are not part of the public project.
+          for p in [root/"bootstrap/repo.zip", root/".github/workflows/bootstrap.yml"]:
+              if p.exists():
+                  p.unlink()
+          if (root/"bootstrap").exists():
+              try:
+                  (root/"bootstrap").rmdir()
+              except OSError:
+                  pass
+          checks = {}
+          for p in sorted(root.rglob("*")):
+              if not p.is_file():
+                  continue
+              if ".git" in p.parts or p.name == "CHECKSUMS.json":
+                  continue
+              b = p.read_bytes()
+              checks[str(p)] = {"bytes": len(b), "sha256": hashlib.sha256(b).hexdigest()}
+          (root/"CHECKSUMS.json").write_text(json.dumps(checks, indent=2)+"\n")
+          PY
+
+      - name: Commit expanded repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Populate training, data, evaluation, docs, and results" || exit 0
+          git push
