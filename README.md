@@ -12,12 +12,12 @@ The latest run snapshot supplied for this repository update is from **5 November
 
 | Evidence | Latest recorded state |
 |---|---|
-| Training log | Update **1070** · **140,247,040** model-input tokens · **2,133.15** input tokens/second at that update |
+| Training log | Update **1220** · **159,907,840** model-input tokens · **2,130.50** input tokens/second at that update |
 | PyTorch memory metric | Rank-0 allocator high-water mark **11.4088 GiB** through the captured continuation; see [memory and FSDP details](docs/03_memory_and_fsdp.md) |
-| Validation | Update **1000** · **131,072,000** model-input tokens · NLL **5.12850** · perplexity **168.76** · token accuracy **22.94%** on **131,072** validation tokens |
-| Last complete parent checkpoint | Update **616** · **80,740,352** model-input tokens |
+| Validation | Update **1200** · **157,286,400** model-input tokens · NLL **4.79223** · perplexity **120.57** · token accuracy **24.85%** on **131,072** validation tokens |
+| Last complete parent checkpoint | Update **1225** · **160,563,200** model-input tokens |
 
-Update 1070 is a training-log observation, not a documented complete checkpoint. The latest captured validation is update 1000. The run has crossed the 100M-token analytical milestone, but these records do not establish whether the job is still running now or whether a later checkpoint has been saved.
+The latest captured training observation is update 1220; the session then passed checkpoint preflight, saved a COMPLETE checkpoint at update 1225, and ended at a safe boundary. The latest captured validation is update 1200. The run has crossed 160M model-input tokens in a resumable state.
 
 The live trainer copy supplied with this run and the repository trainer `train/train_1b_dual_t4.py` match byte-for-byte (SHA-256: `55a57185b100a8f63f1e3b77c5fd80726b952c8abe49b0a06f9aa5af5a83f440`).
 
@@ -64,6 +64,8 @@ Validation uses the same 131,072-token sample for each reported event. The table
 | 800 | 104,857,600 | 5.24585 | 189.78 | 22.05% |
 | 900 | 117,964,800 | 5.17369 | 176.57 | 22.52% |
 | 1000 | 131,072,000 | 5.12850 | 168.76 | 22.94% |
+| 1100 | 144,179,200 | 4.91807 | 136.74 | 23.95% |
+| 1200 | 157,286,400 | 4.79223 | 120.57 | 24.85% |
 
 ![Validation negative log-likelihood by training tokens](results/validation_nll.png)
 
