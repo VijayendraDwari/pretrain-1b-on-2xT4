@@ -14,10 +14,10 @@ The latest run snapshot supplied for this repository update is from **5 November
 |---|---|
 | Training log | Update **1220** · **159,907,840** model-input tokens · **2,130.50** input tokens/second at that update |
 | PyTorch memory metric | Rank-0 allocator high-water mark **11.4088 GiB** through the captured continuation; see [memory and FSDP details](docs/03_memory_and_fsdp.md) |
-| Validation | Update **1200** · **157,286,400** model-input tokens · NLL **4.79223** · perplexity **120.57** · token accuracy **24.85%** on **131,072** validation tokens |
+| Validation | Update **1225** · **160,563,200** model-input tokens · NLL **4.75070** · perplexity **115.67** · token accuracy **25.21%** on **131,072** validation tokens |
 | Last complete parent checkpoint | Update **1225** · **160,563,200** model-input tokens |
 
-The latest captured training observation is update 1220; the session then passed checkpoint preflight, saved a COMPLETE checkpoint at update 1225, and ended at a safe boundary. The latest captured validation is update 1200. The run has crossed 160M model-input tokens in a resumable state.
+The latest captured training observation in the original continuation log is update 1220; the session then passed checkpoint preflight, saved a COMPLETE checkpoint at update 1225, and ended at a safe boundary. A clean resume from that exact checkpoint produced a validation NLL of **4.75070**, perplexity **115.67**, and token accuracy **25.21%** on 131,072 validation tokens. The run has crossed 160M model-input tokens in a resumable state.
 
 The live trainer copy supplied with this run and the repository trainer `train/train_1b_dual_t4.py` match byte-for-byte (SHA-256: `55a57185b100a8f63f1e3b77c5fd80726b952c8abe49b0a06f9aa5af5a83f440`).
 
@@ -65,11 +65,27 @@ Validation uses the same 131,072-token sample for each reported event. The table
 | 900 | 117,964,800 | 5.17369 | 176.57 | 22.52% |
 | 1000 | 131,072,000 | 5.12850 | 168.76 | 22.94% |
 | 1100 | 144,179,200 | 4.91807 | 136.74 | 23.95% |
-| 1200 | 157,286,400 | 4.79223 | 120.57 | 24.85% |
+| 1200 | 157,286,400 | 4.79223 | 120.57 | 24.85% |\n| **1225** | **160,563,200** | **4.75070** | **115.67** | **25.21%** |
 
 ![Validation negative log-likelihood by training tokens](results/validation_nll.svg)
 
-The curve is moving in the expected direction, but these are next-token metrics on one validation sample. They do not establish downstream capability. I have not yet run a fixed benchmark suite or released model weights.
+The curve is moving in the expected direction, but these are next-token metrics on one validation sample. They do not establish downstream capability. A fixed downstream benchmark suite is still pending. The **Anvaya-1B 160M** model-only FP16 checkpoint is now public on Hugging Face at **[Vijayendra/Anvaya-1B](https://huggingface.co/Vijayendra/Anvaya-1B)** under the immutable `160M` revision.
+
+## Early behavioral comparison with Pythia-1B
+
+I also ran a frozen generation suite against **EleutherAI/pythia-1b**, whose **1,011,781,632 parameters** make it an unusually close scale reference for Anvaya's **1,018,126,848** parameters.
+
+The first comparison brackets Anvaya's current token exposure:
+
+| Model | Approx. tokens | Optimizer updates |
+|---|---:|---:|
+| Pythia-1B step64 | 134.2M | 64 |
+| **Anvaya-1B 160M** | **160.56M** | **1,225** |
+| Pythia-1B step128 | 268.4M | 128 |
+
+Under the same prompt suite, Anvaya at 160.56M tokens is already substantially more sentence-like than the tested Pythia step64 and step128 checkpoints. That is an interesting behavioral observation, **not an architecture-superiority claim**: Pythia uses a much larger global batch and its early checkpoints are still near the beginning of a 1% warmup over 143,000 iterations, while Anvaya uses a 75-update warmup and many more optimizer updates per comparable token exposure.
+
+The full comparison, example generations, training-schedule caveats, and the proposed distinction between **token-matched** and **update-matched** comparisons are documented in **[Anvaya-1B vs Pythia-1B at early training](research/anvaya_vs_pythia_early_training.md)**.
 
 ## How the run continues across Kaggle sessions
 
