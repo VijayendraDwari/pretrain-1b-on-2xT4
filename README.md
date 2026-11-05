@@ -67,7 +67,7 @@ Validation uses the same 131,072-token sample for each reported event. The table
 | 1100 | 144,179,200 | 4.91807 | 136.74 | 23.95% |
 | 1200 | 157,286,400 | 4.79223 | 120.57 | 24.85% |
 
-![Validation negative log-likelihood by training tokens](results/validation_nll.png)
+![Validation negative log-likelihood by training tokens](results/validation_nll.svg)
 
 The curve is moving in the expected direction, but these are next-token metrics on one validation sample. They do not establish downstream capability. I have not yet run a fixed benchmark suite or released model weights.
 
