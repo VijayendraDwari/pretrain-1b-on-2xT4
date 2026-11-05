@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this educational pretraining recipe, please cite this repository."
+title: "Pretrain a 1B-Parameter Language Model From Scratch on 2× T4 GPUs"
+type: software
+authors:
+  - family-names: "Dwari"
+    given-names: "Vijayendra"
+date-released: 2026-11-05
+version: "0.1.0"
+license: MIT
+repository-code: "https://github.com/VijayendraDwari/pretrain-1b-on-2xT4"
+abstract: "A reproducible 1.018B-parameter, 4K-context PyTorch FSDP pretraining recipe on FineWeb using two NVIDIA Tesla T4 GPUs."

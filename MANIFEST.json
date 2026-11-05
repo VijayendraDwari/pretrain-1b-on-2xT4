@@ -1,0 +1,38 @@
+{
+  "name": "pretrain-1b-on-2xT4",
+  "version": "0.1.0",
+  "status": "training-in-progress",
+  "author": "Vijayendra Dwari",
+  "model": {
+    "exact_trainable_parameters": 1018126848,
+    "layers": 29,
+    "width": 1536,
+    "heads": 24,
+    "head_dim": 64,
+    "ffn": 6144,
+    "vocab": 128256,
+    "context": 4096
+  },
+  "training": {
+    "hardware": "2x NVIDIA Tesla T4 16GB",
+    "distributed": "PyTorch FSDP FULL_SHARD",
+    "tokens_per_update": 131072,
+    "target_input_tokens": 1500000000,
+    "documented_complete_checkpoint": {
+      "update": 616,
+      "tokens": 80740352
+    }
+  },
+  "dataset": {
+    "source": "HuggingFaceFW/fineweb",
+    "revision": "v1.4.0",
+    "config": "CC-MAIN-2025-26",
+    "historical_train_tokens": 1485000000,
+    "historical_validation_tokens": 15000000
+  },
+  "integrity": {
+    "python_syntax": "PASS",
+    "notebook_json": "PASS",
+    "parameter_count_source": "documented run logs + canonical architecture"
+  }
+}

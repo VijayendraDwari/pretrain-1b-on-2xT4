@@ -1,0 +1,19 @@
+{
+  "run_root": "/kaggle/working/educational_dense_1b_continue",
+  "fineweb_root": "/kaggle/input/datasets/vijayendrad/fineweb-d1/sca_fineweb_2025_26_clean_llama32_1p5b",
+  "resume_from": "",
+  "context": 4096,
+  "grad_accum": 16,
+  "target_tokens": 1500000000,
+  "peak_lr": 0.00015,
+  "warmup_updates": 75,
+  "val_every": 100,
+  "save_every": 0,
+  "session_limit_sec": 39600,
+  "save_margin_sec": 1800,
+  "qualify_updates": 0,
+  "_notes": {
+    "resume": "Leave resume_from empty to auto-discover highest exact-lineage COMPLETE checkpoint under /kaggle/input.",
+    "checkpoint": "SAVE_EVERY=0 keeps one large save near the session time guard; mounted parent remains immutable."
+  }
+}
