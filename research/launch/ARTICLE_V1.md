@@ -197,6 +197,54 @@ The claim here is therefore narrow:
 
 > **the language model itself is pretrained from random parameters using a causal next-token objective.**
 
+## The first public Anvaya-1B checkpoint
+
+The model now has a public identity: **Anvaya-1B**.
+
+The first released milestone is the COMPLETE checkpoint at **update 1225 / 160,563,200 model-input tokens**. The raw two-rank FSDP training state is preserved separately, while the public Hugging Face release contains a clean model-only FP16 safetensors export.
+
+The public artifact was reconstructed from the distributed checkpoint, checked against the exact architecture contract, and verified to contain **1,018,126,848 parameters** before upload.
+
+It is live at:
+
+**https://huggingface.co/Vijayendra/Anvaya-1B**
+
+using the immutable revision:
+
+~~~text
+160M
+~~~
+
+A clean inference test loaded the public Hugging Face artifact on an NVIDIA L4, produced finite logits with shape `[1, 1, 128256]`, and generated recognizable English text. At this stage the model is still strongly undertrained: local syntax and phrase structure have emerged, while factual knowledge and semantic stability remain weak.
+
+That is useful rather than embarrassing. Preserving early checkpoints lets the project observe language behavior as it develops rather than showing only a final model.
+
+## An early comparison with Pythia-1B
+
+I also ran the same frozen generation prompts against **EleutherAI/pythia-1b**, which has **1,011,781,632 parameters** and is therefore unusually close to Anvaya's parameter scale.
+
+The first comparison uses:
+
+| Model | Approx. token exposure | Optimizer updates |
+|---|---:|---:|
+| Pythia-1B step64 | 134.2M | 64 |
+| **Anvaya-1B 160M** | **160.56M** | **1,225** |
+| Pythia-1B step128 | 268.4M | 128 |
+
+Under the frozen prompt suite, Anvaya-1B at 160.56M tokens already produces much more sentence-like local English than the tested Pythia step64 and step128 checkpoints.
+
+That result should **not** be interpreted as architectural superiority.
+
+Pythia reaches similar token exposure with a much larger global batch and far fewer optimizer updates. Its published 1B configuration uses a 1% warmup over 143,000 iterations, or roughly 1,430 warmup steps. Step64 and step128 are therefore still extremely early in Pythia's learning-rate ramp. Anvaya uses only 75 warmup updates and is long past warmup by update 1225.
+
+The comparison therefore raises a more interesting systems question:
+
+> **At the same parameter scale and broadly similar token exposure, how much do optimizer-update density and schedule position affect the emergence of usable language behavior?**
+
+The detailed note, including example generations and the distinction between token-matched and update-matched comparisons, is here:
+
+**[Anvaya-1B vs Pythia-1B at early training](../anvaya_vs_pythia_early_training.md)**
+
 ## Why publish before 1.5B?
 
 Because the systems recipe already exists.
