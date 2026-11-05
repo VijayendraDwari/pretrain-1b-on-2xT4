@@ -10,7 +10,6 @@ permissions:
 
 jobs:
   bootstrap:
-    if: ${{ hashFiles('bootstrap/repo.zip') != '' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
