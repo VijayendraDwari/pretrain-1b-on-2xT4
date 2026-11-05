@@ -1,0 +1,49 @@
+name: Set repository discoverability metadata
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set About description
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method PATCH repos/${{ github.repository }} \
+            -f description='Reproducible 1.018B LM pretraining on 2×16GB T4 GPUs — FineWeb, PyTorch FSDP, 4K context, crash-safe Kaggle continuation.'
+
+      - name: Set repository topics
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method PUT repos/${{ github.repository }}/topics \
+            -H 'Accept: application/vnd.github+json' \
+            -f names[]=llm \
+            -f names[]=pretraining \
+            -f names[]=language-model \
+            -f names[]=pytorch \
+            -f names[]=fsdp \
+            -f names[]=transformers \
+            -f names[]=fineweb \
+            -f names[]=kaggle \
+            -f names[]=distributed-training \
+            -f names[]=reproducibility
+
+      - name: Create v0.1.0 release if absent
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view v0.1.0 --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            echo "v0.1.0 already exists; leaving it unchanged."
+          else
+            gh release create v0.1.0 \
+              --repo "${{ github.repository }}" \
+              --target main \
+              --title 'v0.1.0 — The full systems recipe' \
+              --notes 'First public systems-recipe release for the 1.018B dense language-model pretraining project on 2×16GB Tesla T4 GPUs. Includes the canonical PyTorch FSDP trainer, FineWeb data-preparation contract, Kaggle continuation workflow, crash-safe checkpointing design, architecture and memory documentation, validation curves, and reproducibility notes. Training remains in progress toward the 1.5B input-token target; model weights are not part of this release.'
+          fi
