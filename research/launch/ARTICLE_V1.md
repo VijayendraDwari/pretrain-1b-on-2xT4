@@ -151,7 +151,7 @@ It must also define what happens when the machine disappears.
 
 ## The learning curve so far
 
-The current run has passed **140 million model-input tokens**.
+The current run has reached a **clean COMPLETE checkpoint at 160,563,200 model-input tokens**.
 
 The fixed validation measurements currently recorded are:
 
@@ -163,9 +163,11 @@ The fixed validation measurements currently recorded are:
 | 700 | 91.75M | 5.3404 | 208.6 | 21.51% |
 | 800 | 104.86M | 5.2458 | 189.8 | 22.05% |
 | 900 | 117.96M | 5.1737 | 176.6 | 22.52% |
-| 1000 | 131.07M | **5.1285** | **168.8** | **22.94%** |
+| 1000 | 131.07M | 5.1285 | 168.8 | 22.94% |
+| 1100 | 144.18M | 4.9181 | 136.7 | 23.95% |
+| 1200 | 157.29M | **4.7922** | **120.6** | **24.85%** |
 
-The important observation is not a single batch loss. It is the direction of the fixed validation curve.
+The important observation is not a single batch loss. It is the direction of the fixed validation curve. The latest captured session then passed checkpoint preflight, wrote a COMPLETE checkpoint at update 1225, and exited at a safe boundary.
 
 At the same time, these numbers are still only next-token metrics on the project's fixed validation sample. They are **not** downstream benchmark results and do not establish general model capability.
 
