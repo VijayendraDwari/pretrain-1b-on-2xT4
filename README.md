@@ -1,6 +1,6 @@
 # Pretrain a 1B-Parameter Language Model From Scratch on 2× T4 GPUs
 
-## What this project is—and isn’t
+
 
 This repository documents a real pretraining experiment: a 1,018,126,848-parameter dense decoder-only Transformer, randomly initialized and trained on FineWeb-derived tokens using two 16GB NVIDIA Tesla T4 GPUs. The focus is the engineering around running a model at this size in a constrained, temporary environment: FSDP sharding, memory and token accounting, validation, checkpointing, and continuation across Kaggle sessions.
 
