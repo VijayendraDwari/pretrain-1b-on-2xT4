@@ -62,6 +62,6 @@ I have now made the full recipe public on GitHub:
 
 The repository includes the canonical trainer, FineWeb data-preparation contract, PyTorch FSDP setup, Kaggle continuation workflow, checkpoint recovery design, architecture and parameter-count notes, memory accounting, evaluation protocol, validation curves, and the failures encountered along the way.
 
-I’ll keep updating it as the run progresses through 250M, 500M, 1B and finally 1.5B tokens.
+The run has now crossed 250M and 300M model-input tokens; I’ll keep updating it toward 500M, 1B and finally 1.5B tokens.
 
 If you work on model pretraining, distributed PyTorch, constrained-compute research, or simply want to understand what changes when a GPT stops being a toy, I’d value your feedback.
