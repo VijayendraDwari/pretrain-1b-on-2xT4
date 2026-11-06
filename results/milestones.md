@@ -19,8 +19,15 @@ The table records the update and token count used for each validation result. Tr
 | 1500 | 196,608,000 | 4.48414 | 88.60 | 28.094% | Continuation validation |
 | 1600 | 209,715,200 | 4.40366 | 81.75 | 28.819% | Continuation validation |
 | 1700 | 222,822,400 | 4.33161 | 76.07 | 29.567% | Continuation validation |
-| 1800 | 235,929,600 | 4.27305 | 71.74 | 29.997% | Latest captured validation |
+| 1800 | 235,929,600 | 4.27305 | 71.74 | 29.997% | Continuation validation |
+| 1829 | 239,730,688 | 4.26552 | 71.20 | 30.089% | Validation immediately after exact resume |
+| 1900 | 249,036,800 | 4.23285 | 68.91 | 30.415% | Validation immediately before crossing 250M |
+| 2000 | 262,144,000 | 4.18993 | 66.02 | 30.727% | First validation after crossing 250M |
+| 2100 | 275,251,200 | 4.12064 | 61.60 | 31.237% | Continuation validation |
+| 2200 | 288,358,400 | 4.07375 | 58.78 | 31.454% | Continuation validation |
+| 2300 | 301,465,600 | 4.02982 | 56.25 | 31.857% | First validation above 300M |
+| 2400 | 314,572,800 | 3.99674 | 54.42 | 32.092% | Latest captured validation |
 
-The latest supplied continuation reaches sampled training update **1820** (238,551,040 tokens), then passes checkpoint preflight and saves a COMPLETE checkpoint at update **1829** (**239,730,688 tokens**) before a safe session end. The latest fixed validation is update **1800**.
+The latest supplied continuation reaches sampled training update **2430** (**318,504,960 tokens**), then passes checkpoint preflight and saves a COMPLETE checkpoint at update **2436** (**319,291,392 tokens**) before a safe session end. The latest fixed validation is update **2400** / **314,572,800 tokens** with NLL **3.99674**, perplexity **54.42**, and token accuracy **32.092%**.
 
-The next analytical milestone is **250M tokens**, followed by 500M, 1B, and 1.5B input tokens. The target is reached at a whole-update boundary, so the final token count will be 1,500,119,040 rather than exactly 1.5B. The CSV contains the reported training and validation rows; it is not a complete raw run log.
+The **250M-token milestone has been crossed**. The next planned analytical milestones are 500M, 1B, and 1.5B input tokens. The target is reached at a whole-update boundary, so the final token count will be 1,500,119,040 rather than exactly 1.5B. The CSV contains the reported training and validation rows; it is not a complete raw run log.
