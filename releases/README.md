@@ -9,6 +9,7 @@ There is no public model checkpoint artifact in this repository yet. The latest 
 | Update 1100 / 144.18M tokens | Validation NLL 4.91807 | Not released |
 | Update 1200 / 157.29M tokens | Validation NLL 4.79223 | Not released |
 | Update 1225 / 160.56M tokens | **Latest COMPLETE resumable checkpoint; session ended safely** | Not released |
-| 250M, 500M, 1B, 1.5B | Planned milestones | Pending |
+| 250M | Analytical milestone crossed in training lineage | No separate public release yet |
+| 500M, 1B, 1.5B | Planned milestones | Pending |
 
 If I publish a checkpoint, I will include the update number and token count, validation metrics, file size and checksums, model configuration, tokenizer identity, and usage notes.
