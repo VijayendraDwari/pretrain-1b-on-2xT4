@@ -151,7 +151,7 @@ It must also define what happens when the machine disappears.
 
 ## The learning curve so far
 
-The current run has reached a **clean COMPLETE checkpoint at 160,563,200 model-input tokens**.
+The current training lineage has now reached a **clean COMPLETE checkpoint at update 1829 / 239,730,688 model-input tokens**. The first public Hugging Face weight release remains the earlier immutable **160M** checkpoint.
 
 The fixed validation measurements currently recorded are:
 
@@ -165,9 +165,16 @@ The fixed validation measurements currently recorded are:
 | 900 | 117.96M | 5.1737 | 176.6 | 22.52% |
 | 1000 | 131.07M | 5.1285 | 168.8 | 22.94% |
 | 1100 | 144.18M | 4.9181 | 136.7 | 23.95% |
-| 1200 | 157.29M | **4.7922** | **120.6** | **24.85%** |
+| 1200 | 157.29M | 4.7922 | 120.6 | 24.85% |
+| 1225 | 160.56M | 4.7507 | 115.7 | 25.21% |
+| 1300 | 170.39M | 4.6478 | 104.4 | 26.20% |
+| 1400 | 183.50M | 4.5483 | 94.5 | 27.31% |
+| 1500 | 196.61M | 4.4841 | 88.6 | 28.09% |
+| 1600 | 209.72M | 4.4037 | 81.7 | 28.82% |
+| 1700 | 222.82M | 4.3316 | 76.1 | 29.57% |
+| **1800** | **235.93M** | **4.2730** | **71.7** | **30.00%** |
 
-The important observation is not a single batch loss. It is the direction of the fixed validation curve. The latest captured session then passed checkpoint preflight, wrote a COMPLETE checkpoint at update 1225, and exited at a safe boundary.
+The important observation is not a single batch loss. It is the direction of the fixed validation curve. In the latest supplied session, validation reached **NLL 4.27305 / perplexity 71.74 / 29.997% token accuracy** at update 1800. Training then continued to update 1829, wrote a COMPLETE checkpoint at **239,730,688 tokens**, and exited at a safe boundary.
 
 At the same time, these numbers are still only next-token metrics on the project's fixed validation sample. They are **not** downstream benchmark results and do not establish general model capability.
 
@@ -215,9 +222,38 @@ using the immutable revision:
 160M
 ~~~
 
-A clean inference test loaded the public Hugging Face artifact on an NVIDIA L4, produced finite logits with shape `[1, 1, 128256]`, and generated recognizable English text. At this stage the model is still strongly undertrained: local syntax and phrase structure have emerged, while factual knowledge and semantic stability remain weak.
+A clean inference test loaded the **public Hugging Face artifact itself** on an NVIDIA L4, reconstructed all **1,018,126,848 parameters**, produced finite logits with shape `[1, 1, 128256]`, and generated recognizable English text. At this stage the model is still strongly undertrained: local syntax and phrase structure have emerged, while factual knowledge and semantic stability remain weak.
 
 That is useful rather than embarrassing. Preserving early checkpoints lets the project observe language behavior as it develops rather than showing only a final model.
+
+### What the first generation probe showed
+
+The 160M release is already capable of producing sentence-like local prose. For example, the prompt:
+
+~~~text
+Artificial intelligence will change the world by
+~~~
+
+produced a continuation beginning:
+
+~~~text
+Artificial intelligence will change the world by bringing a new model to the
+best possible price. They will also go on to improve the quality of the machine...
+~~~
+
+and:
+
+~~~text
+In a quiet village beside the mountains,
+~~~
+
+produced a locally coherent prose-like continuation.
+
+The same checkpoint still fails simple factual completion reliably and shows repetition at low temperature. The useful interpretation is therefore not "the model is capable" in a benchmark sense, but:
+
+> **At 160M tokens, language structure is visibly emerging before stable factual knowledge.**
+
+The public 160M checkpoint is now a frozen behavioral reference point. Future public milestones can run the same prompts to show how generation changes as pretraining continues.
 
 ## An early comparison with Pythia-1B
 
@@ -232,6 +268,10 @@ The first comparison uses:
 | Pythia-1B step128 | 268.4M | 128 |
 
 Under the frozen prompt suite, Anvaya-1B at 160.56M tokens already produces much more sentence-like local English than the tested Pythia step64 and step128 checkpoints.
+
+A concise way to state the observation is:
+
+> *At roughly matched early token exposure, Anvaya-1B already produces grammatical local prose while Pythia-1B's step64 and step128 checkpoints remain highly degenerate. This is not evidence of architectural superiority: the models use very different global batch sizes and learning-rate schedules. In particular, Anvaya has received 1,225 optimizer updates at 160.6M tokens, while Pythia reaches comparable token exposure in only 64–128 updates and remains early in its 1% learning-rate warmup.*
 
 That result should **not** be interpreted as architectural superiority.
 
