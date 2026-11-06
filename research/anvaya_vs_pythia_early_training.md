@@ -284,7 +284,7 @@ At 160.56M model-input tokens, Anvaya appears to have crossed an early qualitati
 
 The next useful experiment is not to declare a winner. It is to repeat the same frozen suite at:
 
-- Anvaya 250M;
+- Anvaya's next exported checkpoint above the now-crossed 250M milestone;
 - Anvaya 500M;
 - Anvaya 1B;
 - Anvaya 1.5B;
