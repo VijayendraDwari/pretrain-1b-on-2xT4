@@ -8,16 +8,16 @@ This is an educational case study, not a new training algorithm or architecture,
 
 ## Live run status
 
-The latest run snapshot supplied for this repository update is from **5 November 2026**; it is not a real-time status feed.
+The latest run snapshot supplied for this repository update is from **6 November 2026**; it is not a real-time status feed.
 
 | Evidence | Latest recorded state |
 |---|---|
-| Training log | Update **1220** · **159,907,840** model-input tokens · **2,130.50** input tokens/second at that update |
+| Training log | Update **1820** · **238,551,040** model-input tokens · **2,081.76** input tokens/second at that sampled update |
 | PyTorch memory metric | Rank-0 allocator high-water mark **11.4088 GiB** through the captured continuation; see [memory and FSDP details](docs/03_memory_and_fsdp.md) |
-| Validation | Update **1225** · **160,563,200** model-input tokens · NLL **4.75070** · perplexity **115.67** · token accuracy **25.21%** on **131,072** validation tokens |
-| Last complete parent checkpoint | Update **1225** · **160,563,200** model-input tokens |
+| Validation | Update **1800** · **235,929,600** model-input tokens · NLL **4.27305** · perplexity **71.74** · token accuracy **30.00%** on **131,072** validation tokens |
+| Last complete checkpoint | Update **1829** · **239,730,688** model-input tokens |
 
-The latest captured training observation in the original continuation log is update 1220; the session then passed checkpoint preflight, saved a COMPLETE checkpoint at update 1225, and ended at a safe boundary. A clean resume from that exact checkpoint produced a validation NLL of **4.75070**, perplexity **115.67**, and token accuracy **25.21%** on 131,072 validation tokens. The run has crossed 160M model-input tokens in a resumable state.
+The latest sampled training observation in the newly supplied continuation log is update **1820**. The session then passed checkpoint preflight, wrote a COMPLETE checkpoint at update **1829**, and exited at a safe boundary. The latest fixed validation is update **1800**, with NLL **4.27305**, perplexity **71.74**, and token accuracy **30.00%** on 131,072 validation tokens. The continuous training lineage has therefore reached **239,730,688 model-input tokens** in a resumable state.
 
 The live trainer copy supplied with this run and the repository trainer `train/train_1b_dual_t4.py` match byte-for-byte (SHA-256: `55a57185b100a8f63f1e3b77c5fd80726b952c8abe49b0a06f9aa5af5a83f440`).
 
@@ -65,11 +65,26 @@ Validation uses the same 131,072-token sample for each reported event. The table
 | 900 | 117,964,800 | 5.17369 | 176.57 | 22.52% |
 | 1000 | 131,072,000 | 5.12850 | 168.76 | 22.94% |
 | 1100 | 144,179,200 | 4.91807 | 136.74 | 23.95% |
-| 1200 | 157,286,400 | 4.79223 | 120.57 | 24.85% |\n| **1225** | **160,563,200** | **4.75070** | **115.67** | **25.21%** |
+| 1200 | 157,286,400 | 4.79223 | 120.57 | 24.85% |
+| 1225 | **160,563,200** | **4.75070** | **115.67** | **25.21%** |
+| 1300 | 170,393,600 | 4.64783 | 104.36 | 26.20% |
+| 1400 | 183,500,800 | 4.54832 | 94.47 | 27.31% |
+| 1500 | 196,608,000 | 4.48414 | 88.60 | 28.09% |
+| 1600 | 209,715,200 | 4.40366 | 81.75 | 28.82% |
+| 1700 | 222,822,400 | 4.33161 | 76.07 | 29.57% |
+| **1800** | **235,929,600** | **4.27305** | **71.74** | **30.00%** |
 
 ![Validation negative log-likelihood by training tokens](results/validation_nll.svg)
 
-The curve is moving in the expected direction, but these are next-token metrics on one validation sample. They do not establish downstream capability. A fixed downstream benchmark suite is still pending. The **Anvaya-1B 160M** model-only FP16 checkpoint is now public on Hugging Face at **[Vijayendra/Anvaya-1B](https://huggingface.co/Vijayendra/Anvaya-1B)** under the immutable `160M` revision.
+The curve is moving in the expected direction, but these are next-token metrics on one validation sample. They do not establish downstream capability. A fixed downstream benchmark suite is still pending. The continuous training run is now near 240M tokens, while the **Anvaya-1B 160M** model-only FP16 checkpoint remains the current public weight release on Hugging Face at **[Vijayendra/Anvaya-1B](https://huggingface.co/Vijayendra/Anvaya-1B)** under the immutable `160M` revision.
+
+## Public checkpoint generation verification
+
+The public `160M` Hugging Face artifact has been loaded independently on an NVIDIA L4 and verified end to end. The released package reconstructs **1,018,126,848 parameters**, returns finite logits with shape `[1, 1, 128256]`, and generates recognizable English continuations.
+
+At this early checkpoint, the model already shows local grammar and phrase structure, while factual associations and semantic stability remain weak. For example, open-ended prompts can produce sentence-like prose, but factual prompts such as `The capital of France is` are still unreliable. This is exactly why selected intermediate checkpoints are useful: they let the project observe the emergence of language behavior during pretraining rather than presenting only a final checkpoint.
+
+The current public weights remain the immutable **160M** milestone even though the training lineage itself has advanced to ~240M tokens.
 
 ## Early behavioral comparison with Pythia-1B
 
