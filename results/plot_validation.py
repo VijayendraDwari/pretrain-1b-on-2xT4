@@ -11,7 +11,8 @@ import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "validation_curve.csv"
-OUTPUT = ROOT / "validation_nll.png"
+OUTPUT_PNG = ROOT / "validation_nll.png"
+OUTPUT_SVG = ROOT / "validation_nll.svg"
 
 with DATA.open(newline="") as f:
     rows = list(csv.DictReader(f))
@@ -56,5 +57,7 @@ fig.text(0.01, 0.015,
          "This is a pretraining metric, not a downstream benchmark.",
          fontsize=8.5, color="#526273")
 fig.tight_layout(rect=(0, 0.05, 1, 1))
-fig.savefig(OUTPUT, bbox_inches="tight", facecolor=fig.get_facecolor())
-print(f"Wrote {OUTPUT}")
+fig.savefig(OUTPUT_PNG, bbox_inches="tight", facecolor=fig.get_facecolor())
+fig.savefig(OUTPUT_SVG, bbox_inches="tight", facecolor=fig.get_facecolor())
+print(f"Wrote {OUTPUT_PNG}")
+print(f"Wrote {OUTPUT_SVG}")
