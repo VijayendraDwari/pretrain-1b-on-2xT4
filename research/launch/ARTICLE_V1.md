@@ -151,7 +151,7 @@ It must also define what happens when the machine disappears.
 
 ## The learning curve so far
 
-The current training lineage has now reached a **clean COMPLETE checkpoint at update 1829 / 239,730,688 model-input tokens**. The first public Hugging Face weight release remains the earlier immutable **160M** checkpoint.
+The current training lineage has now reached a **clean COMPLETE checkpoint at update 2436 / 319,291,392 model-input tokens**. The run has crossed both the **250M** and **300M** analytical milestones. The first public Hugging Face weight release remains the earlier immutable **160M** checkpoint.
 
 The fixed validation measurements currently recorded are:
 
@@ -172,9 +172,16 @@ The fixed validation measurements currently recorded are:
 | 1500 | 196.61M | 4.4841 | 88.6 | 28.09% |
 | 1600 | 209.72M | 4.4037 | 81.7 | 28.82% |
 | 1700 | 222.82M | 4.3316 | 76.1 | 29.57% |
-| **1800** | **235.93M** | **4.2730** | **71.7** | **30.00%** |
+| 1800 | 235.93M | 4.2730 | 71.7 | 30.00% |
+| 1829 | 239.73M | 4.2655 | 71.2 | 30.09% |
+| 1900 | 249.04M | 4.2329 | 68.9 | 30.42% |
+| 2000 | 262.14M | 4.1899 | 66.0 | 30.73% |
+| 2100 | 275.25M | 4.1206 | 61.6 | 31.24% |
+| 2200 | 288.36M | 4.0738 | 58.8 | 31.45% |
+| 2300 | 301.47M | 4.0298 | 56.3 | 31.86% |
+| **2400** | **314.57M** | **3.9967** | **54.4** | **32.09%** |
 
-The important observation is not a single batch loss. It is the direction of the fixed validation curve. In the latest supplied session, validation reached **NLL 4.27305 / perplexity 71.74 / 29.997% token accuracy** at update 1800. Training then continued to update 1829, wrote a COMPLETE checkpoint at **239,730,688 tokens**, and exited at a safe boundary.
+The important observation is not a single batch loss. It is the direction of the fixed validation curve. Across the latest continuation, validation improved from **NLL 4.26552 / perplexity 71.20 / 30.09% token accuracy** at the exact-resume validation on update 1829 to **NLL 3.99674 / perplexity 54.42 / 32.09% token accuracy** at update 2400. Training then continued to update 2436, wrote a COMPLETE checkpoint at **319,291,392 tokens**, and exited at a safe boundary.
 
 At the same time, these numbers are still only next-token metrics on the project's fixed validation sample. They are **not** downstream benchmark results and do not establish general model capability.
 
@@ -344,7 +351,7 @@ The training target remains 1.5B model-input tokens.
 
 I plan to keep the public record updated at major stages:
 
-- 250M tokens;
+- ~~250M tokens — crossed~~;
 - 500M tokens;
 - 1B tokens;
 - 1.5B tokens.
