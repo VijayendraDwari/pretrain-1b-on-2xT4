@@ -12,8 +12,15 @@ The table records the update and token count used for each validation result. Tr
 | 900 | 117,964,800 | 5.17369 | 176.57 | 22.522% | Continuation validation |
 | 1000 | 131,072,000 | 5.12850 | 168.76 | 22.940% | Continuation validation |
 | 1100 | 144,179,200 | 4.91807 | 136.74 | 23.952% | Continuation validation |
-| 1200 | 157,286,400 | 4.79223 | 120.57 | 24.852% | Latest captured validation |
+| 1200 | 157,286,400 | 4.79223 | 120.57 | 24.852% | Continuation validation |
+| 1225 | 160,563,200 | 4.75070 | 115.67 | 25.205% | Clean validation immediately after exact resume |
+| 1300 | 170,393,600 | 4.64783 | 104.36 | 26.204% | Continuation validation |
+| 1400 | 183,500,800 | 4.54832 | 94.47 | 27.312% | Continuation validation |
+| 1500 | 196,608,000 | 4.48414 | 88.60 | 28.094% | Continuation validation |
+| 1600 | 209,715,200 | 4.40366 | 81.75 | 28.819% | Continuation validation |
+| 1700 | 222,822,400 | 4.33161 | 76.07 | 29.567% | Continuation validation |
+| 1800 | 235,929,600 | 4.27305 | 71.74 | 29.997% | Latest captured validation |
 
-The shared continuation reaches update 1220 (159,907,840 tokens), then saves a COMPLETE checkpoint at update 1225 (160,563,200 tokens) and ends at a safe boundary. The latest validation is update 1200.
+The latest supplied continuation reaches sampled training update **1820** (238,551,040 tokens), then passes checkpoint preflight and saves a COMPLETE checkpoint at update **1829** (**239,730,688 tokens**) before a safe session end. The latest fixed validation is update **1800**.
 
-Next analytical milestones are 250M, 500M, 1B, and 1.5B input tokens. The target is reached at a whole-update boundary, so the final token count will be 1,500,119,040 rather than exactly 1.5B. The CSV contains the reported training and validation rows; it is not a complete raw run log.
+The next analytical milestone is **250M tokens**, followed by 500M, 1B, and 1.5B input tokens. The target is reached at a whole-update boundary, so the final token count will be 1,500,119,040 rather than exactly 1.5B. The CSV contains the reported training and validation rows; it is not a complete raw run log.
