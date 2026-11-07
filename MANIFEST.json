@@ -19,26 +19,26 @@
     "tokens_per_update": 131072,
     "target_input_tokens": 1500000000,
     "last_complete_parent_checkpoint": {
-      "update": 1225,
-      "tokens": 160563200
+      "update": 3638,
+      "tokens": 476839936
     },
     "latest_shared_training_log": {
-      "date": "2026-11-05",
-      "update": 1220,
-      "tokens": 159907840,
+      "date": "2026-11-07",
+      "update": 3630,
+      "tokens": 475791360,
       "checkpoint": false
     },
     "latest_shared_validation": {
-      "update": 1200,
-      "tokens": 157286400,
-      "nll": 4.792234726250172,
-      "perplexity": 120.57050990619143,
-      "token_accuracy": 0.2485198974609375,
+      "update": 3600,
+      "tokens": 471859200,
+      "nll": 3.6929720118641853,
+      "perplexity": 40.16403774803246,
+      "token_accuracy": 0.346527099609375,
       "validation_tokens": 131072
     },
     "latest_complete_checkpoint": {
-      "update": 1225,
-      "tokens": 160563200,
+      "update": 3638,
+      "tokens": 476839936,
       "session_end": "safe boundary"
     }
   },
