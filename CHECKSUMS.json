@@ -12,12 +12,12 @@
     "sha256": "faca3d797afa325b72aa759f16fded08d55184bb5fb6eb17c2cd69019d01a3d3"
   },
   "MANIFEST.json": {
-    "bytes": 1362,
-    "sha256": "35bc672e63eeb9c4ad07610b4d35afc80d28c8961ddfe8953b0ed97907b66601"
+    "bytes": 1493,
+    "sha256": "859dab039b2c7828e805f5def3c30e467beeb11d18f27cdc340292545bd60109"
   },
   "README.md": {
-    "bytes": 7994,
-    "sha256": "c0dbcaa3e641546fd34150368895673b020d879ca6455db404f07a5c930bc802"
+    "bytes": 12316,
+    "sha256": "5cc9b53f40f4911b6b4646ea7746a32e8bf0e7e70a4e8a6bd102008bf8346aa8"
   },
   "data/dataset_contract.md": {
     "bytes": 1299,
@@ -88,8 +88,8 @@
     "sha256": "50be62ccb66eb705384be8998dbd32b7bd6fc5eb65295fd97fd6b548ce83cba1"
   },
   "releases/README.md": {
-    "bytes": 1094,
-    "sha256": "5aeb0ca1222794c357bf2dfc4176aaffc09b7395a6f00da1efb8f088460e9904"
+    "bytes": 2214,
+    "sha256": "e03a17857f3651022b5cabfb7c497ba903d5b2beb0f18f0bf8e972a563d8e3bc"
   },
   "requirements.txt": {
     "bytes": 112,
@@ -116,28 +116,24 @@
     "sha256": "7514299b46fdb7a246d183329b8498302c2975a0fa459ead1215e4c883768d24"
   },
   "results/README.md": {
-    "bytes": 780,
-    "sha256": "5614921325226fea6928268a5b87dee0f86383da452437a0f962b9bf05f03f2b"
+    "bytes": 996,
+    "sha256": "759b600be9a24c06813ff32b37bab1a7421b0ba11486905e265edc2532c90791"
   },
   "results/milestones.md": {
-    "bytes": 1391,
-    "sha256": "25326bae808f7333d400bbb9e225bcafbd37345c5a27383d9fa3f6670e3c4a9b"
+    "bytes": 4173,
+    "sha256": "7550c7e17ac316ee2cd6c54559afa66f70749160aa25e91b9db83b0a2d3b58a8"
   },
   "results/plot_validation.py": {
-    "bytes": 2164,
-    "sha256": "9d3f2666d79ee37fca958c40156e1b35fe42d9505c4f6c219e9787dc5611ee97"
+    "bytes": 2271,
+    "sha256": "557ea92f4f83c4f3cf8fbe32f03d95378ff4f32a7f7e0fd0deec29cba5635983"
   },
   "results/training_curve.csv": {
     "bytes": 7111,
     "sha256": "ab180431112ebbf5ccbcd94e4ca1ac8009511cea04848871bd104edd00fe7bb4"
   },
   "results/validation_curve.csv": {
-    "bytes": 516,
-    "sha256": "b0414c1c1eb317b117765ec56062e31f47f1131269894d4f68f39c95b1c85807"
-  },
-  "results/validation_nll.png": {
-    "bytes": 80736,
-    "sha256": "ff60c8ed3c59e4223cc940ccbe83ad4314b1b7c413acad7290398227d41b1353"
+    "bytes": 2635,
+    "sha256": "05734e9e954c24f93d551f6b550090527698872a49a3840ab5e70d80dea00baf"
   },
   "train/config_1b_t4.json": {
     "bytes": 686,
@@ -150,5 +146,9 @@
   "train/train_1b_dual_t4.py": {
     "bytes": 20027,
     "sha256": "55a57185b100a8f63f1e3b77c5fd80726b952c8abe49b0a06f9aa5af5a83f440"
+  },
+  "results/validation_nll.svg": {
+    "bytes": 6090,
+    "sha256": "ef3df66468891759509e8525d7344edc107b372d07992e07f03aecadf43bae98"
   }
 }
