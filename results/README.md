@@ -1,8 +1,10 @@
 # Results files
 
-`validation_curve.csv` holds the validation events reported so far. Each row records the update, input-token count, NLL, perplexity, and top-1 accuracy. `training_curve.csv` contains selected training-log rows. It is not the complete JSONL log; there are gaps between the early rows and the continuation rows.
+`validation_curve.csv` is the canonical validation-event ledger for this project. Each row records update, cumulative model-input tokens, NLL, perplexity, and top-1 token accuracy on the fixed **131,072-token** validation sample.
 
-The continuation entries now extend through sampled training update **2430**. Duplicate console copies are kept once per update. The latest supplied session then saved a COMPLETE checkpoint at update **2436** (**319,291,392 model-input tokens**) and ended at a safe boundary; update 2436 is therefore the latest documented resumable state. The validation CSV now extends through update **2400** / **314,572,800 tokens**, where validation NLL is **3.99674**, perplexity **54.42**, and token accuracy **32.092%**.
+The ledger now extends through update **3600** / **471,859,200 tokens**, where validation NLL is **3.69297**, perplexity **40.16**, and token accuracy **34.653%**. The latest COMPLETE resumable checkpoint is later: update **3638** / **476,839,936 tokens**. There is deliberately no fabricated validation score for update 3638.
+
+`training_curve.csv` contains selected historical training-log rows rather than every optimizer update; it should not be treated as the canonical validation ledger.
 
 To rebuild the chart from the validation CSV, run:
 
@@ -10,4 +12,4 @@ To rebuild the chart from the validation CSV, run:
 python results/plot_validation.py
 ```
 
-The script requires `matplotlib` and can regenerate a local PNG from the CSV. The repository tracks `results/validation_nll.svg` as the README-facing plot so the checked-in graph stays synchronized with the recorded validation rows.
+The repository tracks `results/validation_nll.svg` as the README-facing plot so the checked-in graph stays synchronized with the recorded validation rows.
