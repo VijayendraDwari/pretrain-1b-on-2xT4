@@ -1,9 +1,67 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="480" viewBox="0 0 900 480">
-<style>text{font-family:Arial,sans-serif;fill:#24292f}.grid{stroke:#d0d7de;stroke-width:1}.curve{fill:none;stroke:#0969da;stroke-width:3}.pt{fill:#0969da}.milestone{stroke:#8c959f;stroke-width:1;stroke-dasharray:5 5}</style>
-<rect width="100%" height="100%" fill="white"/>
-<text x="70" y="30" font-size="24" font-weight="700">Validation NLL during pretraining</text>
-<line x1="70" y1="415.0" x2="870" y2="415.0" class="grid"/><text x="42" y="419.0" font-size="12">3</text><line x1="70" y1="370.0" x2="870" y2="370.0" class="grid"/><text x="42" y="374.0" font-size="12">4</text><line x1="70" y1="325.0" x2="870" y2="325.0" class="grid"/><text x="42" y="329.0" font-size="12">5</text><line x1="70" y1="280.0" x2="870" y2="280.0" class="grid"/><text x="42" y="284.0" font-size="12">6</text><line x1="70" y1="235.0" x2="870" y2="235.0" class="grid"/><text x="42" y="239.0" font-size="12">7</text><line x1="70" y1="190.0" x2="870" y2="190.0" class="grid"/><text x="42" y="194.0" font-size="12">8</text><line x1="70" y1="145.0" x2="870" y2="145.0" class="grid"/><text x="42" y="149.0" font-size="12">9</text><line x1="70" y1="100.0" x2="870" y2="100.0" class="grid"/><text x="42" y="104.0" font-size="12">10</text><line x1="70" y1="55.0" x2="870" y2="55.0" class="grid"/><text x="42" y="59.0" font-size="12">11</text><line x1="70.0" y1="55" x2="70.0" y2="415" class="grid"/><text x="61.0" y="437" font-size="12">0</text><line x1="184.3" y1="55" x2="184.3" y2="415" class="grid"/><text x="175.3" y="437" font-size="12">50</text><line x1="298.6" y1="55" x2="298.6" y2="415" class="grid"/><text x="289.6" y="437" font-size="12">100</text><line x1="412.9" y1="55" x2="412.9" y2="415" class="grid"/><text x="403.9" y="437" font-size="12">150</text><line x1="527.1" y1="55" x2="527.1" y2="415" class="grid"/><text x="518.1" y="437" font-size="12">200</text><line x1="641.4" y1="55" x2="641.4" y2="415" class="grid"/><text x="632.4" y="437" font-size="12">250</text><line x1="755.7" y1="55" x2="755.7" y2="415" class="grid"/><text x="746.7" y="437" font-size="12">300</text><line x1="870.0" y1="55" x2="870.0" y2="415" class="grid"/><text x="861.0" y="437" font-size="12">350</text><line x1="641.4" y1="55" x2="641.4" y2="415" class="milestone"/><text x="645.4" y="70" font-size="11">250M</text><line x1="755.7" y1="55" x2="755.7" y2="415" class="milestone"/><text x="759.7" y="70" font-size="11">300M</text><polyline class="curve" points="70.6,66.6 100.0,239.6 254.5,306.8 279.7,309.7 309.7,313.9 339.6,317.2 369.6,319.2 399.6,328.7 429.5,334.3 437.0,336.2 459.5,340.8 489.4,345.3 519.4,348.2 549.3,351.8 579.3,355.1 609.3,357.7 618.0,358.1 639.2,359.5 669.2,361.5 699.1,364.6 729.1,366.7 759.1,368.7 789.0,370.1"/><circle class="pt" cx="70.6" cy="66.6" r="4.5"/><circle class="pt" cx="100.0" cy="239.6" r="4.5"/><circle class="pt" cx="254.5" cy="306.8" r="4.5"/><text x="261.5" y="298.8" font-size="11">u616</text><circle class="pt" cx="279.7" cy="309.7" r="4.5"/><circle class="pt" cx="309.7" cy="313.9" r="4.5"/><circle class="pt" cx="339.6" cy="317.2" r="4.5"/><circle class="pt" cx="369.6" cy="319.2" r="4.5"/><text x="376.6" y="311.2" font-size="11">u1000</text><circle class="pt" cx="399.6" cy="328.7" r="4.5"/><circle class="pt" cx="429.5" cy="334.3" r="4.5"/><circle class="pt" cx="437.0" cy="336.2" r="4.5"/><text x="444.0" y="328.2" font-size="11">u1225</text><circle class="pt" cx="459.5" cy="340.8" r="4.5"/><circle class="pt" cx="489.4" cy="345.3" r="4.5"/><circle class="pt" cx="519.4" cy="348.2" r="4.5"/><circle class="pt" cx="549.3" cy="351.8" r="4.5"/><text x="556.3" y="343.8" font-size="11">u1600</text><circle class="pt" cx="579.3" cy="355.1" r="4.5"/><circle class="pt" cx="609.3" cy="357.7" r="4.5"/><circle class="pt" cx="618.0" cy="358.1" r="4.5"/><text x="625.0" y="350.1" font-size="11">u1829</text><circle class="pt" cx="639.2" cy="359.5" r="4.5"/><circle class="pt" cx="669.2" cy="361.5" r="4.5"/><text x="676.2" y="353.5" font-size="11">u2000</text><circle class="pt" cx="699.1" cy="364.6" r="4.5"/><circle class="pt" cx="729.1" cy="366.7" r="4.5"/><text x="736.1" y="358.7" font-size="11">u2200</text><circle class="pt" cx="759.1" cy="368.7" r="4.5"/><circle class="pt" cx="789.0" cy="370.1" r="4.5"/><text x="744.0" y="360.1" font-size="11">u2400</text>
-<text x="320" y="462" font-size="14">Model-input tokens processed (millions)</text>
-<text transform="translate(18,280) rotate(-90)" font-size="14">Mean next-token NLL</text>
-<text x="70" y="455" font-size="10">Fixed 131,072-token validation sample; pretraining metric, not a downstream benchmark.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="950" height="520" viewBox="0 0 950 520">
+<rect width="950" height="520" fill="#f7f9fc"/>
+<rect x="78" y="58" width="844" height="390" fill="#fff"/>
+<style>text{font-family:DejaVu Sans,Arial,sans-serif;fill:#34475a}.small{font-size:12px}.tick{font-size:11px;fill:#526273}.title{font-size:21px;font-weight:700;fill:#1d2d3d}</style>
+<text x="78" y="31" class="title">Validation NLL during pretraining</text>
+<line x1="78" y1="58" x2="78" y2="448" stroke="#d9e1ea" stroke-width="1"/><text x="78" y="471" text-anchor="middle" class="tick">0</text>
+<line x1="246.8" y1="58" x2="246.8" y2="448" stroke="#d9e1ea" stroke-width="1"/><text x="246.8" y="471" text-anchor="middle" class="tick">100</text>
+<line x1="415.6" y1="58" x2="415.6" y2="448" stroke="#d9e1ea" stroke-width="1"/><text x="415.6" y="471" text-anchor="middle" class="tick">200</text>
+<line x1="584.4" y1="58" x2="584.4" y2="448" stroke="#d9e1ea" stroke-width="1"/><text x="584.4" y="471" text-anchor="middle" class="tick">300</text>
+<line x1="753.2" y1="58" x2="753.2" y2="448" stroke="#d9e1ea" stroke-width="1"/><text x="753.2" y="471" text-anchor="middle" class="tick">400</text>
+<line x1="922" y1="58" x2="922" y2="448" stroke="#d9e1ea" stroke-width="1"/><text x="922" y="471" text-anchor="middle" class="tick">500</text>
+<line x1="78" y1="417.2105263157895" x2="922" y2="417.2105263157895" stroke="#d9e1ea" stroke-width="1"/><text x="66" y="421.2105263157895" text-anchor="end" class="tick">4</text>
+<line x1="78" y1="365.89473684210526" x2="922" y2="365.89473684210526" stroke="#d9e1ea" stroke-width="1"/><text x="66" y="369.89473684210526" text-anchor="end" class="tick">5</text>
+<line x1="78" y1="314.5789473684211" x2="922" y2="314.5789473684211" stroke="#d9e1ea" stroke-width="1"/><text x="66" y="318.5789473684211" text-anchor="end" class="tick">6</text>
+<line x1="78" y1="263.2631578947368" x2="922" y2="263.2631578947368" stroke="#d9e1ea" stroke-width="1"/><text x="66" y="267.2631578947368" text-anchor="end" class="tick">7</text>
+<line x1="78" y1="211.94736842105263" x2="922" y2="211.94736842105263" stroke="#d9e1ea" stroke-width="1"/><text x="66" y="215.94736842105263" text-anchor="end" class="tick">8</text>
+<line x1="78" y1="160.6315789473684" x2="922" y2="160.6315789473684" stroke="#d9e1ea" stroke-width="1"/><text x="66" y="164.6315789473684" text-anchor="end" class="tick">9</text>
+<line x1="78" y1="109.3157894736842" x2="922" y2="109.3157894736842" stroke="#d9e1ea" stroke-width="1"/><text x="66" y="113.3157894736842" text-anchor="end" class="tick">10</text>
+<line x1="78" y1="58" x2="922" y2="58" stroke="#d9e1ea" stroke-width="1"/><text x="66" y="62" text-anchor="end" class="tick">11</text>
+<polyline points="78.4,71.2 100.1,268.5 214.3,345.2 232.9,348.4 255.0,353.3 277.1,357.0 299.2,359.3 321.4,370.1 343.5,376.6 349.0,378.7 365.6,384.0 387.7,389.1 409.9,392.4 432.0,396.5 454.1,400.2 476.2,403.2 482.7,403.6 498.4,405.3 520.5,407.5 542.6,411.0 564.7,413.4 586.9,415.7 609.0,417.4 617.0,418.0 631.1,419.3 653.2,420.9 675.4,422.3 697.5,423.4 719.6,424.9 741.7,425.9 748.6,426.8 763.9,427.7 786.0,429.1 808.1,430.1 830.2,431.2 852.4,432.1 874.5,433.0" fill="none" stroke="#2867a8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="78.4" cy="71.2" r="3.4" fill="#2867a8"/>
+<circle cx="100.1" cy="268.5" r="3.4" fill="#2867a8"/>
+<circle cx="214.3" cy="345.2" r="3.4" fill="#2867a8"/>
+<text x="222.3" y="336.2" text-anchor="start" class="small">u616</text>
+<circle cx="232.9" cy="348.4" r="3.4" fill="#2867a8"/>
+<circle cx="255.0" cy="353.3" r="3.4" fill="#2867a8"/>
+<circle cx="277.1" cy="357.0" r="3.4" fill="#2867a8"/>
+<circle cx="299.2" cy="359.3" r="3.4" fill="#2867a8"/>
+<circle cx="321.4" cy="370.1" r="3.4" fill="#2867a8"/>
+<circle cx="343.5" cy="376.6" r="3.4" fill="#2867a8"/>
+<circle cx="349.0" cy="378.7" r="3.4" fill="#2867a8"/>
+<text x="357.0" y="369.7" text-anchor="start" class="small">u1225</text>
+<circle cx="365.6" cy="384.0" r="3.4" fill="#2867a8"/>
+<circle cx="387.7" cy="389.1" r="3.4" fill="#2867a8"/>
+<circle cx="409.9" cy="392.4" r="3.4" fill="#2867a8"/>
+<circle cx="432.0" cy="396.5" r="3.4" fill="#2867a8"/>
+<circle cx="454.1" cy="400.2" r="3.4" fill="#2867a8"/>
+<circle cx="476.2" cy="403.2" r="3.4" fill="#2867a8"/>
+<circle cx="482.7" cy="403.6" r="3.4" fill="#2867a8"/>
+<text x="490.7" y="394.6" text-anchor="start" class="small">u1829</text>
+<circle cx="498.4" cy="405.3" r="3.4" fill="#2867a8"/>
+<circle cx="520.5" cy="407.5" r="3.4" fill="#2867a8"/>
+<circle cx="542.6" cy="411.0" r="3.4" fill="#2867a8"/>
+<circle cx="564.7" cy="413.4" r="3.4" fill="#2867a8"/>
+<circle cx="586.9" cy="415.7" r="3.4" fill="#2867a8"/>
+<circle cx="609.0" cy="417.4" r="3.4" fill="#2867a8"/>
+<circle cx="617.0" cy="418.0" r="3.4" fill="#2867a8"/>
+<text x="625.0" y="409.0" text-anchor="start" class="small">u2436</text>
+<circle cx="631.1" cy="419.3" r="3.4" fill="#2867a8"/>
+<circle cx="653.2" cy="420.9" r="3.4" fill="#2867a8"/>
+<circle cx="675.4" cy="422.3" r="3.4" fill="#2867a8"/>
+<circle cx="697.5" cy="423.4" r="3.4" fill="#2867a8"/>
+<circle cx="719.6" cy="424.9" r="3.4" fill="#2867a8"/>
+<circle cx="741.7" cy="425.9" r="3.4" fill="#2867a8"/>
+<circle cx="748.6" cy="426.8" r="3.4" fill="#2867a8"/>
+<text x="756.6" y="417.8" text-anchor="start" class="small">u3031</text>
+<circle cx="763.9" cy="427.7" r="3.4" fill="#2867a8"/>
+<circle cx="786.0" cy="429.1" r="3.4" fill="#2867a8"/>
+<circle cx="808.1" cy="430.1" r="3.4" fill="#2867a8"/>
+<circle cx="830.2" cy="431.2" r="3.4" fill="#2867a8"/>
+<circle cx="852.4" cy="432.1" r="3.4" fill="#2867a8"/>
+<circle cx="874.5" cy="433.0" r="3.4" fill="#2867a8"/>
+<text x="866.5" y="424.0" text-anchor="end" class="small">u3600</text>
+<text x="500" y="495" text-anchor="middle" class="small">Model-input tokens processed (millions)</text>
+<text transform="translate(19 253) rotate(-90)" text-anchor="middle" class="small">Mean next-token NLL</text>
+<text x="78" y="513" class="tick">Fixed validation sample: 131,072 tokens · latest u3600 / 471.86M / NLL 3.69297</text>
 </svg>
