@@ -128,15 +128,15 @@ As of the completed **8 November 2026** session:
 
 | Frontier | Latest recorded state |
 |---|---|
-| Sampled training log | **u4260 / 558,366,720 input tokens** |
-| Fixed validation | **u4200 / 550,502,400 input tokens** |
-| Validation NLL | **3.59542** |
-| Validation perplexity | **36.43** |
-| Validation token accuracy | **35.51%** |
-| Latest COMPLETE checkpoint | **u4269 / 559,546,368 input tokens** |
+| Sampled training log | **u4870 / 638,320,640 input tokens** |
+| Fixed validation | **u4800 / 629,145,600 input tokens** |
+| Validation NLL | **3.52762** |
+| Validation perplexity | **34.04** |
+| Validation token accuracy | **36.17%** |
+| Latest COMPLETE checkpoint | **u4879 / 639,500,288 input tokens** |
 | Public Hugging Face weights | **Anvaya-1B `160M` / u1225 / 160,563,200 tokens** |
 
-The training lineage has crossed **500M model-input tokens**. The later u4269 state is a resumable training checkpoint, while the currently public Hugging Face weights intentionally remain the earlier immutable `160M` milestone.
+The training lineage has crossed **600M model-input tokens**. The later u4879 state is a resumable training checkpoint, while the currently public Hugging Face weights intentionally remain the earlier immutable `160M` milestone.
 
 ![Validation negative log-likelihood during pretraining](../results/validation_nll.svg)
 
