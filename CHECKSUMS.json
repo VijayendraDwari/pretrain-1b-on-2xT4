@@ -12,12 +12,12 @@
     "sha256": "faca3d797afa325b72aa759f16fded08d55184bb5fb6eb17c2cd69019d01a3d3"
   },
   "MANIFEST.json": {
-    "bytes": 1721,
-    "sha256": "0b87bc2e14c74a0e273a869d703142ae314b4074e0d9cf155db6862780cd935d"
+    "bytes": 1738,
+    "sha256": "662994655f0f298a858e7ea980bc1f04f1187dfc4b8a69cbef766f33412c7c7b"
   },
   "README.md": {
-    "bytes": 14325,
-    "sha256": "2798a5718861a3a7aca8ce720622d04a64a08ce7a7937080e5430fd844114a13"
+    "bytes": 14680,
+    "sha256": "d83468a8000099ac12d018303dd1ef6b61a6e548644fe936494a04db04c20d81"
   },
   "data/dataset_contract.md": {
     "bytes": 1299,
@@ -88,8 +88,8 @@
     "sha256": "50be62ccb66eb705384be8998dbd32b7bd6fc5eb65295fd97fd6b548ce83cba1"
   },
   "releases/README.md": {
-    "bytes": 2259,
-    "sha256": "e1c77144d72d553acdf4a52304ab6823251b6f3bc853a88bff3fbcce6a359889"
+    "bytes": 2310,
+    "sha256": "0ee7fe71f3841c9057cce5532566551c45ffa510aef1ae2089e57d1252a9a3d7"
   },
   "requirements.txt": {
     "bytes": 112,
@@ -104,36 +104,36 @@
     "sha256": "30d5d6afc23d5feb758bcf66a49e3ecc649d8ea71e0910fa2dc2ac3088f30e10"
   },
   "research/article/ARTICLE_DRAFT_v0.1.md": {
-    "bytes": 4792,
-    "sha256": "42c186367fd771638e37fc526fd526744ba15bb2a16e115c7ba357b2501fc343"
+    "bytes": 4749,
+    "sha256": "87371ba4d5faf1954eb3a7722592d46a68bead856fb59b47010b990d3839c41d"
   },
   "research/article/ARTICLE_OUTLINE.md": {
-    "bytes": 3612,
-    "sha256": "aa2f25d6e0f26e286f401d63ffc7673dbf724be3f024a4395c2f0f15dcc1dfe5"
+    "bytes": 3619,
+    "sha256": "c2b28d9ba10e6335a62782f23bc8ca0af19d8daf1b83abcb28ddcd2382158bee"
   },
   "research/prior_art.md": {
     "bytes": 1941,
     "sha256": "7514299b46fdb7a246d183329b8498302c2975a0fa459ead1215e4c883768d24"
   },
   "results/README.md": {
-    "bytes": 1021,
-    "sha256": "c12ec558706df35a4f74daea375f49daba3958215bca0fa913f926b513b71a9f"
+    "bytes": 1016,
+    "sha256": "05f84a142c6b419434ac8cc3ce8cfb878031d12068a7a1865aa346a08bd2829b"
   },
   "results/milestones.md": {
-    "bytes": 4736,
-    "sha256": "155661cdf0c7ec11bb59fde5c8b2a536041178f6a5873cd673ab5094521f960d"
+    "bytes": 5333,
+    "sha256": "cc6d59632dea622291e0eec3e3fa024a920e14cbc5e77061fd196e0595269214"
   },
   "results/plot_validation.py": {
-    "bytes": 2180,
-    "sha256": "d8b17fa679cb950fa1499a1c9468dcdc43b216d441454735ac61180c238a70c9"
+    "bytes": 2185,
+    "sha256": "0564a339df0615cbc58e9cacd60b869d425212c32a61e4188d00cd7e6dce388f"
   },
   "results/training_curve.csv": {
-    "bytes": 33105,
-    "sha256": "b2d0c306ef69770883dfeff34ce050325ae3b5fa17e94c85fe2e6a4607b67d77"
+    "bytes": 41090,
+    "sha256": "9ad9bf305e588498209012317b5bc6d7eb62b850b281857fa76c1725764c9989"
   },
   "results/validation_curve.csv": {
-    "bytes": 3127,
-    "sha256": "f5e4ecdc908c5003698251667466da210c1fab725258b9071fa2b382add4abb6"
+    "bytes": 3626,
+    "sha256": "d86e59336b325f2af3b64b553c2a8c7845f061ad5fd87aa6f750305ef1a8e58b"
   },
   "train/config_1b_t4.json": {
     "bytes": 686,
@@ -148,23 +148,23 @@
     "sha256": "55a57185b100a8f63f1e3b77c5fd80726b952c8abe49b0a06f9aa5af5a83f440"
   },
   "results/validation_nll.svg": {
-    "bytes": 6669,
-    "sha256": "544b769e1f0faf5a37525d82ba9bd980bd4793dddac1ce9ee8a1e39fa8b69722"
+    "bytes": 7284,
+    "sha256": "5c027f1602c9031e803059f0ef629b7964e19ed3aeda6146d402cd36a064bf75"
   },
   "research/launch/ARTICLE_V1.md": {
-    "bytes": 16465,
-    "sha256": "5ef8a66ef9d2af9e032ee76c04a76027ca2d103bb47ce576d40b137a6057eb66"
+    "bytes": 16483,
+    "sha256": "09b50affed23a479548a7d253f21c9f6656c88b420b8cc234e72b0d37484e3be"
   },
   "research/launch/LINKEDIN_LAUNCH.md": {
-    "bytes": 3487,
-    "sha256": "a4ef38bb092f26d3e887ac6317580ce5ca5fce85c3f5e375a0efb49a52f1509a"
+    "bytes": 3573,
+    "sha256": "f87f5b8dc294c1767d691ced2094651cfcf96259beb99796c4e96f2cabbb6b74"
   },
   "research/anvaya_vs_pythia_early_training.md": {
     "bytes": 8593,
-    "sha256": "b6b2f650d34e897e9829643431a6dbf4b72fef45cef496287d39817b396d1a89"
+    "sha256": "bf70f4dcd622aaf6b38761ee38845ca22ed2a50c42dea905d0124c13ab2999ae"
   },
   "docs/PRETRAIN_1B_LLM_FROM_SCRATCH.md": {
     "bytes": 9643,
-    "sha256": "5c64a477fbe0175620e791bd9c603cf12be592b66cfbf9361e6d0ec908387ed0"
+    "sha256": "c09ba7f3592a404850be46fa08720537008cc172dd3b04609cad09b02fc23957"
   }
 }
