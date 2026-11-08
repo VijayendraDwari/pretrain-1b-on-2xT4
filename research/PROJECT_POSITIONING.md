@@ -4,11 +4,17 @@
 
 **Pretrain a 1B-Parameter Language Model From Scratch on 2× T4 GPUs**
 
-For a longer article, I am using **Pretraining a 1B-Parameter Language Model on Two T4 GPUs: An Engineering Walkthrough**.
+For a longer article, I am using **Pretraining a 1B-Parameter Language Model From Scratch on Two T4 GPUs: An Engineering Walkthrough**.
+
+## Canonical public description
+
+**A reproducible recipe for pretraining a 1B-parameter language model from scratch on 2×16GB NVIDIA T4 GPUs using FineWeb-derived data, PyTorch FSDP, 4K context, fixed validation, and crash-safe Kaggle continuation.**
+
+Use “from scratch” only with the explicit qualification that the **Transformer weights start from random initialization while the tokenizer is reused**. Prefer “LLM pretraining recipe” or “language-model pretraining recipe” when describing the repository to a general technical audience; the project is an engineering walkthrough rather than a new pretraining algorithm.
 
 ## The project in one paragraph
 
-I am training a 1,018,126,848-parameter decoder-only Transformer from random initialization on two 16 GB T4 GPUs. The point is to document a real run closely enough that someone can follow the choices: model sizing, pre-tokenized data, FSDP, gradient accumulation, validation, and checkpoint continuation across Kaggle sessions. The tokenizer is reused, and the training data is prepared before the run.
+I am training a 1,018,126,848-parameter decoder-only Transformer from random initialization on two 16 GB T4 GPUs. The repository documents the complete systems path closely enough that another reader can inspect or reproduce the recipe: FineWeb-derived token preparation, model sizing, PyTorch FSDP `FULL_SHARD`, gradient accumulation, activation checkpointing, optimizer and learning-rate configuration, fixed validation, distributed checkpointing, and continuation across Kaggle sessions. The tokenizer is reused, and the training data is prepared before the run.
 
 ## What I am not claiming
 
