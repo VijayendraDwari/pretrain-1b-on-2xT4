@@ -16,8 +16,8 @@
     "sha256": "0b87bc2e14c74a0e273a869d703142ae314b4074e0d9cf155db6862780cd935d"
   },
   "README.md": {
-    "bytes": 12458,
-    "sha256": "fbe4750f4c3f84918f41a00f234d91680decdbffe3670ebf7ce26be090d7d587"
+    "bytes": 14325,
+    "sha256": "2798a5718861a3a7aca8ce720622d04a64a08ce7a7937080e5430fd844114a13"
   },
   "data/dataset_contract.md": {
     "bytes": 1299,
@@ -96,8 +96,8 @@
     "sha256": "d9589c2bfc95379705e6e4e15a9de78ee17fc86a2c2e6d4a407becdb220c9b8b"
   },
   "research/PROJECT_POSITIONING.md": {
-    "bytes": 2498,
-    "sha256": "de549b9c5ea63d3597d92400abf7d6f0c727b20a76159cf47d9c1bb123675735"
+    "bytes": 3310,
+    "sha256": "8462bca156e5f4b8e71c0622e109746ec3869d53f4c782ed52dd6185da6d8483"
   },
   "research/SOURCES.md": {
     "bytes": 1190,
@@ -152,8 +152,8 @@
     "sha256": "544b769e1f0faf5a37525d82ba9bd980bd4793dddac1ce9ee8a1e39fa8b69722"
   },
   "research/launch/ARTICLE_V1.md": {
-    "bytes": 16221,
-    "sha256": "86305ac82811dd355c2afc5ca1dabb14fa090e50a9b08f6765162427186793d6"
+    "bytes": 16465,
+    "sha256": "5ef8a66ef9d2af9e032ee76c04a76027ca2d103bb47ce576d40b137a6057eb66"
   },
   "research/launch/LINKEDIN_LAUNCH.md": {
     "bytes": 3487,
@@ -162,5 +162,9 @@
   "research/anvaya_vs_pythia_early_training.md": {
     "bytes": 8593,
     "sha256": "b6b2f650d34e897e9829643431a6dbf4b72fef45cef496287d39817b396d1a89"
+  },
+  "docs/PRETRAIN_1B_LLM_FROM_SCRATCH.md": {
+    "bytes": 9643,
+    "sha256": "5c64a477fbe0175620e791bd9c603cf12be592b66cfbf9361e6d0ec908387ed0"
   }
 }
