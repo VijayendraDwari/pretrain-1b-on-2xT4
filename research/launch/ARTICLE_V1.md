@@ -1,4 +1,4 @@
-# Pretraining a 1B-Parameter Language Model on Two T4 GPUs: An Engineering Walkthrough
+# Pretraining a 1B-Parameter Language Model From Scratch on Two T4 GPUs: An Engineering Walkthrough
 
 Modern language-model tutorials tend to live at two extremes.
 
@@ -8,7 +8,7 @@ I wanted to explore the engineering space in between.
 
 What changes when the model is no longer a toy, but the hardware is still something an individual researcher can realistically access?
 
-That question led to this project: a **1,018,126,848-parameter decoder-only language model**, initialized from random weights and pretrained on FineWeb-derived tokens using **two NVIDIA Tesla T4 GPUs with 16 GB of memory each**.
+That question led to this project: a **1,018,126,848-parameter decoder-only language model**, initialized from random weights and pretrained on FineWeb-derived tokens using **two NVIDIA Tesla T4 GPUs with 16 GB of memory each**. The repository is intended to be a runnable **1B LLM pretraining recipe** as well as an engineering record: the PyTorch/FSDP trainer, data contract, optimizer schedule, validation ledger, and crash-safe resume path are all public.
 
 The model uses a 4096-token context. The training system uses PyTorch FSDP `FULL_SHARD`, activation checkpointing, mixed precision, gradient accumulation, deterministic token-window sampling, fixed validation, and crash-safe distributed checkpoint continuation across temporary Kaggle sessions.
 
