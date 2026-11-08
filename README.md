@@ -2,9 +2,25 @@
 
 
 
-This repository documents a real pretraining experiment: a 1,018,126,848-parameter dense decoder-only Transformer, randomly initialized and trained on FineWeb-derived tokens using two 16GB NVIDIA Tesla T4 GPUs. The focus is the engineering around running a model at this size in a constrained, temporary environment: FSDP sharding, memory and token accounting, validation, checkpointing, and continuation across Kaggle sessions.
+This repository is a **reproducible LLM pretraining recipe and engineering case study** for training a **1B-parameter language model from random initialization** on **2×16GB NVIDIA Tesla T4 GPUs**. The current model has exactly **1,018,126,848 trainable parameters**, uses a 4096-token context, and is pretrained on FineWeb-derived tokens with **PyTorch FSDP `FULL_SHARD`**, gradient accumulation, activation checkpointing, mixed precision, fixed validation, and crash-safe continuation across temporary Kaggle sessions.
 
-This is an educational case study, not a new training algorithm or architecture, a compute-optimal recipe, or a claim that the resulting model is competitive. The tokenizer is reused, not trained here. The 1.5B input-token target is a training-budget milestone; it does not mean every corpus token is seen once or establish downstream capability. The repository separates recorded measurements from assumptions and work still to be done.
+If you are looking for **1B LLM pretraining code**, a **PyTorch/FSDP training recipe**, or an end-to-end example of how to **pretrain a language model from scratch on constrained GPUs**, start with **[How to Pretrain a 1B LLM From Scratch on 2× T4 GPUs](docs/PRETRAIN_1B_LLM_FROM_SCRATCH.md)**. It maps the runnable code, FineWeb data preparation, model configuration, token accounting, checkpoint/resume system, validation artifacts, and current training results.
+
+This is an educational case study, not a new training algorithm or architecture, a compute-optimal recipe, or a claim that the resulting model is competitive. Here, “from scratch” means that the **Transformer weights are randomly initialized**; the tokenizer is reused rather than trained in this project. The 1.5B model-input-token target is a training-budget milestone, not a claim that every corpus token is seen exactly once or that downstream capability has been established.
+
+## Start here
+
+| If you want to... | Read / run |
+|---|---|
+| Understand the complete 1B LLM pretraining recipe | **[1B LLM from-scratch pretraining guide](docs/PRETRAIN_1B_LLM_FROM_SCRATCH.md)** |
+| Inspect the exact model architecture and parameter count | [Architecture](docs/01_architecture.md) · [Parameter count](docs/02_parameter_count.md) |
+| Understand how 1.018B parameters fit on two 16GB T4s | [Memory and FSDP](docs/03_memory_and_fsdp.md) |
+| Reproduce token accounting and optimizer settings | [Batch and tokens](docs/04_batch_and_tokens.md) · [LR and optimizer](docs/05_lr_and_optimizer.md) |
+| Run the trainer | [Kaggle launcher](train/launch_kaggle.py) · [Canonical trainer](train/train_1b_dual_t4.py) |
+| Prepare FineWeb-derived token shards | [Data preparation](data/prepare_fineweb.md) · [Builder](data/prepare_fineweb.py) |
+| Resume safely across Kaggle sessions | [Checkpointing](docs/06_checkpointing.md) · [Resume workflow](docs/07_resume_across_sessions.md) |
+| Inspect measured results | [Validation curve](results/validation_curve.csv) · [Milestones](results/milestones.md) · [Plot](results/validation_nll.svg) |
+| Load the public model checkpoint | [Anvaya-1B on Hugging Face](https://huggingface.co/Vijayendra/Anvaya-1B) |
 
 ## Live run status
 
