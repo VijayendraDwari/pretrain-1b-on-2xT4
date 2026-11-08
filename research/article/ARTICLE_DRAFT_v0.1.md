@@ -28,14 +28,14 @@ That distinction matters because the project tracks three different frontiers: t
 
 ## Where the live run stands
 
-The latest completed session resumed from update **3638 / 476,839,936 model-input tokens**, validated that restored state, crossed the **500M-token** milestone, and stopped safely after writing a new COMPLETE checkpoint at:
+The latest completed session resumed from update **4269 / 559,546,368 model-input tokens**, validated that restored state at NLL **3.58536**, crossed **600M model-input tokens**, and stopped safely after writing a new COMPLETE checkpoint at:
 
-- **update 4269**
-- **559,546,368 model-input tokens**
+- **update 4879**
+- **639,500,288 model-input tokens**
 
-The latest sampled training row is update **4260 / 558,366,720 tokens**, with about **2,199.75 input tokens/second** at that sample. The rank-0 PyTorch allocator high-water mark recorded through the continuation is **11.4088 GiB**.
+The latest sampled training row is update **4870 / 638,320,640 tokens**, at about **2,132.97 input tokens/second**. The rank-0 PyTorch allocator high-water mark remained approximately **11.4088 GiB**.
 
-The latest fixed validation event is update **4200 / 550,502,400 tokens**:
+The latest fixed validation event is update **4800 / 629,145,600 tokens**:
 
 | Update | Input tokens | Validation NLL | Perplexity | Token accuracy |
 |---:|---:|---:|---:|---:|
@@ -44,13 +44,14 @@ The latest fixed validation event is update **4200 / 550,502,400 tokens**:
 | 2436 | 319,291,392 | 3.98411 | 53.74 | 32.38% |
 | 3031 | 397,279,232 | 3.81320 | 45.30 | 33.69% |
 | 3638 | 476,839,936 | 3.68761 | 39.95 | 34.72% |
-| 3800 | 498,073,600 | 3.65959 | 38.85 | 34.90% |
-| 4000 | 524,288,000 | 3.63511 | 37.91 | 35.16% |
-| 4200 | 550,502,400 | **3.59542** | **36.43** | **35.51%** |
+| 4269 | 559,546,368 | 3.58536 | 36.07 | 35.71% |
+| 4500 | 589,824,000 | 3.55857 | 35.11 | 35.81% |
+| 4600 | 602,931,200 | 3.54933 | 34.79 | 35.97% |
+| **4800** | **629,145,600** | **3.52762** | **34.04** | **36.17%** |
 
-The fixed validation curve is still improving at the latest recorded point; there is no obvious plateau in this window. These are next-token metrics on one fixed 131,072-token validation sample. They are not downstream benchmark results and do not establish general model capability.
+The fixed validation curve is still improving at the latest recorded point. These are next-token metrics on one fixed 131,072-token validation sample; they are not downstream benchmark results.
 
-The first public Hugging Face release remains the immutable **Anvaya-1B `160M`** checkpoint at update 1225 / 160,563,200 tokens. The training lineage is now much farther ahead than the public weight release. The next major public milestone candidate is the preserved **u4269 / 559.55M-token** checkpoint.
+The first public Hugging Face release remains the immutable **Anvaya-1B `160M`** checkpoint at update 1225 / 160,563,200 tokens. The training lineage is now much farther ahead than the public weight release. The latest major public milestone candidate is the preserved **u4879 / 639.50M-token** checkpoint.
 
 ## What this tutorial should explain
 
