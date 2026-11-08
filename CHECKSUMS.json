@@ -104,12 +104,12 @@
     "sha256": "30d5d6afc23d5feb758bcf66a49e3ecc649d8ea71e0910fa2dc2ac3088f30e10"
   },
   "research/article/ARTICLE_DRAFT_v0.1.md": {
-    "bytes": 4359,
-    "sha256": "a7f872ff6185d14a30b2b122fa77bbc0489b9bfcd01217517cc9d160d2b0add8"
+    "bytes": 4792,
+    "sha256": "42c186367fd771638e37fc526fd526744ba15bb2a16e115c7ba357b2501fc343"
   },
   "research/article/ARTICLE_OUTLINE.md": {
-    "bytes": 2785,
-    "sha256": "7e93d33d8d0cf758a0fced0c618828c209966a982685ce8442bef53f347e3435"
+    "bytes": 3612,
+    "sha256": "aa2f25d6e0f26e286f401d63ffc7673dbf724be3f024a4395c2f0f15dcc1dfe5"
   },
   "research/prior_art.md": {
     "bytes": 1941,
@@ -150,5 +150,17 @@
   "results/validation_nll.svg": {
     "bytes": 6669,
     "sha256": "544b769e1f0faf5a37525d82ba9bd980bd4793dddac1ce9ee8a1e39fa8b69722"
+  },
+  "research/launch/ARTICLE_V1.md": {
+    "bytes": 16221,
+    "sha256": "86305ac82811dd355c2afc5ca1dabb14fa090e50a9b08f6765162427186793d6"
+  },
+  "research/launch/LINKEDIN_LAUNCH.md": {
+    "bytes": 3487,
+    "sha256": "a4ef38bb092f26d3e887ac6317580ce5ca5fce85c3f5e375a0efb49a52f1509a"
+  },
+  "research/anvaya_vs_pythia_early_training.md": {
+    "bytes": 8593,
+    "sha256": "b6b2f650d34e897e9829643431a6dbf4b72fef45cef496287d39817b396d1a89"
   }
 }
