@@ -19,33 +19,34 @@
     "tokens_per_update": 131072,
     "target_input_tokens": 1500000000,
     "last_complete_parent_checkpoint": {
-      "update": 4269,
-      "tokens": 559546368
+      "update": 4879,
+      "tokens": 639500288
     },
     "latest_shared_training_log": {
       "date": "2026-11-08",
-      "update": 4260,
-      "tokens": 558366720,
+      "update": 4870,
+      "tokens": 638320640,
       "checkpoint": false
     },
     "latest_shared_validation": {
-      "update": 4200,
-      "tokens": 550502400,
-      "nll": 3.5954190492630005,
-      "perplexity": 36.43096315790734,
-      "token_accuracy": 0.3550872802734375,
+      "update": 4800,
+      "tokens": 629145600,
+      "nll": 3.5276210978627205,
+      "perplexity": 34.042886515500996,
+      "token_accuracy": 0.361663818359375,
       "validation_tokens": 131072
     },
     "latest_complete_checkpoint": {
-      "update": 4269,
-      "tokens": 559546368,
+      "update": 4879,
+      "tokens": 639500288,
       "session_end": "safe boundary"
     },
     "crossed_milestones_input_tokens": [
       250000000,
       300000000,
       400000000,
-      500000000
+      500000000,
+      600000000
     ],
     "public_weight_release": {
       "revision": "160M",
