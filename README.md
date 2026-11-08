@@ -28,12 +28,12 @@ The latest completed run snapshot supplied for this repository update is from **
 
 | Evidence | Latest recorded state |
 |---|---|
-| Training log | Update **4260** · **558,366,720** model-input tokens · **2,199.75** input tokens/second at that sampled update |
+| Training log | Update **4870** · **638,320,640** model-input tokens · **2,132.97** input tokens/second at that sampled update |
 | PyTorch memory metric | Rank-0 allocator high-water mark **11.4088 GiB** through the captured continuation; see [memory and FSDP details](docs/03_memory_and_fsdp.md) |
-| Validation | Update **4200** · **550,502,400** model-input tokens · NLL **3.59542** · perplexity **36.43** · token accuracy **35.51%** on **131,072** validation tokens |
-| Last complete checkpoint | Update **4269** · **559,546,368** model-input tokens |
+| Validation | Update **4800** · **629,145,600** model-input tokens · NLL **3.52762** · perplexity **34.04** · token accuracy **36.17%** on **131,072** validation tokens |
+| Last complete checkpoint | Update **4879** · **639,500,288** model-input tokens |
 
-The completed session resumed exactly from u3638 / 476,839,936 tokens, validated that parent at NLL **3.68761**, crossed the **500M** model-input-token milestone, and continued to a safe COMPLETE checkpoint at u4269. The latest fixed validation is u4200 / 550,502,400 tokens with NLL **3.59542**, perplexity **36.43**, and token accuracy **35.51%**. The continuous training lineage has therefore reached **559,546,368 model-input tokens** in a resumable state.
+The latest completed continuation resumed exactly from **u4269 / 559,546,368 tokens**, validated that parent at NLL **3.58536**, and continued cleanly through **600M model-input tokens**. The latest fixed validation is **u4800 / 629,145,600 tokens** with NLL **3.52762**, perplexity **34.04**, and token accuracy **36.17%**. The session then saved a COMPLETE checkpoint at **u4879 / 639,500,288 model-input tokens** and ended at a safe boundary.
 
 The live trainer copy remains aligned with the repository trainer `train/train_1b_dual_t4.py`; the architecture and training recipe are unchanged.
 
@@ -117,10 +117,17 @@ Validation uses the same 131,072-token sample for each reported event. The table
 | 4000 | 524,288,000 | 3.63511 | 37.91 | 35.16% |
 | 4100 | 537,395,200 | 3.61233 | 37.05 | 35.34% |
 | **4200** | **550,502,400** | **3.59542** | **36.43** | **35.51%** |
+| 4269 | 559,546,368 | 3.58536 | 36.07 | 35.71% |
+| 4300 | 563,609,600 | 3.58247 | 35.96 | 35.66% |
+| 4400 | 576,716,800 | 3.57260 | 35.61 | 35.63% |
+| 4500 | 589,824,000 | 3.55857 | 35.11 | 35.81% |
+| 4600 | 602,931,200 | 3.54933 | 34.79 | 35.97% |
+| 4700 | 616,038,400 | 3.53688 | 34.36 | 36.09% |
+| **4800** | **629,145,600** | **3.52762** | **34.04** | **36.17%** |
 
 ![Validation negative log-likelihood by training tokens](results/validation_nll.svg)
 
-The fixed validation curve has continued to improve through **550.50M model-input tokens**, but these are next-token metrics on one fixed validation sample and do not establish downstream capability. The continuous training run is now at a clean **559.55M-token** checkpoint. The **Anvaya-1B 160M** model-only FP16 checkpoint remains the current public weight release on Hugging Face at **[Vijayendra/Anvaya-1B](https://huggingface.co/Vijayendra/Anvaya-1B)** under the immutable `160M` revision.
+The fixed validation curve has continued to improve through **629.15M model-input tokens**, but these are next-token metrics on one fixed validation sample and do not establish downstream capability. The continuous training run is now at a clean **639.50M-token** checkpoint. The **Anvaya-1B 160M** model-only FP16 checkpoint remains the current public weight release on Hugging Face at **[Vijayendra/Anvaya-1B](https://huggingface.co/Vijayendra/Anvaya-1B)** under the immutable `160M` revision.
 
 ## Public checkpoint generation verification
 
@@ -128,7 +135,7 @@ The public `160M` Hugging Face artifact has been loaded independently on an NVID
 
 At this early checkpoint, the model already shows local grammar and phrase structure, while factual associations and semantic stability remain weak. For example, open-ended prompts can produce sentence-like prose, but factual prompts such as `The capital of France is` are still unreliable. This is exactly why selected intermediate checkpoints are useful: they let the project observe the emergence of language behavior during pretraining rather than presenting only a final checkpoint.
 
-The current public weights remain the immutable **160M** milestone even though the training lineage itself has advanced to **559.55M tokens**.
+The current public weights remain the immutable **160M** milestone even though the training lineage itself has advanced to **639.50M tokens**.
 
 ## Early behavioral comparison with Pythia-1B
 
