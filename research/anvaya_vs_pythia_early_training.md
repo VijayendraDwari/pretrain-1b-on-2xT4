@@ -282,11 +282,11 @@ At 160.56M model-input tokens, Anvaya appears to have crossed an early qualitati
 
 > **Language structure is clearly present; factual knowledge and semantic stability are not yet reliable.**
 
-The next useful experiment is not to declare a winner. The training lineage has now crossed 500M and reached a preserved COMPLETE checkpoint at **u4269 / 559.55M model-input tokens**, while the public weight release remains the immutable **160M** revision.
+The next useful experiment is not to declare a winner. The training lineage has now crossed 600M and reached a preserved COMPLETE checkpoint at **u4879 / 639.50M model-input tokens**, while the public weight release remains the immutable **160M** revision.
 
 The frozen suite should next be repeated on:
 
-- the next major public checkpoint candidate at **u4269 / ~560M**;
+- the next major public checkpoint candidate at **u4879 / ~640M**;
 - Anvaya 750M;
 - Anvaya 1B;
 - Anvaya 1.25B;
