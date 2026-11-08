@@ -14,10 +14,10 @@ The article should read like a record of one real training run, not a claim that
 6. **The data contract.** Describe the FineWeb source, tokenizer identity, shard format, and what a fresh rebuild cannot guarantee.
 7. **The training step.** Follow a batch through forward pass, chunked loss, accumulated gradients, clipping, AdamW, and validation.
 8. **The checkpoint failure.** Use the update-100 storage failure to explain partial files, the completion marker, and the immutable mounted parent.
-9. **The live curve.** Plot only logged validation points. Show the continued NLL decline through u4200 / 550.50M tokens and keep the latest validation separate from the later u4269 checkpoint frontier.
+9. **The live curve.** Plot only logged validation points. Show the continued NLL decline through u4800 / 629.15M tokens and keep the latest validation separate from the later u4879 checkpoint frontier.
 10. **Session continuation.** Show how a new Kaggle session restores the highest compatible COMPLETE two-rank state and preserves the logical token/update ledger.
-11. **The 500M crossing.** Use the u3638 → u4269 continuation as the clearest end-to-end example: exact restore, validation, uninterrupted continuation across 500M, transactional save, safe boundary.
-12. **Public checkpoints and Anvaya-1B.** Explain why the public HF revision remains `160M` while the private/resumable training lineage has reached 559.55M, and why u4269 is the next major public-milestone candidate.
+11. **Continuation beyond 600M.** Use the u4269 → u4879 continuation as the newest end-to-end example: exact restore, validation, uninterrupted continuation across 600M, transactional save, safe boundary.
+12. **Public checkpoints and Anvaya-1B.** Explain why the public HF revision remains `160M` while the private/resumable training lineage has reached 639.50M, and why u4879 is the latest major public-milestone candidate.
 13. **What this run can and cannot show.** Separate a working systems path and improving next-token validation from downstream capability and compute-optimal training.
 14. **Reproduction and open questions.** Give the exact environment, dependencies, data requirements, identity checks, and remaining reproducibility gaps.
 15. **Update after the target.** Add final NLL, throughput, GPU hours, checkpoint size, and a versioned downstream evaluation only if those measurements are completed.
@@ -26,15 +26,15 @@ The article should read like a record of one real training run, not a claim that
 
 As of the completed **8 November 2026** session:
 
-- latest sampled training row: **u4260 / 558,366,720 tokens**
-- latest fixed validation: **u4200 / 550,502,400 tokens**
-  - NLL **3.595419**
-  - perplexity **36.430963**
-  - token accuracy **35.5087%**
+- latest sampled training row: **u4870 / 638,320,640 tokens**
+- latest fixed validation: **u4800 / 629,145,600 tokens**
+  - NLL **3.527621**
+  - perplexity **34.042887**
+  - token accuracy **36.1664%**
   - validation sample **131,072 tokens**
-- latest COMPLETE resumable checkpoint: **u4269 / 559,546,368 tokens**
+- latest COMPLETE resumable checkpoint: **u4879 / 639,500,288 tokens**
 - public Hugging Face weight revision: **Anvaya-1B `160M`** at u1225 / 160,563,200 tokens
-- next major public checkpoint candidate: **u4269 / ~560M**
+- next major public checkpoint candidate: **u4879 / ~640M**
 - target: **1.5B model-input tokens**, with the final whole-update ledger at 1,500,119,040 tokens
 
 Keep the training-log frontier, validation frontier, resumable-checkpoint frontier, and public-weight frontier separate.
