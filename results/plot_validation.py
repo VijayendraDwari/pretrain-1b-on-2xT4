@@ -33,7 +33,7 @@ ax.grid(True, axis="both", color="#d9e1ea", linewidth=0.8, alpha=0.9)
 ax.spines["top"].set_visible(False); ax.spines["right"].set_visible(False)
 ax.spines["left"].set_color("#9aa8b7"); ax.spines["bottom"].set_color("#9aa8b7")
 
-label_updates={616,1225,1829,2436,3031,3638,4200}
+label_updates={616,1225,1829,2436,3031,3638,4269,4800}
 for i,(x,y,u) in enumerate(zip(tokens_m,nll,updates)):
     if u in label_updates:
         dx=-48 if u==updates[-1] else 7
@@ -42,7 +42,7 @@ for i,(x,y,u) in enumerate(zip(tokens_m,nll,updates)):
 
 fig.text(0.01,0.015,
          "Each point uses the trainer's fixed 131,072-token validation sample. "
-         "Latest measured point: u4200 / 550.50M tokens / NLL 3.59542.",
+         "Latest measured point: u4800 / 629.15M tokens / NLL 3.52762.",
          fontsize=8.5,color="#526273")
 fig.tight_layout(rect=(0,0.05,1,1))
 fig.savefig(OUTPUT_PNG,bbox_inches="tight",facecolor=fig.get_facecolor())
