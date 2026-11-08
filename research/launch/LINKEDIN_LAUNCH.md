@@ -4,7 +4,7 @@ Can you actually pretrain a billion-parameter language model from scratch on two
 
 I wanted to find out — not with a toy GPT, and not by hiding the hard parts behind a large training cluster.
 
-So I built a 1,018,126,848-parameter decoder-only language model and started pretraining it from random initialization on FineWeb-derived tokens using 2× NVIDIA Tesla T4 GPUs.
+So I built a **1,018,126,848-parameter** decoder-only language model and started pretraining it from random initialization on FineWeb-derived tokens using **2× NVIDIA Tesla T4 GPUs**.
 
 The model itself is deliberately conventional:
 
@@ -21,9 +21,9 @@ The interesting part is the training system.
 
 At this scale on 16 GB GPUs, the problems become very real:
 
-- FSDP FULL_SHARD
+- FSDP `FULL_SHARD`
 - activation checkpointing
-- 131,072 input tokens per optimizer update
+- 131,072 model-input tokens per optimizer update
 - FP16 compute with FP32 reductions
 - multi-gigabyte distributed checkpoints
 - exact continuation across temporary Kaggle sessions
@@ -36,19 +36,26 @@ Training itself was healthy. Persistence was not.
 
 That failure became one of the most useful parts of the project: the continuation design now keeps the mounted parent immutable, writes rank files transactionally, and refuses to resume from incomplete state.
 
-The run has now reached a **clean COMPLETE checkpoint at 160.56M model-input tokens**.
+The run has now crossed **500M model-input tokens** and reached a clean COMPLETE checkpoint at:
 
-The validation trajectory so far:
+**u4269 / 559,546,368 tokens**
 
-- 80.74M tokens → NLL 5.4039 / PPL 222.3
-- 91.75M → NLL 5.3404 / PPL 208.6
-- 104.86M → NLL 5.2458 / PPL 189.8
-- 117.96M → NLL 5.1737 / PPL 176.6
-- 131.07M → NLL 5.1285 / PPL 168.8
-- 144.18M → NLL 4.9181 / PPL 136.7
-- 157.29M → **NLL 4.7922 / PPL 120.6**
+The latest fixed validation is:
 
-The latest session saved successfully at update 1225 (160,563,200 tokens) and ended at a safe boundary. The target remains 1.5B model-input tokens.
+**u4200 / 550,502,400 tokens → NLL 3.59542 / PPL 36.43 / token accuracy 35.51%**
+
+For context, the fixed validation trajectory includes:
+
+- 160.56M → NLL 4.7507 / PPL 115.7
+- 239.73M → NLL 4.2655 / PPL 71.2
+- 319.29M → NLL 3.9841 / PPL 53.74
+- 397.28M → NLL 3.8132 / PPL 45.30
+- 476.84M → NLL 3.6876 / PPL 39.95
+- 550.50M → **NLL 3.5954 / PPL 36.43**
+
+The latest continuation resumed exactly from u3638 / 476.84M, validated the restored state, crossed 500M, continued without changing the recipe, and stopped at a safe boundary after writing u4269.
+
+The target remains **1.5B model-input tokens**.
 
 This is not a claim that 1.5B tokens is compute-optimal for a 1B model. It is not a speed record, and it is not intended to compete with heavily pretrained production models.
 
@@ -56,12 +63,14 @@ The purpose is different:
 
 **to expose the complete engineering path from random initialization to real billion-parameter pretraining on hardware an individual researcher can actually access.**
 
-I have now made the full recipe public on GitHub:
+The full recipe is public on GitHub:
 
 **VijayendraDwari/pretrain-1b-on-2xT4**
 
-The repository includes the canonical trainer, FineWeb data-preparation contract, PyTorch FSDP setup, Kaggle continuation workflow, checkpoint recovery design, architecture and parameter-count notes, memory accounting, evaluation protocol, validation curves, and the failures encountered along the way.
+The repository includes the canonical trainer, FineWeb data-preparation contract, PyTorch FSDP setup, Kaggle continuation workflow, checkpoint recovery design, architecture and parameter-count notes, memory accounting, evaluation protocol, raw validation/training curves, and the failures encountered along the way.
 
-The run has now crossed 250M and 300M model-input tokens; I’ll keep updating it toward 500M, 1B and finally 1.5B tokens.
+The model now also has a public name: **Anvaya-1B**. The first immutable Hugging Face weight release remains the earlier **`160M`** milestone at 160,563,200 tokens; the training lineage itself is now at 559.55M. The preserved u4269 state is the next major public checkpoint candidate.
+
+Next major training milestones: **750M, 1B, 1.25B and 1.5B model-input tokens**.
 
 If you work on model pretraining, distributed PyTorch, constrained-compute research, or simply want to understand what changes when a GPT stops being a toy, I’d value your feedback.
