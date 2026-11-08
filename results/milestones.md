@@ -47,8 +47,15 @@ The table records the update and token count used for each validation result. Tr
 | 3900 | 511,180,800 | 3.63933 | 38.07 | 35.228% | First validation above 500M |
 | 4000 | 524,288,000 | 3.63511 | 37.91 | 35.159% | Continuation validation |
 | 4100 | 537,395,200 | 3.61233 | 37.05 | 35.341% | Continuation validation |
-| 4200 | 550,502,400 | 3.59542 | 36.43 | 35.509% | Latest captured validation |
+| 4200 | 550,502,400 | 3.59542 | 36.43 | 35.509% | Continuation validation |
+| 4269 | 559,546,368 | 3.58536 | 36.07 | 35.707% | Exact-resume validation of preserved checkpoint |
+| 4300 | 563,609,600 | 3.58247 | 35.96 | 35.662% | Continuation validation |
+| 4400 | 576,716,800 | 3.57260 | 35.61 | 35.632% | Continuation validation |
+| 4500 | 589,824,000 | 3.55857 | 35.11 | 35.809% | Continuation validation |
+| 4600 | 602,931,200 | 3.54933 | 34.79 | 35.970% | First validation above 600M |
+| 4700 | 616,038,400 | 3.53688 | 34.36 | 36.092% | Continuation validation |
+| 4800 | 629,145,600 | 3.52762 | 34.04 | 36.166% | Latest captured validation |
 
-The latest supplied completed session reaches sampled training update **4260** (**558,366,720 tokens**), then passes checkpoint preflight and saves a COMPLETE checkpoint at update **4269** (**559,546,368 tokens**) before a safe session end. The latest fixed validation is update **4200** / **550,502,400 tokens** with NLL **3.59542**, perplexity **36.43**, and token accuracy **35.509%**.
+The latest supplied completed session resumes from u4269, reaches sampled training update **4870** (**638,320,640 tokens**), then passes checkpoint preflight and saves a COMPLETE checkpoint at update **4879** (**639,500,288 tokens**) before a safe session end. The latest fixed validation is update **4800** / **629,145,600 tokens** with NLL **3.52762**, perplexity **34.04**, and token accuracy **36.166%**.
 
-The run has crossed the **250M**, **300M**, **400M**, and **500M** model-input-token levels. The configured final target is reached at a whole-update boundary, so the final token count will be **1,500,119,040** rather than exactly 1.5B. The validation CSV contains every canonical validation event currently documented; the training CSV contains selected sampled optimizer updates rather than every raw log row.
+The run has crossed the **250M**, **300M**, **400M**, **500M**, and **600M** model-input-token levels. The configured final target is reached at a whole-update boundary, so the final token count will be **1,500,119,040** rather than exactly 1.5B. The validation CSV contains every canonical validation event currently documented; the training CSV contains selected sampled optimizer updates rather than every raw log row.
