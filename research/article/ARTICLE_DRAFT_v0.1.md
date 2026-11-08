@@ -1,8 +1,8 @@
 # Pretraining a 1B-Parameter Language Model on Two T4 GPUs: An Engineering Walkthrough
 
-*Working draft. The run is still in progress; this version reflects the log snapshot shared on 5 November 2026.*
+*Working draft. The run is still in progress; this version reflects the completed session ending on 8 November 2026.*
 
-I wanted to understand what changes when a GPT-style model gets too large to treat as a small tutorial exercise. A pair of 16 GB T4s is not the hardware I would choose to train a competitive 1B model. It is, however, a useful constraint for learning about sharding, memory, token accounting, and checkpoint recovery.
+I wanted to understand what changes when a GPT-style model gets too large to treat as a small tutorial exercise. A pair of 16 GB T4s is not the hardware I would choose to train a competitive 1B model. It is, however, a useful constraint for learning about sharding, memory, token accounting, validation, and checkpoint recovery.
 
 The model has **1,018,126,848 trainable parameters** and a **4096-token context**. It starts from random weights and is trained with a causal next-token objective on pre-tokenized FineWeb data. I reuse the Llama 3.2 1B tokenizer; I did not train a tokenizer or load pretrained Transformer weights.
 
@@ -10,40 +10,50 @@ The model has **1,018,126,848 trainable parameters** and a **4096-token context*
 
 The network is a 29-layer decoder-only Transformer with width 1536, 24 attention heads, and a 6144-wide GELU feed-forward network. It uses dense causal PyTorch SDPA, RMSNorm, and the half-split RoPE implementation in the trainer. The input embedding weights are tied to the output projection.
 
-The trainer uses FSDP `FULL_SHARD` across two T4 GPUs, FP16 mixed precision, activation checkpointing, and gradient accumulation. Each update processes:
+The trainer uses FSDP `FULL_SHARD` across two T4 GPUs, FP16 mixed precision, activation checkpointing, and gradient accumulation. Each optimizer update processes:
 
 ```text
 4096 tokens × 2 ranks × 16 microbatches = 131,072 model-input tokens
 ```
 
-The sampler chooses a deterministic window from one training shard for each sample. It samples with replacement; the token counter is not a count of unique corpus tokens and does not prove a single sequential pass through the data.
+The sampler chooses deterministic windows from individual training shards and samples with replacement. The token counter is therefore a model-input ledger, not a count of unique corpus tokens and not a claim of one sequential pass through the dataset.
 
 ## The checkpoint failure
 
 The first long run reached update 100 with normal training and validation behavior. It then failed while saving a large FSDP checkpoint because the persistence path ran out of room. The directory had partial rank files but no completion marker, so it was not safe to resume from.
 
-The current continuation setup leaves the mounted parent checkpoint untouched. A new session writes rank files to temporary names and only marks the checkpoint complete after both ranks finish. That makes the resume decision explicit, though it does not by itself prove the identity of the dataset, tokenizer, or code that produced the checkpoint.
+The continuation design now leaves the mounted parent checkpoint untouched. A session writes each rank file transactionally and creates `complete.json` only after both ranks finish. The trainer resumes only from COMPLETE two-rank checkpoints.
+
+That distinction matters because the project tracks three different frontiers: the latest sampled training log, the latest fixed validation event, and the latest resumable checkpoint.
 
 ## Where the live run stands
 
-The shared log snapshot shows the continuation restoring the complete checkpoint at update 616, then reaching update 1070. The latest training row is update 1070, or **140,247,040 input tokens**. The latest validation in that capture is update 1000, or **131,072,000 tokens**. The run has therefore crossed the 100M-token analytical milestone:
+The latest completed session resumed from update **3638 / 476,839,936 model-input tokens**, validated that restored state, crossed the **500M-token** milestone, and stopped safely after writing a new COMPLETE checkpoint at:
+
+- **update 4269**
+- **559,546,368 model-input tokens**
+
+The latest sampled training row is update **4260 / 558,366,720 tokens**, with about **2,199.75 input tokens/second** at that sample. The rank-0 PyTorch allocator high-water mark recorded through the continuation is **11.4088 GiB**.
+
+The latest fixed validation event is update **4200 / 550,502,400 tokens**:
 
 | Update | Input tokens | Validation NLL | Perplexity | Token accuracy |
 |---:|---:|---:|---:|---:|
-| 2 | 262,144 | 10.74244 | 46,279.01 | 3.79% |
-| 100 | 13,107,200 | 6.89855 | 990.83 | 12.09% |
-| 616 | 80,740,352 | 5.40386 | 222.26 | 21.15% |
-| 700 | 91,750,400 | 5.34038 | 208.59 | 21.51% |
-| 800 | 104,857,600 | 5.24585 | 189.78 | 22.05% |
-| 900 | 117,964,800 | 5.17369 | 176.57 | 22.52% |
-| 1000 | 131,072,000 | 5.12850 | 168.76 | 22.94% |
+| 1225 | 160,563,200 | 4.75070 | 115.67 | 25.21% |
+| 1829 | 239,730,688 | 4.26552 | 71.20 | 30.09% |
+| 2436 | 319,291,392 | 3.98411 | 53.74 | 32.38% |
+| 3031 | 397,279,232 | 3.81320 | 45.30 | 33.69% |
+| 3638 | 476,839,936 | 3.68761 | 39.95 | 34.72% |
+| 3800 | 498,073,600 | 3.65959 | 38.85 | 34.90% |
+| 4000 | 524,288,000 | 3.63511 | 37.91 | 35.16% |
+| 4200 | 550,502,400 | **3.59542** | **36.43** | **35.51%** |
 
-These are validation metrics on the fixed sample used by the trainer. They show that next-token loss is falling on that sample. They do not tell me how the model performs on downstream tasks, and I have not run a benchmark suite yet.
+The fixed validation curve is still improving at the latest recorded point; there is no obvious plateau in this window. These are next-token metrics on one fixed 131,072-token validation sample. They are not downstream benchmark results and do not establish general model capability.
 
-The training job is still underway. Update 1070 is an observation from the supplied log, not a saved checkpoint; update 616 remains the last complete parent checkpoint documented for this continuation. I will update the results after the next complete save and validation event.
+The first public Hugging Face release remains the immutable **Anvaya-1B `160M`** checkpoint at update 1225 / 160,563,200 tokens. The training lineage is now much farther ahead than the public weight release. The next major public milestone candidate is the preserved **u4269 / 559.55M-token** checkpoint.
 
-## What I want this tutorial to explain
+## What this tutorial should explain
 
-The useful outcome is a clear account of what worked, what failed, and what another person needs to check before attempting the same setup. That includes the exact token counter, the external data and tokenizer requirements, the PyTorch/Kaggle environment, and the fact that a new streamed dataset build is not guaranteed to match the historical token files byte for byte.
+The useful outcome is a clear account of what worked, what failed, and what another person needs to check before attempting the same setup. That includes the exact token counter, the external data and tokenizer requirements, the PyTorch/Kaggle environment, FSDP ownership of model and optimizer state, and the crash-safe resume contract.
 
-The target is 1.5B model-input tokens. That is enough to study the mechanics of the run, not enough to claim compute-optimal pretraining or a competitive base model. Once training finishes, I can add the final validation result, measured GPU hours, checkpoint details, and any separate downstream evaluations that are actually completed.
+The target remains **1.5B model-input tokens**. That is enough to study the mechanics and evolution of the run, not enough to claim compute-optimal pretraining or a competitive base model. The public record will continue to separate measured training state from downstream capability claims.
