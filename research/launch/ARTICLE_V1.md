@@ -151,9 +151,9 @@ It must also define what happens when the machine disappears.
 
 ## The learning curve so far
 
-The continuous training lineage has now reached a **clean COMPLETE checkpoint at update 4269 / 559,546,368 model-input tokens**. The latest completed session resumed exactly from u3638 / 476,839,936 tokens, validated that restored state, crossed **500M model-input tokens**, and exited at a safe boundary after the u4269 checkpoint was written.
+The continuous training lineage has now reached a **clean COMPLETE checkpoint at update 4879 / 639,500,288 model-input tokens**. The latest completed session resumed exactly from u4269 / 559,546,368 tokens, validated that restored state at NLL **3.58536**, crossed **600M model-input tokens**, and exited at a safe boundary after the u4879 checkpoint was written.
 
-The latest sampled training row is u4260 / 558,366,720 tokens. The latest fixed validation is earlier, at u4200 / 550,502,400 tokens, because validation, sampled training logs, and resumable checkpoints are deliberately tracked as separate frontiers.
+The latest sampled training row is u4870 / 638,320,640 tokens. The latest fixed validation is earlier, at u4800 / 629,145,600 tokens, because validation, sampled training logs, and resumable checkpoints are deliberately tracked as separate frontiers.
 
 Selected fixed validation measurements are:
 
@@ -166,15 +166,16 @@ Selected fixed validation measurements are:
 | 2436 | 319.29M | 3.9841 | 53.74 | 32.38% |
 | 3031 | 397.28M | 3.8132 | 45.30 | 33.69% |
 | 3638 | 476.84M | 3.6876 | 39.95 | 34.72% |
-| 3800 | 498.07M | 3.6596 | 38.85 | 34.90% |
-| 4000 | 524.29M | 3.6351 | 37.91 | 35.16% |
-| **4200** | **550.50M** | **3.5954** | **36.43** | **35.51%** |
+| 4269 | 559.55M | 3.5854 | 36.07 | 35.71% |
+| 4500 | 589.82M | 3.5586 | 35.11 | 35.81% |
+| 4600 | 602.93M | 3.5493 | 34.79 | 35.97% |
+| **4800** | **629.15M** | **3.5276** | **34.04** | **36.17%** |
 
-The important observation is the direction of the fixed validation curve. From the clean resume validation at u3638 to u4200, NLL improved from **3.68761** to **3.59542**, perplexity from **39.95** to **36.43**, and token accuracy from **34.72%** to **35.51%**. There is no obvious plateau in the latest recorded window.
+From the exact-resume validation at u4269 to u4800, NLL improved from **3.58536** to **3.52762**, perplexity from **36.07** to **34.04**, and token accuracy from **35.71%** to **36.17%**. There is still no obvious plateau in the latest recorded window.
 
-These numbers are still only next-token metrics on the project's fixed 131,072-token validation sample. They are **not** downstream benchmark results and do not establish general model capability.
+These numbers are next-token metrics on the project's fixed 131,072-token validation sample. They are **not** downstream benchmark results and do not establish general model capability.
 
-The first public Hugging Face release remains the immutable **Anvaya-1B `160M`** checkpoint. The training lineage is now far ahead of that public release, and **u4269 / 559.55M** is the next major public checkpoint candidate.
+The first public Hugging Face release remains the immutable **Anvaya-1B `160M`** checkpoint. The training lineage is now far ahead of that public release, and **u4879 / 639.50M** is the latest major public checkpoint candidate.
 
 ## Why two T4s?
 
@@ -341,7 +342,8 @@ The training target remains 1.5B model-input tokens.
 I plan to keep the public record updated at major stages:
 
 - ~~250M tokens — crossed~~;
-- ~~500M tokens — crossed; latest COMPLETE checkpoint is u4269 / 559.55M~~;
+- ~~500M tokens — crossed~~;
+- ~~600M tokens — crossed; latest COMPLETE checkpoint is u4879 / 639.50M~~;
 - 750M tokens;
 - 1B tokens;
 - 1.25B tokens;
