@@ -54,8 +54,22 @@ The table records the update and token count used for each validation result. Tr
 | 4500 | 589,824,000 | 3.55857 | 35.11 | 35.809% | Continuation validation |
 | 4600 | 602,931,200 | 3.54933 | 34.79 | 35.970% | First validation above 600M |
 | 4700 | 616,038,400 | 3.53688 | 34.36 | 36.092% | Continuation validation |
-| 4800 | 629,145,600 | 3.52762 | 34.04 | 36.166% | Latest captured validation |
+| 4800 | 629,145,600 | 3.52762 | 34.04 | 36.166% | Continuation validation |
+| 4879 | 639,500,288 | 3.51799 | 33.72 | 36.259% | Exact-resume validation of preserved checkpoint |
+| 4900 | 642,252,800 | 3.51375 | 33.57 | 36.350% | Continuation validation |
+| 5000 | 655,360,000 | 3.50469 | 33.27 | 36.363% | First validation at 655.36M tokens |
+| 5100 | 668,467,200 | 3.49334 | 32.90 | 36.430% | Continuation validation |
+| 5200 | 681,574,400 | 3.48198 | 32.52 | 36.588% | Continuation validation |
+| 5300 | 694,681,600 | 3.47210 | 32.20 | 36.549% | Continuation validation |
+| 5400 | 707,788,800 | 3.46626 | 32.02 | 36.702% | Continuation validation |
+| 5444 | 713,555,968 | 3.46161 | 31.87 | 36.689% | Exact-resume validation of preserved checkpoint |
+| 5500 | 720,896,000 | 3.45248 | 31.58 | 36.843% | Continuation validation |
+| 5600 | 734,003,200 | 3.44293 | 31.28 | 36.980% | Continuation validation |
+| 5700 | 747,110,400 | 3.43713 | 31.10 | 37.044% | Continuation validation |
+| 5800 | 760,217,600 | 3.42684 | 30.78 | 37.077% | Continuation validation |
+| 5900 | 773,324,800 | 3.42150 | 30.62 | 37.180% | Continuation validation |
+| 6000 | 786,432,000 | 3.41468 | 30.41 | 37.236% | Latest captured validation |
 
-The latest supplied completed session resumes from u4269, reaches sampled training update **4870** (**638,320,640 tokens**), then passes checkpoint preflight and saves a COMPLETE checkpoint at update **4879** (**639,500,288 tokens**) before a safe session end. The latest fixed validation is update **4800** / **629,145,600 tokens** with NLL **3.52762**, perplexity **34.04**, and token accuracy **36.166%**.
+The latest supplied completed session resumes from **u5444 / 713,555,968 tokens**, reaches sampled training update **6040** (**791,674,880 tokens**) at **2,092.43 input tokens/s**, then passes checkpoint preflight and saves a COMPLETE checkpoint at update **6042** (**791,937,024 tokens**) before a safe session end. The latest fixed validation is update **6000** / **786,432,000 tokens** with NLL **3.41468**, perplexity **30.41**, and token accuracy **37.236%**.
 
-The run has crossed the **250M**, **300M**, **400M**, **500M**, and **600M** model-input-token levels. The configured final target is reached at a whole-update boundary, so the final token count will be **1,500,119,040** rather than exactly 1.5B. The validation CSV contains every canonical validation event currently documented; the training CSV contains selected sampled optimizer updates rather than every raw log row.
+The run has crossed the **250M**, **300M**, **400M**, **500M**, **600M**, and **700M** model-input-token levels and is approaching 800M. The configured final target is reached at a whole-update boundary, so the final token count will be **1,500,119,040** rather than exactly 1.5B. The validation CSV contains every canonical validation event currently documented; the training CSV contains selected sampled optimizer updates rather than every raw log row.
