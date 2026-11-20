@@ -22,20 +22,21 @@ This is an educational case study, not a new training algorithm or architecture,
 | Inspect measured results | [Validation curve](results/validation_curve.csv) · [Milestones](results/milestones.md) · [Plot](results/validation_nll.svg) |
 | Load the public model checkpoint | [Anvaya-1B on Hugging Face](https://huggingface.co/Vijayendra/Anvaya-1B) |
 
-## Live run status
+## Completed run status
 
-The latest completed run snapshot supplied for this repository update is from **10 November 2026**; it is not a real-time status feed.
+The reference run completed on **20 November 2026** at the configured whole-update token boundary.
 
-| Evidence | Latest recorded state |
+| Evidence | Final recorded state |
 |---|---|
-| Training log | Update **6040** · **791,674,880** model-input tokens · **2,092.43** input tokens/second at that sampled update |
-| PyTorch memory metric | Rank-0 allocator high-water mark **11.4088 GiB** through the captured continuation; see [memory and FSDP details](docs/03_memory_and_fsdp.md) |
-| Validation | Update **6000** · **786,432,000** model-input tokens · NLL **3.41468** · perplexity **30.41** · token accuracy **37.24%** on **131,072** validation tokens |
-| Last complete checkpoint | Update **6042** · **791,937,024** model-input tokens |
+| Final COMPLETE checkpoint | **Update 11,445 · 1,500,119,040 model-input tokens** |
+| Final validation | NLL **3.212374** · perplexity **24.83799** · token accuracy **39.3593%** |
+| Fixed validation sample | **131,072 tokens** |
+| Latest sampled training telemetry | u11440 · 1,499,463,680 tokens · ~**1,999.55 input tokens/s** |
+| Rank-0 PyTorch allocator metric | ~**11.4088 GiB** through the completed continuation |
 
-The latest completed continuation resumed exactly from **u5444 / 713,555,968 tokens**, validated that parent at NLL **3.46161**, and continued cleanly through the **786.43M-token** validation point. The latest fixed validation is **u6000 / 786,432,000 tokens** with NLL **3.41468**, perplexity **30.41**, and token accuracy **37.24%**. The session then saved a COMPLETE checkpoint at **u6042 / 791,937,024 model-input tokens** and ended at a safe boundary.
+The final session resumed from **u10917 / 1,430,913,024 tokens**, saved **u11445 / 1,500,119,040 tokens**, evaluated that exact checkpoint, and ended with `[complete] reached training token target`. The model therefore completed the project's configured 1.5B-token training budget rather than stopping at a time guard.
 
-The live trainer copy remains aligned with the repository trainer `train/train_1b_dual_t4.py`; the architecture and training recipe are unchanged.
+The full fixed-validation ledger, sampled training telemetry, and session-to-session checkpoint chain are in [results](results/README.md).
 
 ## What I am training
 
@@ -67,81 +68,29 @@ The run uses two 16 GB NVIDIA Tesla T4 GPUs with PyTorch FSDP `FULL_SHARD`. Each
 
 The supplied log records a **rank-0 PyTorch allocator high-water mark of 11.4088 GiB** and about **2.1K input tokens/second** through the captured continuation. The memory value is not total device usage or free memory, and it is not a measurement from both ranks. The exact FSDP settings and a derived state-memory estimate are in [memory and FSDP](docs/03_memory_and_fsdp.md).
 
-## Validation so far
+## Completed validation curve
 
-Validation uses the same 131,072-token sample for each reported event. The table shows the update and actual number of model-input tokens processed at that point; it does not imply that every token in the training corpus has been seen exactly once.
+Validation uses the same 131,072-token sample for every reported event. Selected points are shown below; the full ledger is in [results/validation_curve.csv](results/validation_curve.csv).
 
 | Update | Input tokens | Validation NLL | Perplexity | Token accuracy |
 |---:|---:|---:|---:|---:|
 | 2 | 262,144 | 10.74244 | 46,279.01 | 3.79% |
-| 100 | 13,107,200 | 6.89855 | 990.83 | 12.09% |
-| 616 | 80,740,352 | 5.40386 | 222.26 | 21.15% |
-| 700 | 91,750,400 | 5.34038 | 208.59 | 21.51% |
-| 800 | 104,857,600 | 5.24585 | 189.78 | 22.05% |
-| 900 | 117,964,800 | 5.17369 | 176.57 | 22.52% |
-| 1000 | 131,072,000 | 5.12850 | 168.76 | 22.94% |
-| 1100 | 144,179,200 | 4.91807 | 136.74 | 23.95% |
-| 1200 | 157,286,400 | 4.79223 | 120.57 | 24.85% |
-| **1225** | **160,563,200** | **4.75070** | **115.67** | **25.21%** |
-| 1300 | 170,393,600 | 4.64783 | 104.36 | 26.20% |
-| 1400 | 183,500,800 | 4.54832 | 94.47 | 27.31% |
-| 1500 | 196,608,000 | 4.48414 | 88.60 | 28.09% |
-| 1600 | 209,715,200 | 4.40366 | 81.75 | 28.82% |
-| 1700 | 222,822,400 | 4.33161 | 76.07 | 29.57% |
-| 1800 | 235,929,600 | 4.27305 | 71.74 | 30.00% |
-| 1829 | 239,730,688 | 4.26552 | 71.20 | 30.09% |
-| 1900 | 249,036,800 | 4.23285 | 68.91 | 30.42% |
-| 2000 | 262,144,000 | 4.18993 | 66.02 | 30.73% |
-| 2100 | 275,251,200 | 4.12064 | 61.60 | 31.24% |
-| 2200 | 288,358,400 | 4.07375 | 58.78 | 31.45% |
-| 2300 | 301,465,600 | 4.02982 | 56.25 | 31.86% |
-| 2400 | 314,572,800 | 3.99674 | 54.42 | 32.09% |
-| 2436 | 319,291,392 | 3.98411 | 53.74 | 32.38% |
-| 2500 | 327,680,000 | 3.95959 | 52.44 | 32.59% |
-| 2600 | 340,787,200 | 3.92907 | 50.86 | 32.74% |
-| 2700 | 353,894,400 | 3.90170 | 49.49 | 33.07% |
-| 2800 | 367,001,600 | 3.88005 | 48.43 | 33.20% |
-| 2900 | 380,108,800 | 3.85094 | 47.04 | 33.35% |
-| 3000 | 393,216,000 | 3.83001 | 46.06 | 33.57% |
-| 3031 | 397,279,232 | 3.81320 | 45.30 | 33.69% |
-| 3100 | 406,323,200 | 3.79637 | 44.54 | 33.82% |
-| 3200 | 419,430,400 | 3.76876 | 43.33 | 34.04% |
-| 3300 | 432,537,600 | 3.74860 | 42.46 | 34.30% |
-| 3400 | 445,644,800 | 3.72747 | 41.57 | 34.42% |
-| 3500 | 458,752,000 | 3.71039 | 40.87 | 34.55% |
-| 3600 | 471,859,200 | 3.69297 | 40.16 | 34.65% |
-| **3638** | **476,839,936** | **3.68761** | **39.95** | **34.72%** |
-| 3700 | 484,966,400 | 3.67308 | 39.37 | 34.92% |
-| 3800 | 498,073,600 | 3.65959 | 38.85 | 34.90% |
-| 3900 | 511,180,800 | 3.63933 | 38.07 | 35.23% |
-| 4000 | 524,288,000 | 3.63511 | 37.91 | 35.16% |
-| 4100 | 537,395,200 | 3.61233 | 37.05 | 35.34% |
-| **4200** | **550,502,400** | **3.59542** | **36.43** | **35.51%** |
-| 4269 | 559,546,368 | 3.58536 | 36.07 | 35.71% |
-| 4300 | 563,609,600 | 3.58247 | 35.96 | 35.66% |
-| 4400 | 576,716,800 | 3.57260 | 35.61 | 35.63% |
-| 4500 | 589,824,000 | 3.55857 | 35.11 | 35.81% |
-| 4600 | 602,931,200 | 3.54933 | 34.79 | 35.97% |
-| 4700 | 616,038,400 | 3.53688 | 34.36 | 36.09% |
-| 4800 | 629,145,600 | 3.52762 | 34.04 | 36.17% |
-| 4879 | 639,500,288 | 3.51799 | 33.72 | 36.26% |
-| 4900 | 642,252,800 | 3.51375 | 33.57 | 36.35% |
-| 5000 | 655,360,000 | 3.50469 | 33.27 | 36.36% |
-| 5100 | 668,467,200 | 3.49334 | 32.90 | 36.43% |
-| 5200 | 681,574,400 | 3.48198 | 32.52 | 36.59% |
-| 5300 | 694,681,600 | 3.47210 | 32.20 | 36.55% |
-| 5400 | 707,788,800 | 3.46626 | 32.02 | 36.70% |
-| 5444 | 713,555,968 | 3.46161 | 31.87 | 36.69% |
-| 5500 | 720,896,000 | 3.45248 | 31.58 | 36.84% |
-| 5600 | 734,003,200 | 3.44293 | 31.28 | 36.98% |
-| 5700 | 747,110,400 | 3.43713 | 31.10 | 37.04% |
-| 5800 | 760,217,600 | 3.42684 | 30.78 | 37.08% |
-| 5900 | 773,324,800 | 3.42150 | 30.62 | 37.18% |
-| **6000** | **786,432,000** | **3.41468** | **30.41** | **37.24%** |
+| 1,225 | 160,563,200 | 4.75070 | 115.67 | 25.21% |
+| 2,436 | 319,291,392 | 3.98411 | 53.74 | 32.38% |
+| 4,269 | 559,546,368 | 3.58536 | 36.07 | 35.71% |
+| 6,042 | 791,937,024 | 3.41344 | 30.37 | 37.31% |
+| 7,879 | 1,032,716,288 | 3.30334 | 27.20 | 38.32% |
+| 9,712 | 1,272,971,264 | 3.24208 | 25.59 | 39.05% |
+| 10,917 | 1,430,913,024 | 3.21850 | 24.99 | 39.25% |
+| **11,445** | **1,500,119,040** | **3.21237** | **24.84** | **39.36%** |
 
 ![Validation negative log-likelihood by training tokens](results/validation_nll.svg)
 
-The fixed validation curve has continued to improve through **786.43M model-input tokens**, reaching NLL **3.41468**, perplexity **30.41**, and token accuracy **37.24%** on the fixed 131,072-token sample. These are next-token metrics and do not establish downstream capability. The continuous training lineage is now at a clean **791.94M-token** checkpoint. The **Anvaya-1B 160M** model-only FP16 checkpoint remains the current public weight release on Hugging Face at **[Vijayendra/Anvaya-1B](https://huggingface.co/Vijayendra/Anvaya-1B)** under the immutable `160M` revision.
+Across the full run, fixed-validation NLL fell from **10.74244 at u2** to **3.21237 at completion**. From the preserved u4269 / 559.55M continuation boundary alone, NLL improved from **3.58536 to 3.21237**, perplexity from **36.07 to 24.84**, and token accuracy from **35.71% to 39.36%**.
+
+These are next-token metrics and do not establish downstream capability.
+
+The existing public Hugging Face release remains the immutable **160M** checkpoint while the later completed checkpoints are prepared as model-only exports. See [checkpoint releases](releases/README.md) for the recommended series.
 
 ## Public checkpoint generation verification
 
@@ -149,7 +98,7 @@ The public `160M` Hugging Face artifact has been loaded independently on an NVID
 
 At this early checkpoint, the model already shows local grammar and phrase structure, while factual associations and semantic stability remain weak. For example, open-ended prompts can produce sentence-like prose, but factual prompts such as `The capital of France is` are still unreliable. This is exactly why selected intermediate checkpoints are useful: they let the project observe the emergence of language behavior during pretraining rather than presenting only a final checkpoint.
 
-The current public weights remain the immutable **160M** milestone even though the training lineage itself has advanced to **791.94M tokens**.
+The current public weights remain the immutable **160M** milestone. The training lineage is now complete at **1.500119B model-input tokens**, and later revisions should be published only after each model-only export is load-tested.
 
 ## Early behavioral comparison with Pythia-1B
 
@@ -189,7 +138,7 @@ A new stream rebuild follows the documented dataset contract; it is not guarante
 
 ## Token budget and sampling
 
-The nominal target is **1.5 billion model-input tokens**. The trainer samples deterministic 4096-token windows from individual training shards. It samples with replacement, so “1.5B tokens” is an update ledger, not a promise of one exact pass over all 1.485B corpus tokens. With whole updates, the run’s configured target is 11,445 updates, or **1,500,119,040** input tokens.
+The configured target was **1.5 billion model-input tokens**. Because training stops on a whole optimizer update, the final boundary was 11,445 updates, or **1,500,119,040 input tokens**. That boundary has now been reached. The trainer samples deterministic 4096-token windows from individual training shards with replacement, so the token ledger is not a claim that every corpus token was seen exactly once.
 
 ## What “from scratch” means here
 
