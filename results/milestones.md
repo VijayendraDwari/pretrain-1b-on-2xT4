@@ -1,75 +1,50 @@
 # Training milestones
 
-The table records the update and token count used for each validation result. Training can pass an analytical milestone between validation events, so report the measured update rather than rounding it to the milestone label.
+This file records the completed reference run for the 1,018,126,848-parameter dense decoder-only model trained at 4096 context on 2×16GB Tesla T4 GPUs.
 
-| Update | Model-input tokens | Validation NLL | Perplexity | Token accuracy | Note |
-|---:|---:|---:|---:|---:|---|
-| 2 | 262,144 | 10.74244 | 46,279.01 | 3.794% | Initial validation |
-| 100 | 13,107,200 | 6.89855 | 990.83 | 12.092% | Earlier run log |
-| 616 | 80,740,352 | 5.40386 | 222.26 | 21.155% | Complete parent checkpoint |
-| 700 | 91,750,400 | 5.34038 | 208.59 | 21.506% | Continuation validation |
-| 800 | 104,857,600 | 5.24585 | 189.78 | 22.049% | First validation after passing 100M |
-| 900 | 117,964,800 | 5.17369 | 176.57 | 22.522% | Continuation validation |
-| 1000 | 131,072,000 | 5.12850 | 168.76 | 22.940% | Continuation validation |
-| 1100 | 144,179,200 | 4.91807 | 136.74 | 23.952% | Continuation validation |
-| 1200 | 157,286,400 | 4.79223 | 120.57 | 24.852% | Continuation validation |
-| 1225 | 160,563,200 | 4.75070 | 115.67 | 25.205% | Current public HF checkpoint (`160M`) |
-| 1300 | 170,393,600 | 4.64783 | 104.36 | 26.204% | Continuation validation |
-| 1400 | 183,500,800 | 4.54832 | 94.47 | 27.312% | Continuation validation |
-| 1500 | 196,608,000 | 4.48414 | 88.60 | 28.094% | Continuation validation |
-| 1600 | 209,715,200 | 4.40366 | 81.75 | 28.819% | Continuation validation |
-| 1700 | 222,822,400 | 4.33161 | 76.07 | 29.567% | Continuation validation |
-| 1800 | 235,929,600 | 4.27305 | 71.74 | 29.997% | Continuation validation |
-| 1829 | 239,730,688 | 4.26552 | 71.20 | 30.089% | Clean resume validation; preserved complete checkpoint |
-| 1900 | 249,036,800 | 4.23285 | 68.91 | 30.415% | Validation immediately before crossing 250M |
-| 2000 | 262,144,000 | 4.18993 | 66.02 | 30.727% | First validation after crossing 250M |
-| 2100 | 275,251,200 | 4.12064 | 61.60 | 31.237% | Continuation validation |
-| 2200 | 288,358,400 | 4.07375 | 58.78 | 31.454% | Continuation validation |
-| 2300 | 301,465,600 | 4.02982 | 56.25 | 31.857% | First validation above 300M |
-| 2400 | 314,572,800 | 3.99674 | 54.42 | 32.092% | Continuation validation |
-| 2436 | 319,291,392 | 3.98411 | 53.74 | 32.375% | Clean resume validation; preserved complete checkpoint |
-| 2500 | 327,680,000 | 3.95959 | 52.44 | 32.594% | Continuation validation |
-| 2600 | 340,787,200 | 3.92907 | 50.86 | 32.736% | Continuation validation |
-| 2700 | 353,894,400 | 3.90170 | 49.49 | 33.068% | Continuation validation |
-| 2800 | 367,001,600 | 3.88005 | 48.43 | 33.199% | Continuation validation |
-| 2900 | 380,108,800 | 3.85094 | 47.04 | 33.354% | Continuation validation |
-| 3000 | 393,216,000 | 3.83001 | 46.06 | 33.566% | Continuation validation |
-| 3031 | 397,279,232 | 3.81320 | 45.30 | 33.694% | Clean resume validation; preserved complete checkpoint |
-| 3100 | 406,323,200 | 3.79637 | 44.54 | 33.816% | Continuation validation |
-| 3200 | 419,430,400 | 3.76876 | 43.33 | 34.036% | Continuation validation |
-| 3300 | 432,537,600 | 3.74860 | 42.46 | 34.296% | Continuation validation |
-| 3400 | 445,644,800 | 3.72747 | 41.57 | 34.421% | Continuation validation |
-| 3500 | 458,752,000 | 3.71039 | 40.87 | 34.553% | Continuation validation |
-| 3600 | 471,859,200 | 3.69297 | 40.16 | 34.653% | Continuation validation |
-| 3638 | 476,839,936 | 3.68761 | 39.95 | 34.718% | Clean resume validation of preserved checkpoint |
-| 3700 | 484,966,400 | 3.67308 | 39.37 | 34.924% | Continuation validation |
-| 3800 | 498,073,600 | 3.65959 | 38.85 | 34.896% | Last validation below 500M |
-| 3900 | 511,180,800 | 3.63933 | 38.07 | 35.228% | First validation above 500M |
-| 4000 | 524,288,000 | 3.63511 | 37.91 | 35.159% | Continuation validation |
-| 4100 | 537,395,200 | 3.61233 | 37.05 | 35.341% | Continuation validation |
-| 4200 | 550,502,400 | 3.59542 | 36.43 | 35.509% | Continuation validation |
-| 4269 | 559,546,368 | 3.58536 | 36.07 | 35.707% | Exact-resume validation of preserved checkpoint |
-| 4300 | 563,609,600 | 3.58247 | 35.96 | 35.662% | Continuation validation |
-| 4400 | 576,716,800 | 3.57260 | 35.61 | 35.632% | Continuation validation |
-| 4500 | 589,824,000 | 3.55857 | 35.11 | 35.809% | Continuation validation |
-| 4600 | 602,931,200 | 3.54933 | 34.79 | 35.970% | First validation above 600M |
-| 4700 | 616,038,400 | 3.53688 | 34.36 | 36.092% | Continuation validation |
-| 4800 | 629,145,600 | 3.52762 | 34.04 | 36.166% | Continuation validation |
-| 4879 | 639,500,288 | 3.51799 | 33.72 | 36.259% | Exact-resume validation of preserved checkpoint |
-| 4900 | 642,252,800 | 3.51375 | 33.57 | 36.350% | Continuation validation |
-| 5000 | 655,360,000 | 3.50469 | 33.27 | 36.363% | First validation at 655.36M tokens |
-| 5100 | 668,467,200 | 3.49334 | 32.90 | 36.430% | Continuation validation |
-| 5200 | 681,574,400 | 3.48198 | 32.52 | 36.588% | Continuation validation |
-| 5300 | 694,681,600 | 3.47210 | 32.20 | 36.549% | Continuation validation |
-| 5400 | 707,788,800 | 3.46626 | 32.02 | 36.702% | Continuation validation |
-| 5444 | 713,555,968 | 3.46161 | 31.87 | 36.689% | Exact-resume validation of preserved checkpoint |
-| 5500 | 720,896,000 | 3.45248 | 31.58 | 36.843% | Continuation validation |
-| 5600 | 734,003,200 | 3.44293 | 31.28 | 36.980% | Continuation validation |
-| 5700 | 747,110,400 | 3.43713 | 31.10 | 37.044% | Continuation validation |
-| 5800 | 760,217,600 | 3.42684 | 30.78 | 37.077% | Continuation validation |
-| 5900 | 773,324,800 | 3.42150 | 30.62 | 37.180% | Continuation validation |
-| 6000 | 786,432,000 | 3.41468 | 30.41 | 37.236% | Latest captured validation |
+## Completion
 
-The latest supplied completed session resumes from **u5444 / 713,555,968 tokens**, reaches sampled training update **6040** (**791,674,880 tokens**) at **2,092.43 input tokens/s**, then passes checkpoint preflight and saves a COMPLETE checkpoint at update **6042** (**791,937,024 tokens**) before a safe session end. The latest fixed validation is update **6000** / **786,432,000 tokens** with NLL **3.41468**, perplexity **30.41**, and token accuracy **37.236%**.
+The configured budget was reached at **update 11,445 / 1,500,119,040 model-input tokens**. Final fixed validation was **NLL 3.212374**, **perplexity 24.83799**, and **token accuracy 39.3593%**. The trainer terminated normally after saving the complete checkpoint and reporting that the token target had been reached.
 
-The run has crossed the **250M**, **300M**, **400M**, **500M**, **600M**, and **700M** model-input-token levels and is approaching 800M. The configured final target is reached at a whole-update boundary, so the final token count will be **1,500,119,040** rather than exactly 1.5B. The validation CSV contains every canonical validation event currently documented; the training CSV contains selected sampled optimizer updates rather than every raw log row.
+## Selected validation milestones
+
+| Update | Input tokens | NLL | PPL | Token accuracy |
+|---:|---:|---:|---:|---:|
+| 2 | 262,144 | 10.74244 | 46,279.01 | 3.79% |
+| 1,225 | 160,563,200 | 4.75070 | 115.67 | 25.21% |
+| 1,829 | 239,730,688 | 4.26552 | 71.20 | 30.09% |
+| 2,436 | 319,291,392 | 3.98411 | 53.74 | 32.38% |
+| 3,031 | 397,279,232 | 3.81320 | 45.30 | 33.69% |
+| 4,269 | 559,546,368 | 3.58536 | 36.07 | 35.71% |
+| 6,042 | 791,937,024 | 3.41344 | 30.37 | 37.31% |
+| 7,879 | 1,032,716,288 | 3.30334 | 27.20 | 38.32% |
+| 9,712 | 1,272,971,264 | 3.24208 | 25.59 | 39.05% |
+| 10,917 | 1,430,913,024 | 3.21850 | 24.99 | 39.25% |
+| **11,445** | **1,500,119,040** | **3.21237** | **24.84** | **39.36%** |
+
+The complete fixed-validation ledger is in [validation_curve.csv](validation_curve.csv).
+
+## Final continuation chain
+
+The last phase was executed as a sequence of immutable-parent Kaggle continuations:
+
+| Resume checkpoint | Saved checkpoint |
+|---:|---:|
+| u4269 / 559,546,368 | u4879 / 639,500,288 |
+| u4879 / 639,500,288 | u5444 / 713,555,968 |
+| u5444 / 713,555,968 | u6042 / 791,937,024 |
+| u6042 / 791,937,024 | u6663 / 873,332,736 |
+| u6663 / 873,332,736 | u7267 / 952,500,224 |
+| u7267 / 952,500,224 | u7879 / 1,032,716,288 |
+| u7879 / 1,032,716,288 | u8459 / 1,108,738,048 |
+| u8459 / 1,108,738,048 | u9090 / 1,191,444,480 |
+| u9090 / 1,191,444,480 | u9712 / 1,272,971,264 |
+| u9712 / 1,272,971,264 | u10282 / 1,347,682,304 |
+| u10282 / 1,347,682,304 | u10917 / 1,430,913,024 |
+| u10917 / 1,430,913,024 | **u11445 / 1,500,119,040** |
+
+Machine-readable provenance is in [session_checkpoints.csv](session_checkpoints.csv).
+
+## What the curve shows
+
+From u4269 to the final checkpoint, fixed-validation NLL improved from **3.58536 to 3.21237** and perplexity from **36.07 to 24.84**. Token accuracy improved from **35.71% to 39.36%**. Training remained numerically stable through the final continuation, while the cosine schedule annealed toward the configured minimum learning rate.
