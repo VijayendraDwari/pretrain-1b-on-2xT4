@@ -1,26 +1,37 @@
 # Checkpoint releases
 
-The training lineage is ahead of the public model release. The current Hugging Face public checkpoint is **Anvaya-1B `160M`**, exported from update **1225 / 160,563,200 model-input tokens** as model-only FP16 safetensors. The raw resumable FSDP checkpoints remain training artifacts rather than GitHub downloads.
+The reference training run is complete at **u11445 / 1,500,119,040 model-input tokens**. Raw two-rank FSDP checkpoints are training artifacts; public Hugging Face releases should be model-only exports with exact provenance back to a COMPLETE training checkpoint.
 
-The latest documented COMPLETE training checkpoint is update **4879 / 639,500,288 tokens**. The latest measured validation is update **4800 / 629,145,600 tokens**: NLL **3.52762**, perplexity **34.04**, token accuracy **36.166%**. The 600M model-input-token milestone has now been crossed cleanly.
+The existing public release remains **Anvaya-1B `160M`**, exported from **u1225 / 160,563,200 tokens**. The later checkpoints below are trained and preserved but should be marked public only after each export has been reconstructed and independently load-tested.
 
-## Public checkpoint series
+## Recommended public series
 
-The public series favors scientifically useful snapshots rather than every session boundary. Each Hugging Face milestone should be an immutable named revision and should contain model-only weights plus the exact configuration, tokenizer identity, validation record, export checksum, and provenance back to the resumable training checkpoint.
-
-| HF revision | Source checkpoint | Exact model-input tokens | Status / rationale |
+| HF revision | Source checkpoint | Exact input tokens | Status / role |
 |---|---:|---:|---|
-| `160M` | u1225 | 160,563,200 | **Public now** — first early-language checkpoint |
-| `240M` | u1829 | 239,730,688 | Candidate — useful early-emergence comparison |
-| `320M` | u2436 | 319,291,392 | Candidate — preserved clean checkpoint |
-| `400M` | u3031 | 397,279,232 | Candidate — preserved clean checkpoint near 400M |
-| `560M` | u4269 | 559,546,368 | Preserved post-500M checkpoint |
-| `640M` | u4879 | 639,500,288 | **Latest major public milestone candidate** — clean checkpoint after crossing 600M |
-| `750M` | first clean checkpoint at/after 750M | ≥750M | Planned |
-| `1B` | first clean checkpoint at/after 1B | ≥1B | Planned |
-| `1.25B` | first clean checkpoint at/after 1.25B | ≥1.25B | Planned |
-| `1.5B` | final whole-update checkpoint | 1,500,119,040 | Planned final base checkpoint |
+| `160M` | u1225 | 160,563,200 | **Public** — early-language checkpoint |
+| `240M` | u1829 | 239,730,688 | Recommended — early emergence |
+| `320M` | u2436 | 319,291,392 | Recommended — early/mid curve |
+| `400M` | u3031 | 397,279,232 | Recommended — near-400M milestone |
+| `560M` | u4269 | 559,546,368 | Recommended — post-500M milestone |
+| `800M` | u6042 | 791,937,024 | Recommended — mid-run checkpoint |
+| `1B` | u7879 | 1,032,716,288 | Recommended — first clean checkpoint beyond 1B |
+| `1.27B` | u9712 | 1,272,971,264 | Recommended — late-training checkpoint |
+| `1.43B` | u10917 | 1,430,913,024 | Optional — near-final comparison |
+| `1.5B-final` | **u11445** | **1,500,119,040** | **Recommended final base checkpoint** |
 
-Update **4269 / 559.55M** remains an important preserved post-500M checkpoint with clean resume validation (NLL **3.58536**). The newer u4879 checkpoint now provides a clearer post-600M milestone for any next public export.
+Friendly revision names are labels; every model card must state the exact update and token ledger.
 
-The friendly revision names are labels, not rounded claims about exact token exposure. Every release must state its exact update and token ledger explicitly.
+## Minimum export contract
+
+Each public revision should include:
+
+1. model-only weights, preferably safetensors;
+2. exact architecture/configuration;
+3. tokenizer files and tokenizer identity;
+4. source update and exact model-input-token count;
+5. fixed-validation NLL, perplexity, token accuracy and validation-token count;
+6. export checksum(s);
+7. a short note that the model was pretrained from random Transformer initialization on FineWeb-derived data;
+8. a generation smoke test showing finite logits and successful autoregressive generation.
+
+Do not publish raw FSDP rank checkpoints as the user-facing model package. Preserve them separately for training reproducibility.
