@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: "Dwari"
     given-names: "Vijayendra"
-date-released: 2026-11-05
-version: "0.1.0"
+date-released: 2026-11-20
+version: "1.0.0"
 license: MIT
 repository-code: "https://github.com/VijayendraDwari/pretrain-1b-on-2xT4"
 abstract: "An educational walkthrough of a 1.018B-parameter decoder-only language-model pretraining run using PyTorch FSDP and two NVIDIA Tesla T4 GPUs. The recipe depends on separately licensed external data and tokenizer files."
