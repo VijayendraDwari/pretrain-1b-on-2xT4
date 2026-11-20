@@ -12,12 +12,12 @@
     "sha256": "faca3d797afa325b72aa759f16fded08d55184bb5fb6eb17c2cd69019d01a3d3"
   },
   "MANIFEST.json": {
-    "bytes": 1738,
-    "sha256": "662994655f0f298a858e7ea980bc1f04f1187dfc4b8a69cbef766f33412c7c7b"
+    "bytes": 1964,
+    "sha256": "fcbffc8a80ac9d3d1675157b7b15f21b704d47c647043a3a913b88917baba708"
   },
   "README.md": {
-    "bytes": 14680,
-    "sha256": "d83468a8000099ac12d018303dd1ef6b61a6e548644fe936494a04db04c20d81"
+    "bytes": 12398,
+    "sha256": "9071a823b03ddd286ccbb4a9240099ada3668c5803145cff056c1d6a0c220a8e"
   },
   "data/dataset_contract.md": {
     "bytes": 1299,
@@ -88,8 +88,8 @@
     "sha256": "50be62ccb66eb705384be8998dbd32b7bd6fc5eb65295fd97fd6b548ce83cba1"
   },
   "releases/README.md": {
-    "bytes": 2310,
-    "sha256": "0ee7fe71f3841c9057cce5532566551c45ffa510aef1ae2089e57d1252a9a3d7"
+    "bytes": 2204,
+    "sha256": "d664acd25e2d929901b31a365c69d2033c101fc68c143ecf0fb853190f83982f"
   },
   "requirements.txt": {
     "bytes": 112,
@@ -116,24 +116,24 @@
     "sha256": "7514299b46fdb7a246d183329b8498302c2975a0fa459ead1215e4c883768d24"
   },
   "results/README.md": {
-    "bytes": 1016,
-    "sha256": "05f84a142c6b419434ac8cc3ce8cfb878031d12068a7a1865aa346a08bd2829b"
+    "bytes": 1410,
+    "sha256": "6951fececfc0ed127c0fbb37d72a8ae2431a109ecb3edb217498aed903574138"
   },
   "results/milestones.md": {
-    "bytes": 5333,
-    "sha256": "cc6d59632dea622291e0eec3e3fa024a920e14cbc5e77061fd196e0595269214"
+    "bytes": 2507,
+    "sha256": "48aa9e7eb3992878176b3c59fc82211f9d35e816620309673b840e7b921b5e7c"
   },
   "results/plot_validation.py": {
-    "bytes": 2185,
-    "sha256": "0564a339df0615cbc58e9cacd60b869d425212c32a61e4188d00cd7e6dce388f"
+    "bytes": 2200,
+    "sha256": "45da65dd5e10ca3aec2f7c847246cb72cab992edb2d46b3be331a476107b9510"
   },
   "results/training_curve.csv": {
     "bytes": 41090,
     "sha256": "9ad9bf305e588498209012317b5bc6d7eb62b850b281857fa76c1725764c9989"
   },
   "results/validation_curve.csv": {
-    "bytes": 3626,
-    "sha256": "d86e59336b325f2af3b64b553c2a8c7845f061ad5fd87aa6f750305ef1a8e58b"
+    "bytes": 9238,
+    "sha256": "0391a42a4762d6258783a5630182af71d517dae92839a104066afba71653af3e"
   },
   "train/config_1b_t4.json": {
     "bytes": 686,
@@ -164,7 +164,7 @@
     "sha256": "bf70f4dcd622aaf6b38761ee38845ca22ed2a50c42dea905d0124c13ab2999ae"
   },
   "docs/PRETRAIN_1B_LLM_FROM_SCRATCH.md": {
-    "bytes": 9643,
-    "sha256": "c09ba7f3592a404850be46fa08720537008cc172dd3b04609cad09b02fc23957"
+    "bytes": 9795,
+    "sha256": "c200baed27b1bb91f6b56ca22cbc907cdb098a5f87f1b694d141e9df4e23f7ea"
   }
 }
