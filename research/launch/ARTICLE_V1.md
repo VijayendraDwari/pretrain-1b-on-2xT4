@@ -149,11 +149,11 @@ A training recipe is not reproducible merely because it can start.
 
 It must also define what happens when the machine disappears.
 
-## The learning curve so far
+## The completed learning curve
 
-The continuous training lineage has now reached a **clean COMPLETE checkpoint at update 4879 / 639,500,288 model-input tokens**. The latest completed session resumed exactly from u4269 / 559,546,368 tokens, validated that restored state at NLL **3.58536**, crossed **600M model-input tokens**, and exited at a safe boundary after the u4879 checkpoint was written.
+The continuous training lineage completed at a **clean COMPLETE checkpoint at update 11,445 / 1,500,119,040 model-input tokens**. The final session resumed from u10917 / 1,430,913,024 tokens, saved u11445, evaluated that exact checkpoint, and terminated normally because the configured token target had been reached.
 
-The latest sampled training row is u4870 / 638,320,640 tokens. The latest fixed validation is earlier, at u4800 / 629,145,600 tokens, because validation, sampled training logs, and resumable checkpoints are deliberately tracked as separate frontiers.
+The latest sampled training row is u11440 / 1,499,463,680 tokens. The final fixed validation is u11445 / 1,500,119,040 tokens. Training telemetry, validation points, and resumable checkpoints remain distinct frontiers in the repository's provenance records.
 
 Selected fixed validation measurements are:
 
@@ -175,7 +175,7 @@ From the exact-resume validation at u4269 to u4800, NLL improved from **3.58536*
 
 These numbers are next-token metrics on the project's fixed 131,072-token validation sample. They are **not** downstream benchmark results and do not establish general model capability.
 
-The first public Hugging Face release remains the immutable **Anvaya-1B `160M`** checkpoint. The training lineage is now far ahead of that public release, and **u4879 / 639.50M** is the latest major public checkpoint candidate.
+The first public Hugging Face release remains the immutable **Anvaya-1B `160M`** checkpoint. The training lineage itself is complete at **1.50012B input tokens**; later model-only releases should be exported and load-tested from preserved COMPLETE checkpoints before being marked public.
 
 ## Why two T4s?
 
@@ -343,10 +343,10 @@ I plan to keep the public record updated at major stages:
 
 - ~~250M tokens — crossed~~;
 - ~~500M tokens — crossed~~;
-- ~~600M tokens — crossed; latest COMPLETE checkpoint is u4879 / 639.50M~~;
-- 750M tokens;
-- 1B tokens;
-- 1.25B tokens;
+- ~~600M tokens — crossed~~;
+- ~~750M tokens — crossed~~;
+- ~~1B tokens — crossed~~;
+- ~~1.25B tokens — crossed~~;
 - 1.5B tokens.
 
 Once the final training state exists, I can publish a fixed downstream evaluation, final systems accounting and—if appropriate—the model checkpoint itself.
