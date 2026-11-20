@@ -1,15 +1,29 @@
-# Results files
+# Results
 
-`validation_curve.csv` is the canonical validation-event ledger for this project. Each row records update, cumulative model-input tokens, NLL, perplexity, and top-1 token accuracy on the fixed **131,072-token** validation sample.
+The reference 1.018B-parameter dense model has completed its configured pretraining budget on **2×16GB NVIDIA Tesla T4 GPUs**.
 
-The ledger now extends through update **4800** / **629,145,600 tokens**, where validation NLL is **3.52762**, perplexity **34.04**, and token accuracy **36.166%**. The latest COMPLETE resumable checkpoint is later: update **4879** / **639,500,288 tokens**. The completed session crossed 600M model-input tokens cleanly.
+## Final state
 
-`training_curve.csv` contains selected training-log rows and now extends through sampled update **4870** / **638,320,640 tokens**. It remains a sampled ledger, not the complete JSONL history.
+| Metric | Final value |
+|---|---:|
+| Optimizer update | **11,445** |
+| Model-input tokens | **1,500,119,040** |
+| Validation NLL | **3.212374** |
+| Validation perplexity | **24.83799** |
+| Validation token accuracy | **39.3593%** |
+| Fixed validation sample | **131,072 tokens** |
+| Context length | **4096** |
+| Trainable parameters | **1,018,126,848** |
 
-To rebuild the chart from the validation CSV, run:
+The trainer ended normally with `[complete] reached training token target`. The final checkpoint is therefore the planned whole-update boundary, not a time-guard stop.
 
-```bash
-python results/plot_validation.py
-```
+## Files
 
-The repository tracks `results/validation_nll.svg` as the README-facing plot so the checked-in graph stays synchronized with the recorded validation rows.
+- [validation_curve.csv](validation_curve.csv): fixed-validation ledger from early training through the final checkpoint.
+- [training_curve.csv](training_curve.csv): sampled training telemetry; sampling density varies across historical sessions.
+- [session_checkpoints.csv](session_checkpoints.csv): explicit continuation chain for the final 559.55M → 1.50012B-token phase.
+- [milestones.md](milestones.md): human-readable milestone summary.
+- [validation_nll.svg](validation_nll.svg): README-facing validation-NLL plot.
+- [plot_validation.py](plot_validation.py): plot generator.
+
+The validation metrics are next-token measurements on the same fixed 131,072-token sample. They are not downstream benchmark scores.
