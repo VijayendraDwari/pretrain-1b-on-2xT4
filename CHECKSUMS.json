@@ -104,12 +104,12 @@
     "sha256": "30d5d6afc23d5feb758bcf66a49e3ecc649d8ea71e0910fa2dc2ac3088f30e10"
   },
   "research/article/ARTICLE_DRAFT_v0.1.md": {
-    "bytes": 4749,
-    "sha256": "87371ba4d5faf1954eb3a7722592d46a68bead856fb59b47010b990d3839c41d"
+    "bytes": 3936,
+    "sha256": "a15e4bf76cbef91e610f7c36aab91e7852be8c0efa6b708d63ba7136b251f4e1"
   },
   "research/article/ARTICLE_OUTLINE.md": {
-    "bytes": 3619,
-    "sha256": "c2b28d9ba10e6335a62782f23bc8ca0af19d8daf1b83abcb28ddcd2382158bee"
+    "bytes": 3399,
+    "sha256": "dc6b398bd3b03166302ae407a3155e4caf4e3aebdd32dd65326de8f40e92280c"
   },
   "research/prior_art.md": {
     "bytes": 1941,
@@ -128,8 +128,8 @@
     "sha256": "45da65dd5e10ca3aec2f7c847246cb72cab992edb2d46b3be331a476107b9510"
   },
   "results/training_curve.csv": {
-    "bytes": 41090,
-    "sha256": "9ad9bf305e588498209012317b5bc6d7eb62b850b281857fa76c1725764c9989"
+    "bytes": 49876,
+    "sha256": "01d504c22d512bcfa2bd5a22f3a27a4967b7083187e48af689fb461fa1c23581"
   },
   "results/validation_curve.csv": {
     "bytes": 9238,
@@ -148,23 +148,27 @@
     "sha256": "55a57185b100a8f63f1e3b77c5fd80726b952c8abe49b0a06f9aa5af5a83f440"
   },
   "results/validation_nll.svg": {
-    "bytes": 7284,
-    "sha256": "5c027f1602c9031e803059f0ef629b7964e19ed3aeda6146d402cd36a064bf75"
+    "bytes": 12209,
+    "sha256": "209eaa3af9db53db0a7d4d4a948fa086ce0305386fe4d443c9bb3d95faf1ded2"
   },
   "research/launch/ARTICLE_V1.md": {
-    "bytes": 16483,
-    "sha256": "09b50affed23a479548a7d253f21c9f6656c88b420b8cc234e72b0d37484e3be"
+    "bytes": 16507,
+    "sha256": "dd8daa1f0a85cade47065bf282dfdd13fae5dc4317be39a9c51c1d26b881331d"
   },
   "research/launch/LINKEDIN_LAUNCH.md": {
-    "bytes": 3573,
-    "sha256": "f87f5b8dc294c1767d691ced2094651cfcf96259beb99796c4e96f2cabbb6b74"
+    "bytes": 3166,
+    "sha256": "984e58cdc3d0f292d97785e31eddcb4fe60a97c78dd9d6d7af1d11b9b2bd7259"
   },
   "research/anvaya_vs_pythia_early_training.md": {
-    "bytes": 8593,
-    "sha256": "bf70f4dcd622aaf6b38761ee38845ca22ed2a50c42dea905d0124c13ab2999ae"
+    "bytes": 8620,
+    "sha256": "5b49dfb7b89d1f7d6d9597678fb2dd607aac6c8278356fe18ebae6aefe49b0c8"
   },
   "docs/PRETRAIN_1B_LLM_FROM_SCRATCH.md": {
     "bytes": 9795,
     "sha256": "c200baed27b1bb91f6b56ca22cbc907cdb098a5f87f1b694d141e9df4e23f7ea"
+  },
+  "results/session_checkpoints.csv": {
+    "bytes": 1638,
+    "sha256": "ab3a6cc01b2d5c68f5514f9af1d534fff1cc188c569d86dfa9cf04f6e928537a"
   }
 }
