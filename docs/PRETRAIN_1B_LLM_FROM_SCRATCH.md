@@ -122,25 +122,25 @@ The mounted parent checkpoint stays immutable while a new session writes a child
 
 See [checkpointing](06_checkpointing.md) and [resume across sessions](07_resume_across_sessions.md).
 
-## Current measured training state
+## Completed reference run
 
-As of the completed **8 November 2026** session:
+The configured 1.5B-token budget has now been completed.
 
-| Frontier | Latest recorded state |
+| Frontier | Final recorded state |
 |---|---|
-| Sampled training log | **u4870 / 638,320,640 input tokens** |
-| Fixed validation | **u4800 / 629,145,600 input tokens** |
-| Validation NLL | **3.52762** |
-| Validation perplexity | **34.04** |
-| Validation token accuracy | **36.17%** |
-| Latest COMPLETE checkpoint | **u4879 / 639,500,288 input tokens** |
+| Final COMPLETE checkpoint | **u11445 / 1,500,119,040 input tokens** |
+| Final fixed validation | **u11445 / 1,500,119,040 input tokens** |
+| Validation NLL | **3.212374** |
+| Validation perplexity | **24.83799** |
+| Validation token accuracy | **39.3593%** |
+| Latest sampled training telemetry | **u11440 / 1,499,463,680 tokens** |
 | Public Hugging Face weights | **Anvaya-1B `160M` / u1225 / 160,563,200 tokens** |
 
-The training lineage has crossed **600M model-input tokens**. The later u4879 state is a resumable training checkpoint, while the currently public Hugging Face weights intentionally remain the earlier immutable `160M` milestone.
+The final session saved the u11445 checkpoint, evaluated it on the fixed 131,072-token validation sample, and terminated normally because the configured token target had been reached. This is therefore a completed reference run rather than an in-progress training frontier.
 
 ![Validation negative log-likelihood during pretraining](../results/validation_nll.svg)
 
-These are next-token measurements on a fixed 131,072-token validation sample. They are not downstream benchmark scores.
+The full validation ledger is in [validation_curve.csv](../results/validation_curve.csv), and the final continuation chain is recorded in [session_checkpoints.csv](../results/session_checkpoints.csv).
 
 ## Public model: Anvaya-1B
 
