@@ -36,28 +36,17 @@ Training itself was healthy. Persistence was not.
 
 That failure became one of the most useful parts of the project: the continuation design now keeps the mounted parent immutable, writes rank files transactionally, and refuses to resume from incomplete state.
 
-The run has now crossed **500M model-input tokens** and reached a clean COMPLETE checkpoint at:
+The run has now **completed its configured 1.5B-token training budget** and reached the final clean COMPLETE checkpoint at:
 
-**u4879 / 639,500,288 tokens**
+**u11445 / 1,500,119,040 model-input tokens**
 
-The latest fixed validation is:
+Final fixed validation on the same 131,072-token sample:
 
-**u4800 / 629,145,600 tokens → NLL 3.52762 / PPL 34.04 / token accuracy 36.17%**
+- NLL **3.21237**
+- perplexity **24.84**
+- token accuracy **39.36%**
 
-For context, the fixed validation trajectory includes:
-
-- 160.56M → NLL 4.7507 / PPL 115.7
-- 239.73M → NLL 4.2655 / PPL 71.2
-- 319.29M → NLL 3.9841 / PPL 53.74
-- 397.28M → NLL 3.8132 / PPL 45.30
-- 476.84M → NLL 3.6876 / PPL 39.95
-- 559.55M → NLL 3.5854 / PPL 36.07
-- 602.93M → NLL 3.5493 / PPL 34.79
-- 629.15M → **NLL 3.5276 / PPL 34.04**
-
-The latest completed continuation resumed exactly from u4269 / 559.55M, validated the restored state, crossed 600M, continued without changing the recipe, and stopped at a safe boundary after writing u4879.
-
-The target remains **1.5B model-input tokens**.
+The final continuation resumed from u10917 / 1.43091B tokens, saved u11445, validated the exact final state, and stopped normally because the configured target had been reached.
 
 This is not a claim that 1.5B tokens is compute-optimal for a 1B model. It is not a speed record, and it is not intended to compete with heavily pretrained production models.
 
@@ -71,8 +60,6 @@ The full recipe is public on GitHub:
 
 The repository includes the canonical trainer, FineWeb data-preparation contract, PyTorch FSDP setup, Kaggle continuation workflow, checkpoint recovery design, architecture and parameter-count notes, memory accounting, evaluation protocol, raw validation/training curves, and the failures encountered along the way.
 
-The model now also has a public name: **Anvaya-1B**. The first immutable Hugging Face weight release remains the earlier **`160M`** milestone at 160,563,200 tokens; the training lineage itself is now at 639.50M. The preserved u4879 state is the latest major public checkpoint candidate.
-
-Next major training milestones: **750M, 1B, 1.25B and 1.5B model-input tokens**.
+The model also has a public name: **Anvaya-1B**. The first immutable Hugging Face weight release remains the earlier **`160M`** milestone at 160,563,200 tokens; the full training lineage is now complete at 1.50012B model-input tokens. Additional completed checkpoints can now be exported as a versioned public series after load verification.
 
 If you work on model pretraining, distributed PyTorch, constrained-compute research, or simply want to understand what changes when a GPT stops being a toy, I’d value your feedback.
