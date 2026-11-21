@@ -278,23 +278,22 @@ The distinction between these two views may be more educational than a single "t
 
 ## Current interpretation
 
-At 160.56M model-input tokens, Anvaya appears to have crossed an early qualitative threshold:
+The early 160M-vs-Pythia comparison remains a historical behavioral probe, not an architecture claim. Anvaya-1B has since completed its configured training budget and the selected training trajectory is now public as immutable Hugging Face revisions.
 
-> **Language structure is clearly present; factual knowledge and semantic stability are not yet reliable.**
+The same frozen generation suite can now be repeated longitudinally across:
 
-The next useful experiment is not to declare a winner. The training lineage has now completed its configured budget at **u11445 / 1,500,119,040 model-input tokens**, while the currently public weight release remains the immutable **160M** revision.
+- `160M` — u1225 / 160,563,200 tokens;
+- `240M` — u1829 / 239,730,688 tokens;
+- `320M` — u2436 / 319,291,392 tokens;
+- `400M` — u3031 / 397,279,232 tokens;
+- `560M` — u4269 / 559,546,368 tokens;
+- `800M` — u6042 / 791,937,024 tokens;
+- `1B` — u7879 / 1,032,716,288 tokens;
+- `1.2B` — u9090 / 1,191,444,480 tokens;
+- `1.35B` — u10282 / 1,347,682,304 tokens;
+- `1.5B-final` — u11445 / 1,500,119,040 tokens.
 
-The frozen suite should next be repeated on scientifically useful completed checkpoints:
-
-- **u6042 / 791.94M**;
-- **u7879 / 1.03272B**;
-- **u9712 / 1.27297B**;
-- **u11445 / 1.50012B-final**;
-- Anvaya 1.5B;
-
-and compared against both token-matched and update-matched public references.
-
-That turns a one-off generation demo into a longitudinal study of **how language behavior emerges during pretraining**.
+This turns the original one-off early-generation comparison into a reproducible longitudinal study of **how language behavior changes during pretraining**. The Pythia comparison should continue to be interpreted with its batch-size, warmup, tokenizer, corpus, architecture and update-density confounds intact.
 
 ## Sources
 
