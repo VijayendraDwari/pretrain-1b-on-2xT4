@@ -58,7 +58,7 @@ A billion-parameter model is not difficult only because of parameter storage. Tr
 
 This recipe therefore uses **PyTorch Fully Sharded Data Parallel (FSDP) with `FULL_SHARD`** across the two T4 GPUs. Model parameters, gradients, and optimizer state are sharded rather than fully replicated. Activation checkpointing reduces activation memory further.
 
-The recorded rank-0 PyTorch allocator high-water mark through the current continuation is approximately **11.41 GiB**. See [memory and FSDP](03_memory_and_fsdp.md) for the exact interpretation and accounting caveats.
+The recorded rank-0 PyTorch allocator high-water mark through the completed run is approximately **11.41 GiB**. See [memory and FSDP](03_memory_and_fsdp.md) for the exact interpretation and accounting caveats.
 
 ## Global batch and token accounting
 
@@ -134,7 +134,7 @@ The configured 1.5B-token budget has now been completed.
 | Validation perplexity | **24.83799** |
 | Validation token accuracy | **39.3593%** |
 | Latest sampled training telemetry | **u11440 / 1,499,463,680 tokens** |
-| Public Hugging Face weights | **Anvaya-1B `160M` / u1225 / 160,563,200 tokens** |
+| Public Hugging Face weights | **10 immutable revisions; `main` = `1.5B-final` / u11445 / 1,500,119,040 tokens** |
 
 The final session saved the u11445 checkpoint, evaluated it on the fixed 131,072-token validation sample, and terminated normally because the configured token target had been reached. This is therefore a completed reference run rather than an in-progress training frontier.
 
@@ -146,7 +146,7 @@ The full validation ledger is in [validation_curve.csv](../results/validation_cu
 
 The public model artifact is available at [Vijayendra/Anvaya-1B](https://huggingface.co/Vijayendra/Anvaya-1B).
 
-The current public revision is the early `160M` checkpoint. It is useful as a preserved view of language behavior during early pretraining, not as a claim of a fully trained or competitive 1B model.
+The public repository now exposes the complete selected training lineage as immutable revisions: `160M`, `240M`, `320M`, `400M`, `560M`, `800M`, `1B`, `1.2B`, `1.35B`, and `1.5B-final`. The default `main` revision points to the final u11445 model-only export.
 
 ## What this recipe is useful for
 
@@ -171,7 +171,7 @@ The repository does **not** claim:
 - that two T4 GPUs are the fastest or most economical production setup;
 - that the architecture is novel;
 - that current next-token validation establishes downstream capability;
-- that the public 160M checkpoint is a finished foundation model.
+- that the final checkpoint is a competitive production foundation model or has established downstream capability.
 
 The project is a documented, real training run and an educational pretraining systems recipe.
 
