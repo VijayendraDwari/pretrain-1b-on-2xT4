@@ -60,6 +60,6 @@ The full recipe is public on GitHub:
 
 The repository includes the canonical trainer, FineWeb data-preparation contract, PyTorch FSDP setup, Kaggle continuation workflow, checkpoint recovery design, architecture and parameter-count notes, memory accounting, evaluation protocol, raw validation/training curves, and the failures encountered along the way.
 
-The model also has a public name: **Anvaya-1B**. The first immutable Hugging Face weight release remains the earlier **`160M`** milestone at 160,563,200 tokens; the full training lineage is now complete at 1.50012B model-input tokens. Additional completed checkpoints can now be exported as a versioned public series after load verification.
+The model also has a public name: **Anvaya-1B**. The selected training trajectory is now public as immutable Hugging Face revisions: **160M, 240M, 320M, 400M, 560M, 800M, 1B, 1.2B, 1.35B, and 1.5B-final**. The default revision is the completed u11445 / 1,500,119,040-token model.
 
 If you work on model pretraining, distributed PyTorch, constrained-compute research, or simply want to understand what changes when a GPT stops being a toy, I’d value your feedback.
