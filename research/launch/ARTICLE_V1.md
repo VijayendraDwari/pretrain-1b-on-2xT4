@@ -12,7 +12,7 @@ That question led to this project: a **1,018,126,848-parameter decoder-only lang
 
 The model uses a 4096-token context. The training system uses PyTorch FSDP `FULL_SHARD`, activation checkpointing, mixed precision, gradient accumulation, deterministic token-window sampling, fixed validation, and crash-safe distributed checkpoint continuation across temporary Kaggle sessions.
 
-The target is **1.5 billion model-input tokens**.
+The run **completed** its configured 1.5 billion model-input-token budget at u11445 / 1,500,119,040 tokens.
 
 This is not an attempt to produce a compute-optimal 1B foundation model. Modern small language models are trained on vastly larger token budgets and much faster hardware. If the only objective were to obtain a useful 1B model, downloading an existing pretrained model would be the rational choice.
 
@@ -65,7 +65,7 @@ A naïve replicated data-parallel job is therefore the wrong execution model for
 
 The run uses PyTorch FSDP with `FULL_SHARD`. Parameters, gradients and optimizer state are distributed across the two ranks, while each wrapped module gathers the full parameters required for its computation.
 
-The measured rank-0 PyTorch allocator high-water mark in the current run is approximately **11.41 GiB**.
+The measured rank-0 PyTorch allocator high-water mark across the completed run is approximately **11.41 GiB**.
 
 That figure is deliberately reported as an allocator measurement, not as total device usage. The repository separately documents the arithmetic estimate for persistent sharded FP32 parameters, gradients and AdamW state.
 
@@ -160,22 +160,22 @@ Selected fixed validation measurements are:
 | Update | Input tokens | Validation NLL | Perplexity | Token accuracy |
 |---:|---:|---:|---:|---:|
 | 2 | 262,144 | 10.7424 | 46,279 | 3.79% |
-| 616 | 80.74M | 5.4039 | 222.3 | 21.15% |
-| 1225 | 160.56M | 4.7507 | 115.7 | 25.21% |
-| 1829 | 239.73M | 4.2655 | 71.2 | 30.09% |
+| 1225 | 160.56M | 4.7507 | 115.67 | 25.21% |
+| 1829 | 239.73M | 4.2655 | 71.20 | 30.09% |
 | 2436 | 319.29M | 3.9841 | 53.74 | 32.38% |
 | 3031 | 397.28M | 3.8132 | 45.30 | 33.69% |
-| 3638 | 476.84M | 3.6876 | 39.95 | 34.72% |
 | 4269 | 559.55M | 3.5854 | 36.07 | 35.71% |
-| 4500 | 589.82M | 3.5586 | 35.11 | 35.81% |
-| 4600 | 602.93M | 3.5493 | 34.79 | 35.97% |
-| **4800** | **629.15M** | **3.5276** | **34.04** | **36.17%** |
+| 6042 | 791.94M | 3.4134 | 30.37 | 37.31% |
+| 7879 | 1.03272B | 3.3033 | 27.20 | 38.32% |
+| 9090 | 1.19144B | 3.2559 | 25.94 | 38.92% |
+| 10282 | 1.34768B | 3.2291 | 25.26 | 39.13% |
+| **11445** | **1.50012B** | **3.2124** | **24.84** | **39.36%** |
 
-From the exact-resume validation at u4269 to u4800, NLL improved from **3.58536** to **3.52762**, perplexity from **36.07** to **34.04**, and token accuracy from **35.71%** to **36.17%**. There is still no obvious plateau in the latest recorded window.
+From u1225 to completion, validation NLL improved from **4.75070 to 3.21237**, perplexity from **115.67 to 24.84**, and token accuracy from **25.21% to 39.36%**.
 
 These numbers are next-token metrics on the project's fixed 131,072-token validation sample. They are **not** downstream benchmark results and do not establish general model capability.
 
-The first public Hugging Face release remains the immutable **Anvaya-1B `160M`** checkpoint. The training lineage itself is complete at **1.50012B input tokens**; later model-only releases should be exported and load-tested from preserved COMPLETE checkpoints before being marked public.
+The selected Anvaya-1B training lineage is now public as immutable Hugging Face revisions from `160M` through `1.5B-final`. The default `main` revision points to u11445 / 1,500,119,040 tokens. Each public revision is a model-only FP16 safetensors export reconstructed from a COMPLETE FSDP checkpoint and verified against the exact architecture contract.
 
 ## Why two T4s?
 
@@ -282,23 +282,11 @@ The detailed note, including example generations and the distinction between tok
 
 **[Anvaya-1B vs Pythia-1B at early training](../anvaya_vs_pythia_early_training.md)**
 
-## Why publish before 1.5B?
+## Why publish intermediate checkpoints?
 
-Because the systems recipe already exists.
+Publishing only the final model would hide one of the most useful parts of the project: the changing behavior of the same architecture as training progresses. The immutable checkpoint series preserves that trajectory while keeping exact update/token provenance.
 
-Waiting until the final checkpoint would hide the actual process that makes the project valuable: continuation, failures, fixes, validation history and the changing training state.
-
-The public repository therefore separates three frontiers:
-
-- the latest observed training update;
-- the latest validation event;
-- the latest COMPLETE resumable checkpoint.
-
-Those are not always the same thing.
-
-When the final target is reached, the repository can add the final checkpoint information, final validation result, total compute accounting and a versioned downstream evaluation suite.
-
-But the engineering path is useful now.
+The public revisions are `160M`, `240M`, `320M`, `400M`, `560M`, `800M`, `1B`, `1.2B`, `1.35B`, and `1.5B-final`. This makes it possible to rerun the same generation or evaluation suite across training time instead of treating the final checkpoint as the only artifact.
 
 ## What the repository contains
 
@@ -335,22 +323,12 @@ It does **not** demonstrate:
 
 Those limitations are not footnotes. They define the experiment.
 
-## What comes next
+## Completed public artifacts
 
-The training target remains 1.5B model-input tokens.
+The training target has been reached and the selected checkpoint lineage is public. The repository now includes the complete training recipe, final validation ledger, continuation provenance, and the corresponding Hugging Face checkpoint series.
 
-I plan to keep the public record updated at major stages:
+Future work can add a versioned downstream evaluation suite or further analysis, but those are separate experiments rather than unfinished requirements of this pretraining run.
 
-- ~~250M tokens — crossed~~;
-- ~~500M tokens — crossed~~;
-- ~~600M tokens — crossed~~;
-- ~~750M tokens — crossed~~;
-- ~~1B tokens — crossed~~;
-- ~~1.25B tokens — crossed~~;
-- 1.5B tokens.
+The core artifact is complete:
 
-Once the final training state exists, I can publish a fixed downstream evaluation, final systems accounting and—if appropriate—the model checkpoint itself.
-
-For now, the most useful artifact is already public:
-
-**the full path from random initialization to a working billion-parameter pretraining system on constrained hardware.**
+**the full path from random initialization to a 1.018B-parameter model trained through 1.50012B model-input tokens on two 16 GB T4 GPUs, with reproducible intermediate checkpoints.**
