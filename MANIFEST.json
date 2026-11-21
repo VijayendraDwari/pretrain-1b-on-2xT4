@@ -1,7 +1,7 @@
 {
   "name": "pretrain-1b-on-2xT4",
-  "version": "1.0.0",
-  "status": "training-complete",
+  "version": "1.1.0",
+  "status": "training-complete-checkpoints-public",
   "author": "Vijayendra Dwari",
   "model": {
     "exact_trainable_parameters": 1018126848,
@@ -44,19 +44,62 @@
       "allocated_gib_rank0": 11.408836364746094
     },
     "public_weight_release": {
-      "revision": "160M",
-      "update": 1225,
-      "tokens": 160563200
+      "repo": "Vijayendra/Anvaya-1B",
+      "default_revision": "1.5B-final",
+      "update": 11445,
+      "tokens": 1500119040
     },
-    "recommended_next_public_revisions": [
-      "240M",
-      "320M",
-      "400M",
-      "560M",
-      "800M",
-      "1B",
-      "1.27B",
-      "1.5B-final"
+    "public_revisions": [
+      {
+        "revision": "160M",
+        "update": 1225,
+        "tokens": 160563200
+      },
+      {
+        "revision": "240M",
+        "update": 1829,
+        "tokens": 239730688
+      },
+      {
+        "revision": "320M",
+        "update": 2436,
+        "tokens": 319291392
+      },
+      {
+        "revision": "400M",
+        "update": 3031,
+        "tokens": 397279232
+      },
+      {
+        "revision": "560M",
+        "update": 4269,
+        "tokens": 559546368
+      },
+      {
+        "revision": "800M",
+        "update": 6042,
+        "tokens": 791937024
+      },
+      {
+        "revision": "1B",
+        "update": 7879,
+        "tokens": 1032716288
+      },
+      {
+        "revision": "1.2B",
+        "update": 9090,
+        "tokens": 1191444480
+      },
+      {
+        "revision": "1.35B",
+        "update": 10282,
+        "tokens": 1347682304
+      },
+      {
+        "revision": "1.5B-final",
+        "update": 11445,
+        "tokens": 1500119040
+      }
     ]
   },
   "dataset": {
