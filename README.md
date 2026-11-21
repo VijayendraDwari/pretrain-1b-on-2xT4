@@ -90,15 +90,26 @@ Across the full run, fixed-validation NLL fell from **10.74244 at u2** to **3.21
 
 These are next-token metrics and do not establish downstream capability.
 
-The existing public Hugging Face release remains the immutable **160M** checkpoint while the later completed checkpoints are prepared as model-only exports. See [checkpoint releases](releases/README.md) for the recommended series.
+The complete model-only checkpoint lineage is now public on [Vijayendra/Anvaya-1B](https://huggingface.co/Vijayendra/Anvaya-1B). Ten immutable revisions span the run from **160M** through **1.5B-final**; `main` points to the final u11445 export. See [checkpoint releases](releases/README.md) for exact update/token provenance.
 
-## Public checkpoint generation verification
+## Public checkpoint lineage
 
-The public `160M` Hugging Face artifact has been loaded independently on an NVIDIA L4 and verified end to end. The released package reconstructs **1,018,126,848 parameters**, returns finite logits with shape `[1, 1, 128256]`, and generates recognizable English continuations.
+The complete Anvaya-1B training lineage is public as immutable Hugging Face revisions. Each release is a model-only FP16 safetensors export reconstructed from a COMPLETE two-rank FSDP checkpoint and checked against the exact **1,018,126,848-parameter** architecture contract before publication.
 
-At this early checkpoint, the model already shows local grammar and phrase structure, while factual associations and semantic stability remain weak. For example, open-ended prompts can produce sentence-like prose, but factual prompts such as `The capital of France is` are still unreliable. This is exactly why selected intermediate checkpoints are useful: they let the project observe the emergence of language behavior during pretraining rather than presenting only a final checkpoint.
+| HF revision | Update | Exact model-input tokens |
+|---|---:|---:|
+| `160M` | 1,225 | 160,563,200 |
+| `240M` | 1,829 | 239,730,688 |
+| `320M` | 2,436 | 319,291,392 |
+| `400M` | 3,031 | 397,279,232 |
+| `560M` | 4,269 | 559,546,368 |
+| `800M` | 6,042 | 791,937,024 |
+| `1B` | 7,879 | 1,032,716,288 |
+| `1.2B` | 9,090 | 1,191,444,480 |
+| `1.35B` | 10,282 | 1,347,682,304 |
+| **`1.5B-final`** | **11,445** | **1,500,119,040** |
 
-The current public weights remain the immutable **160M** milestone. The training lineage is now complete at **1.500119B model-input tokens**, and later revisions should be published only after each model-only export is load-tested.
+The early `160M` artifact was independently load-tested on an NVIDIA L4 and produced finite logits with shape `[1, 1, 128256]` plus recognizable English continuations. The same export pipeline—architecture/shape verification, safetensors packaging, manifest/checksums and generation smoke testing—was used for the later public milestones. The immutable revisions make it possible to study generation behavior longitudinally across training rather than exposing only the final model.
 
 ## Early behavioral comparison with Pythia-1B
 
