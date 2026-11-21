@@ -4,20 +4,20 @@
     "sha256": "cf7733f9ec148187f3ad33be8cf267a02e6fafdb589109c1a0f8d42fa1baf865"
   },
   "CITATION.cff": {
-    "bytes": 624,
-    "sha256": "169b157e6c29c714b0a964bede2b2e1f3cae304df9c7ba497f3e5fc335537bf5"
+    "bytes": 707,
+    "sha256": "9287d59b4b87550d914a004463899097497426d82234b0e0bcba1a091a382cda"
   },
   "LICENSE": {
     "bytes": 1073,
     "sha256": "faca3d797afa325b72aa759f16fded08d55184bb5fb6eb17c2cd69019d01a3d3"
   },
   "MANIFEST.json": {
-    "bytes": 1964,
-    "sha256": "fcbffc8a80ac9d3d1675157b7b15f21b704d47c647043a3a913b88917baba708"
+    "bytes": 2884,
+    "sha256": "826f6dc726e9fe9f609c71474b6730c24bb0dc92850cfb2dd9e7d97eea2619b7"
   },
   "README.md": {
-    "bytes": 12398,
-    "sha256": "9071a823b03ddd286ccbb4a9240099ada3668c5803145cff056c1d6a0c220a8e"
+    "bytes": 12689,
+    "sha256": "e21f11f749200b14e45f37098e71c8d00fae0c0f441a9de3115c99e8f6cb958d"
   },
   "data/dataset_contract.md": {
     "bytes": 1299,
@@ -88,8 +88,8 @@
     "sha256": "50be62ccb66eb705384be8998dbd32b7bd6fc5eb65295fd97fd6b548ce83cba1"
   },
   "releases/README.md": {
-    "bytes": 2204,
-    "sha256": "d664acd25e2d929901b31a365c69d2033c101fc68c143ecf0fb853190f83982f"
+    "bytes": 2138,
+    "sha256": "93148991fdd486af3e024fb1910ce3294f95bcfc6584d0c6167a0e302f427c76"
   },
   "requirements.txt": {
     "bytes": 112,
@@ -102,14 +102,6 @@
   "research/SOURCES.md": {
     "bytes": 1190,
     "sha256": "30d5d6afc23d5feb758bcf66a49e3ecc649d8ea71e0910fa2dc2ac3088f30e10"
-  },
-  "research/article/ARTICLE_DRAFT_v0.1.md": {
-    "bytes": 3936,
-    "sha256": "a15e4bf76cbef91e610f7c36aab91e7852be8c0efa6b708d63ba7136b251f4e1"
-  },
-  "research/article/ARTICLE_OUTLINE.md": {
-    "bytes": 3399,
-    "sha256": "dc6b398bd3b03166302ae407a3155e4caf4e3aebdd32dd65326de8f40e92280c"
   },
   "research/prior_art.md": {
     "bytes": 1941,
@@ -152,20 +144,20 @@
     "sha256": "209eaa3af9db53db0a7d4d4a948fa086ce0305386fe4d443c9bb3d95faf1ded2"
   },
   "research/launch/ARTICLE_V1.md": {
-    "bytes": 16507,
-    "sha256": "dd8daa1f0a85cade47065bf282dfdd13fae5dc4317be39a9c51c1d26b881331d"
+    "bytes": 16438,
+    "sha256": "5cdb44a83e97e788b68ae368a3b5953ba690bf60a524c287ad56b7ddcc5dee6b"
   },
   "research/launch/LINKEDIN_LAUNCH.md": {
-    "bytes": 3166,
-    "sha256": "984e58cdc3d0f292d97785e31eddcb4fe60a97c78dd9d6d7af1d11b9b2bd7259"
+    "bytes": 3104,
+    "sha256": "61e6a3dcd853ee6509bbc6ec1fabef7d6a1a81a8fd2cbd1fd3211ff0928e3ff9"
   },
   "research/anvaya_vs_pythia_early_training.md": {
-    "bytes": 8620,
-    "sha256": "5b49dfb7b89d1f7d6d9597678fb2dd607aac6c8278356fe18ebae6aefe49b0c8"
+    "bytes": 8824,
+    "sha256": "e62dc6e08bab4ce46532d8bc35f713a43afef152a8620e787e7d2605d72426fa"
   },
   "docs/PRETRAIN_1B_LLM_FROM_SCRATCH.md": {
-    "bytes": 9795,
-    "sha256": "c200baed27b1bb91f6b56ca22cbc907cdb098a5f87f1b694d141e9df4e23f7ea"
+    "bytes": 9930,
+    "sha256": "201f4a3e7c987aff2f90e1175b2681d883019c5dd5219e9023e0c5223f838a05"
   },
   "results/session_checkpoints.csv": {
     "bytes": 1638,
